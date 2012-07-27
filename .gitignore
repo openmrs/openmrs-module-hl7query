@@ -5,8 +5,8 @@
 api/.classpath
 api/.project
 api/.settings/
-api/target/*
+api/target/
 omod/.classpath
 omod/.project
 omod/.settings/
-omod/target/* 
+omod/target/ 
