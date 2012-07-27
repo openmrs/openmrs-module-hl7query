@@ -13,9 +13,17 @@
  */
 package org.openmrs.module.hl7query.api.impl;
 
-import org.openmrs.api.impl.BaseOpenmrsService;
+import groovy.lang.Writable;
+import groovy.text.SimpleTemplateEngine;
+import groovy.text.Template;
+import groovy.text.TemplateEngine;
+
+import java.util.Map;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.openmrs.api.impl.BaseOpenmrsService;
+import org.openmrs.module.hl7query.TemplateException;
 import org.openmrs.module.hl7query.api.HL7QueryService;
 import org.openmrs.module.hl7query.api.db.HL7QueryDAO;
 
@@ -28,17 +36,47 @@ public class HL7QueryServiceImpl extends BaseOpenmrsService implements HL7QueryS
 	
 	private HL7QueryDAO dao;
 	
+	private TemplateEngine groovyTemplateEngine;
+	
+	public HL7QueryServiceImpl() {
+		// use this module's classloader
+		groovyTemplateEngine = new SimpleTemplateEngine(getClass().getClassLoader());
+	}
+	
 	/**
-     * @param dao the dao to set
-     */
-    public void setDao(HL7QueryDAO dao) {
-	    this.dao = dao;
-    }
-    
-    /**
-     * @return the dao
-     */
-    public HL7QueryDAO getDao() {
-	    return dao;
-    }
+	 * @param dao the dao to set
+	 */
+	public void setDao(HL7QueryDAO dao) {
+		this.dao = dao;
+	}
+	
+	/**
+	 * @return the dao
+	 */
+	public HL7QueryDAO getDao() {
+		return dao;
+	}
+	
+	/**
+	 * Evaluates the given template text as a Groovy template
+	 * 
+	 * @param templateText
+	 * @param bindings
+	 * @return
+	 * @throws TemplateException
+	 * @should evaluate a template with null bindings
+	 * @should evaluate a tempalte with bindings
+	 * @should fail to evaluate a template that references a variable not provided by bindings
+	 */
+	public String evaluateGroovyTemplate(String templateText, Map<String, Object> bindings) throws TemplateException {
+		Template template;
+		try {
+			template = groovyTemplateEngine.createTemplate(templateText);
+			Writable boundTemplate = bindings == null ? template.make() : template.make(bindings);
+			return boundTemplate.toString();
+		}
+		catch (Exception ex) {
+			throw new TemplateException(ex);
+		}
+	}
 }

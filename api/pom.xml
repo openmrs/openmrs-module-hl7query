@@ -63,6 +63,11 @@
 				
 		<!-- End OpenMRS core -->
 		
+		<dependency>
+			<groupId>org.codehaus.groovy</groupId>
+			<artifactId>groovy</artifactId>
+		</dependency>
+		
 	</dependencies>
 	
 	<build>

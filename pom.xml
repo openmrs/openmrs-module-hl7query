@@ -96,6 +96,14 @@
 			</dependency>
 						
 			<!-- End OpenMRS core -->
+			
+			<dependency>
+				<groupId>org.codehaus.groovy</groupId>
+				<artifactId>groovy</artifactId>
+				<version>1.8.3</version>
+				<type>jar</type>
+				<scope>provided</scope>
+			</dependency>
 
 		</dependencies>
 	</dependencyManagement>
