@@ -13,7 +13,10 @@
  */
 package org.openmrs.module.hl7query.api;
 
+import java.util.Map;
+
 import org.openmrs.api.OpenmrsService;
+import org.openmrs.module.hl7query.Template;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -21,16 +24,23 @@ import org.springframework.transaction.annotation.Transactional;
  * <p>
  * It can be accessed only via Context:<br>
  * <code>
- * Context.getService(HL7QueryModuleService.class).someMethod();
+ * Context.getService(HL7QueryService.class).someMethod();
  * </code>
  * 
  * @see org.openmrs.api.context.Context
  */
 @Transactional
 public interface HL7QueryService extends OpenmrsService {
-     
-	/*
-	 * Add service methods here
+	
+	static final String LANGUAGE_GROOVY = "groovy";
+
+	/**
+	 * Evaluates the given template against the given bindings, returning the text result (which should be XML) 
 	 * 
+	 * @param template
+	 * @param bindings
+	 * @return the result of evaluating the given template against the given bindings
 	 */
+	String evaluateTemplate(Template template, Map<String, Object> bindings);
+
 }
