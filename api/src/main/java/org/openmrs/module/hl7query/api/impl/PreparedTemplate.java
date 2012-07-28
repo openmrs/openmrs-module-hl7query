@@ -11,35 +11,24 @@
  *
  * Copyright (C) OpenMRS, LLC.  All Rights Reserved.
  */
-package org.openmrs.module.hl7query;
+package org.openmrs.module.hl7query.api.impl;
 
-import org.openmrs.api.APIException;
+import java.util.Map;
+
+import org.openmrs.module.hl7query.TemplateException;
 
 
 /**
- * Exceptions that related to compiling or evaluating a {@link Template}
+ * A template that may be reused for many evaluations
  */
-public class TemplateException extends APIException {
-	
-	private static final long serialVersionUID = 1L;
+public interface PreparedTemplate {
 
-	public TemplateException() {
-		super();
-	}
-	
-    /**
-     * @param cause
+	/**
+     * Evaluates this prepared template against the given model
+     * 
+     * @param bindings the model to prepare this template against
+     * @return
      */
-    public TemplateException(Exception cause) {
-	    super(cause);
-    }
-    
-    /**
-     * @param message
-     * @param cause
-     */
-    public TemplateException(String message, Exception cause) {
-    	super(message, cause);
-    }
+    String evaluate(Map<String, Object> bindings) throws TemplateException;
 	
 }

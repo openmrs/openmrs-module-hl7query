@@ -13,17 +13,14 @@
  */
 package org.openmrs.module.hl7query.api.impl;
 
-import groovy.lang.Writable;
-import groovy.text.SimpleTemplateEngine;
-import groovy.text.Template;
-import groovy.text.TemplateEngine;
-
+import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.openmrs.api.APIException;
 import org.openmrs.api.impl.BaseOpenmrsService;
-import org.openmrs.module.hl7query.TemplateException;
+import org.openmrs.module.hl7query.Template;
 import org.openmrs.module.hl7query.api.HL7QueryService;
 import org.openmrs.module.hl7query.api.db.HL7QueryDAO;
 
@@ -36,11 +33,16 @@ public class HL7QueryServiceImpl extends BaseOpenmrsService implements HL7QueryS
 	
 	private HL7QueryDAO dao;
 	
-	private TemplateEngine groovyTemplateEngine;
+	// map from language name to template factory
+	private Map<String, TemplateFactory<?>> templateFactories;
 	
+	// cache of compiled templates (by name)
+	private Map<String, PreparedTemplate> templateCache;
+		
 	public HL7QueryServiceImpl() {
-		// use this module's classloader
-		groovyTemplateEngine = new SimpleTemplateEngine(getClass().getClassLoader());
+		templateFactories = new HashMap<String, TemplateFactory<?>>();
+		templateFactories.put(HL7QueryService.LANGUAGE_GROOVY, new GroovyTemplateFactory());
+		templateCache = new HashMap<String, PreparedTemplate>();
 	}
 	
 	/**
@@ -58,37 +60,30 @@ public class HL7QueryServiceImpl extends BaseOpenmrsService implements HL7QueryS
 	}
 	
 	/**
-	 * Compiles the given templateText into a groovy template.
-	 * This operation is relatively expensive, so you should cache and reuse the returned template. 
-	 * 
-	 * @param templateText
-	 * @return
-	 * @throws TemplateException
+	 * @see org.openmrs.module.hl7query.api.HL7QueryService#evaluateTemplate(org.openmrs.module.hl7query.Template, java.util.Map)
+	 * @should evaluate a groovy template
+	 * @should fail to evaluate a groovy template against bad input
+	 * @should fail to evaluate a template of an unknown language
 	 */
-	public Template prepareGroovyTemplate(String templateText) throws TemplateException {
-		try {
-			return groovyTemplateEngine.createTemplate(templateText);
+	@Override
+	public String evaluateTemplate(Template template, Map<String, Object> bindings) {
+		PreparedTemplate prepared = templateCache.get(template.getName());
+		if (prepared == null) {
+			TemplateFactory<?> factory = templateFactories.get(template.getLanguage());
+			if (factory == null) {
+				throw new APIException("Unknown template language: " + template.getLanguage());
+			}
+			prepared = factory.prepareTemplate(template.getTemplate());
+			templateCache.put(template.getName(), prepared);
 		}
-		catch (Exception ex) {
-			throw new TemplateException(ex);
-		}
+		return prepared.evaluate(bindings);
 	}
 	
 	/**
-	 * Evaluates the given groovy template with the given bindings (which are allowed to be null)
-	 * 
-	 * @param template
-	 * @param bindings
-	 * @return
-	 * @throws TemplateException
+	 * Call this whenever a template is modified
 	 */
-	public String evaluate(Template template, Map<String, Object> bindings) throws TemplateException {
-		try {
-			Writable boundTemplate = bindings == null ? template.make() : template.make(bindings);
-			return boundTemplate.toString();
-		}
-		catch (Exception ex) {
-			throw new TemplateException(ex);
-		}
+	public void clearTemplateCache() {
+		templateCache.clear();
 	}
+	
 }
