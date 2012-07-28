@@ -20,36 +20,42 @@ public class HL7QueryServiceImplTest {
 	}
 	
 	/**
+	 * Integration test for evaluating Groovy templates
+	 * @see HL7QueryServiceImpl#prepareGroovyTemplate(String)
 	 * @see HL7QueryServiceImpl#evaluateGroovyTemplate(String,Map)
 	 * @verifies evaluate a template with null bindings
 	 */
 	@Test
-	public void evaluateGroovyTemplate_shouldEvaluateATemplateWithNullBindings() throws Exception {
-		String evaluated = service.evaluateGroovyTemplate("Easy as ${ [ 1, 2, 3 ].join(', ') }", null);
+	public void test_groovyTemplateIntegration1() throws Exception {
+		String evaluated = service.evaluate(service.prepareGroovyTemplate("Easy as ${ [ 1, 2, 3 ].join(', ') }"), null);
 		Assert.assertEquals("Easy as 1, 2, 3", evaluated);
 	}
 	
 	/**
+	 * Integration test for evaluating Groovy templates
+	 * @see HL7QueryServiceImpl#prepareGroovyTemplate(String)
 	 * @see HL7QueryServiceImpl#evaluateGroovyTemplate(String,Map)
-	 * @verifies evaluate a tempalte with bindings
+	 * @verifies evaluate a template with bindings
 	 */
 	@Test
-	public void evaluateGroovyTemplate_shouldEvaluateATempalteWithBindings() throws Exception {
+	public void test_groovyTemplateIntegration2() throws Exception {
 		Map<String, Object> bindings = new HashMap<String, Object>();
 		bindings.put("list", Arrays.asList("1", "2", "3"));
-		String evaluated = service.evaluateGroovyTemplate("Easy as ${ list.join(', ') }", bindings);
+		String evaluated = service.evaluate(service.prepareGroovyTemplate("Easy as ${ list.join(', ') }"), bindings);
 		Assert.assertEquals("Easy as 1, 2, 3", evaluated);
 	}
 	
 	/**
+	 * Integration test for evaluating Groovy templates
+	 * @see HL7QueryServiceImpl#prepareGroovyTemplate(String)
 	 * @see HL7QueryServiceImpl#evaluateGroovyTemplate(String,Map)
 	 * @verifies fail to evaluate a template that references a variable not provided by bindings
 	 */
 	@Test(expected=TemplateException.class)
-	public void evaluateGroovyTemplate_shouldFailToEvaluateATemplateThatReferencesAVariableNotProvidedByBindings()
+	public void test_groovyTemplateIntegration3()
 	    throws Exception {
 		Map<String, Object> bindings = new HashMap<String, Object>();
 		bindings.put("list", Arrays.asList("1", "2", "3"));
-		String evaluated = service.evaluateGroovyTemplate("Easy as ${ wrongName.join(', ') }", bindings);
+		service.evaluate(service.prepareGroovyTemplate("Easy as ${ wrongName.join(', ') }"), bindings);
 	}
 }

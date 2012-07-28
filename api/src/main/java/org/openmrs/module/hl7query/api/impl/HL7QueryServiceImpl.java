@@ -58,20 +58,32 @@ public class HL7QueryServiceImpl extends BaseOpenmrsService implements HL7QueryS
 	}
 	
 	/**
-	 * Evaluates the given template text as a Groovy template
+	 * Compiles the given templateText into a groovy template.
+	 * This operation is relatively expensive, so you should cache and reuse the returned template. 
 	 * 
 	 * @param templateText
+	 * @return
+	 * @throws TemplateException
+	 */
+	public Template prepareGroovyTemplate(String templateText) throws TemplateException {
+		try {
+			return groovyTemplateEngine.createTemplate(templateText);
+		}
+		catch (Exception ex) {
+			throw new TemplateException(ex);
+		}
+	}
+	
+	/**
+	 * Evaluates the given groovy template with the given bindings (which are allowed to be null)
+	 * 
+	 * @param template
 	 * @param bindings
 	 * @return
 	 * @throws TemplateException
-	 * @should evaluate a template with null bindings
-	 * @should evaluate a tempalte with bindings
-	 * @should fail to evaluate a template that references a variable not provided by bindings
 	 */
-	public String evaluateGroovyTemplate(String templateText, Map<String, Object> bindings) throws TemplateException {
-		Template template;
+	public String evaluate(Template template, Map<String, Object> bindings) throws TemplateException {
 		try {
-			template = groovyTemplateEngine.createTemplate(templateText);
 			Writable boundTemplate = bindings == null ? template.make() : template.make(bindings);
 			return boundTemplate.toString();
 		}
