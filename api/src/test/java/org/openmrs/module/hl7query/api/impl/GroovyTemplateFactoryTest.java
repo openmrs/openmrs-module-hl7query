@@ -20,7 +20,7 @@ import java.util.Map;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.openmrs.module.hl7query.TemplateException;
+import org.openmrs.module.hl7query.HL7TemplateException;
 
 
 /**
@@ -50,7 +50,7 @@ public class GroovyTemplateFactoryTest {
 		Assert.assertEquals("Easy as 1, 2, 3", evaluated);
 	}
 	
-	@Test(expected=TemplateException.class)
+	@Test(expected=HL7TemplateException.class)
 	public void testFailureIfTemplateRefersToMissingProperties() throws Exception {
 		Map<String, Object> bindings = new HashMap<String, Object>();
 		bindings.put("list", Arrays.asList("1", "2", "3"));

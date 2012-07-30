@@ -15,7 +15,7 @@ package org.openmrs.module.hl7query.api.impl;
 
 import groovy.text.SimpleTemplateEngine;
 
-import org.openmrs.module.hl7query.TemplateException;
+import org.openmrs.module.hl7query.HL7TemplateException;
 
 
 /**
@@ -34,12 +34,12 @@ public class GroovyTemplateFactory implements TemplateFactory<PreparedGroovyTemp
 	 * @see org.openmrs.module.hl7query.api.impl.TemplateFactory#prepareTemplate(java.lang.String)
      */
     @Override
-    public PreparedGroovyTemplate prepareTemplate(String templateText) throws TemplateException {
+    public PreparedGroovyTemplate prepareTemplate(String templateText) throws HL7TemplateException {
     	try {
     		return new PreparedGroovyTemplate(templateEngine.createTemplate(templateText));
     	}
     	catch (Exception ex) {
-    		throw new TemplateException(ex);
+    		throw new HL7TemplateException(ex);
     	}
     }
 

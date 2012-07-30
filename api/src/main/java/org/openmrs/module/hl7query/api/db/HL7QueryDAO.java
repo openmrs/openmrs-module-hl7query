@@ -15,7 +15,7 @@ package org.openmrs.module.hl7query.api.db;
 
 import java.util.List;
 
-import org.openmrs.module.hl7query.Template;
+import org.openmrs.module.hl7query.HL7Template;
 import org.openmrs.module.hl7query.api.HL7QueryService;
 
 /**
@@ -23,21 +23,21 @@ import org.openmrs.module.hl7query.api.HL7QueryService;
  */
 public interface HL7QueryDAO {
 	
-	Template getTemplate(Integer id);
+	HL7Template getHL7Template(Integer id);
 	
-	Template getTemplateByUuid(String uuid);
+	HL7Template getHL7TemplateByUuid(String uuid);
 	
-	Template getTemplateByName(String name);
+	HL7Template getHL7TemplateByName(String name);
 	
-	List<Template> getTemplatesByName(String name);
+	List<HL7Template> getHL7TemplatesByName(String name);
 	
-	List<Template> getTemplatesByEntity(String entity);
+	List<HL7Template> getHL7TemplatesByEntity(String entity);
 	
-	Template saveTemplate(Template template);
+	HL7Template saveHL7Template(HL7Template hl7Template);
 	
-	Template retireTemplate(Template template, String reason);
+	HL7Template retireHL7Template(HL7Template hl7Template, String reason);
 	
-	Template unretireTemplate(Template template);
+	HL7Template unretireHL7Template(HL7Template hl7Template);
 	
-	void purgeTemplate(Template template);
+	void purgeHL7Template(HL7Template hl7Template);
 }

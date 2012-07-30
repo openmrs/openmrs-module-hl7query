@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.openmrs.api.OpenmrsService;
-import org.openmrs.module.hl7query.Template;
+import org.openmrs.module.hl7query.HL7Template;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -38,32 +38,82 @@ public interface HL7QueryService extends OpenmrsService {
 	/**
 	 * Evaluates the given template against the given bindings, returning the text result (which should be XML) 
 	 * 
-	 * @param template
+	 * @param hl7Template
 	 * @param bindings
 	 * @return the result of evaluating the given template against the given bindings
 	 */
-	String evaluateTemplate(Template template, Map<String, Object> bindings);
+	String evaluateTemplate(HL7Template hl7Template, Map<String, Object> bindings);
+	
+	/**
+	 * 
+	 * Auto generated method comment
+	 * 
+	 * @param id
+	 * @return
+	 * @should return template if exists
+	 * @should return null if does not exist
+	 */
+	@Transactional(readOnly = true)
+	HL7Template getHL7Template(Integer id);
 	
 	@Transactional(readOnly = true)
-	Template getTemplate(Integer id);
+	HL7Template getHL7TemplateByUuid(String uuid);
+	
+	/**
+	 * 
+	 * Auto generated method comment
+	 * 
+	 * @param name
+	 * @return
+	 * @should return template if exists
+	 * @should return null if does not exist
+	 */
+	@Transactional(readOnly = true)
+	HL7Template getHL7TemplateByName(String name);
 	
 	@Transactional(readOnly = true)
-	Template getTemplateByUuid(String uuid);
+	List<HL7Template> getHL7TemplatesByName(String name);
 	
 	@Transactional(readOnly = true)
-	Template getTemplateByName(String name);
+	List<HL7Template> getHL7TemplatesByEntity(String entity);
 	
-	@Transactional(readOnly = true)
-	List<Template> getTemplatesByName(String name);
+	/**
+	 * 
+	 * Auto generated method comment
+	 * 
+	 * @param hl7Template
+	 * @return
+	 * @should save template
+	 */
+	HL7Template saveHL7Template(HL7Template hl7Template);
 	
-	@Transactional(readOnly = true)
-	List<Template> getTemplatesByEntity(String entity);
-	
-	Template saveTemplate(Template template);
-	
-	Template retireTemplate(Template template, String reason);
+	/**
+	 * 
+	 * Auto generated method comment
+	 * 
+	 * @param hl7Template
+	 * @param reason
+	 * @return
+	 * @should retire template
+	 */
+	HL7Template retireHL7Template(HL7Template hl7Template, String reason);
 
-	Template unretireTemplate(Template template);
+	/**
+	 * 
+	 * Auto generated method comment
+	 * 
+	 * @param hl7Template
+	 * @return
+	 * @should unretire template
+	 */
+	HL7Template unretireHL7Template(HL7Template hl7Template);
 	
-	void purgeTemplate(Template template);
+	/**
+	 * 
+	 * Auto generated method comment
+	 * 
+	 * @param hl7Template
+	 * @should purge template
+	 */
+	void purgeHL7Template(HL7Template hl7Template);
 }

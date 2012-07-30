@@ -5,8 +5,8 @@
 
 <hibernate-mapping package="org.openmrs.module.hl7query">
 
-	<class name="Template" entity-name="HL7QueryTemplate" table="hl7query_template">
-		<id name="templateId" type="int" column="hl7query_template_id"
+	<class name="HL7Template" table="hl7query_template">
+		<id name="HL7TemplateId" type="int" column="hl7query_template_id"
 			unsaved-value="0">
 			<generator class="native" />
 		</id>

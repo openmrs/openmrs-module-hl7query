@@ -21,13 +21,13 @@ import org.openmrs.OpenmrsMetadata;
  * 
  * This object defines a template and the language it should be evaluated in.
  */
-public class Template extends BaseOpenmrsMetadata implements OpenmrsMetadata {
+public class HL7Template extends BaseOpenmrsMetadata implements OpenmrsMetadata {
 	
-	private Integer templateId;
+	private Integer hl7TemplateId;
 
 	private String hl7Entity;
 	
-	private String language;
+	private String language = "groovy";
 	
 	private String template;
 	
@@ -36,7 +36,7 @@ public class Template extends BaseOpenmrsMetadata implements OpenmrsMetadata {
 	 */
 	@Override
 	public Integer getId() {
-		return getTemplateId();
+		return getHL7TemplateId();
 	}
 	
 	/**
@@ -44,21 +44,21 @@ public class Template extends BaseOpenmrsMetadata implements OpenmrsMetadata {
 	 */
 	@Override
 	public void setId(Integer id) {
-		setTemplateId(id);
+		setHL7TemplateId(id);
 	}
 	
 	/**
-	 * @return the templateId
+	 * @return the hl7TemplateId
 	 */
-	public Integer getTemplateId() {
-		return templateId;
+	public Integer getHL7TemplateId() {
+		return hl7TemplateId;
 	}
 	
 	/**
-	 * @param templateId the templateId to set
+	 * @param hl7TemplateId the hl7TemplateId to set
 	 */
-	public void setTemplateId(Integer templateId) {
-		this.templateId = templateId;
+	public void setHL7TemplateId(Integer hl7TemplateId) {
+		this.hl7TemplateId = hl7TemplateId;
 	}
 		
 	/**

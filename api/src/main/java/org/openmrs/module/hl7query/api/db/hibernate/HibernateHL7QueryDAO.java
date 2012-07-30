@@ -21,7 +21,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
-import org.openmrs.module.hl7query.Template;
+import org.openmrs.module.hl7query.HL7Template;
 import org.openmrs.module.hl7query.api.db.HL7QueryDAO;
 
 /**
@@ -48,55 +48,58 @@ public class HibernateHL7QueryDAO implements HL7QueryDAO {
 	}
 	
 	@Override
-	public Template getTemplate(Integer id) {
-		return (Template) sessionFactory.getCurrentSession().get(Template.class, id);
+	public HL7Template getHL7Template(Integer id) {
+		return (HL7Template) sessionFactory.getCurrentSession().get(HL7Template.class, id);
 	}
 	
 	@Override
-	public Template getTemplateByUuid(String uuid) {
-		return (Template) sessionFactory.getCurrentSession().createCriteria(Template.class)
+	public HL7Template getHL7TemplateByUuid(String uuid) {
+		return (HL7Template) sessionFactory.getCurrentSession().createCriteria(HL7Template.class)
 		        .add(Restrictions.eq("uuid", uuid)).uniqueResult();
 	}
 	
 	@Override
-	public Template getTemplateByName(String name) {
-		return (Template) sessionFactory.getCurrentSession().createCriteria(Template.class)
+	public HL7Template getHL7TemplateByName(String name) {
+		return (HL7Template) sessionFactory.getCurrentSession().createCriteria(HL7Template.class)
 		        .add(Restrictions.eq("name", name)).uniqueResult();
 	}
 	
 	@Override
-	public List<Template> getTemplatesByName(String name) {
+	public List<HL7Template> getHL7TemplatesByName(String name) {
 		@SuppressWarnings("unchecked")
-		List<Template> list = sessionFactory.getCurrentSession().createCriteria(Template.class)
+		List<HL7Template> list = sessionFactory.getCurrentSession().createCriteria(HL7Template.class)
 		        .add(Restrictions.ilike("name", name, MatchMode.ANYWHERE)).addOrder(Order.asc("templateId")).list();
 		return list;
 	}
 	
 	@Override
-	public List<Template> getTemplatesByEntity(String entity) {
+	public List<HL7Template> getHL7TemplatesByEntity(String entity) {
 		@SuppressWarnings("unchecked")
-		List<Template> list = sessionFactory.getCurrentSession().createCriteria(Template.class)
+		List<HL7Template> list = sessionFactory.getCurrentSession().createCriteria(HL7Template.class)
 		        .add(Restrictions.eq("hl7Entity", entity)).addOrder(Order.asc("templateId")).list();
 		return list;
 	}
 	
 	@Override
-	public Template saveTemplate(Template template) {
-		return (Template) sessionFactory.getCurrentSession().save(template);
+	public HL7Template saveHL7Template(HL7Template template) {
+		sessionFactory.getCurrentSession().saveOrUpdate(template);
+		return template;
 	}
 	
 	@Override
-	public Template retireTemplate(Template template, String reason) {
-		return (Template) sessionFactory.getCurrentSession().save(template);
+	public HL7Template retireHL7Template(HL7Template template, String reason) {
+		sessionFactory.getCurrentSession().saveOrUpdate(template);
+		return template;
 	}
 	
 	@Override
-	public Template unretireTemplate(Template template) {
-		return (Template) sessionFactory.getCurrentSession().save(template);
+	public HL7Template unretireHL7Template(HL7Template template) {
+		sessionFactory.getCurrentSession().saveOrUpdate(template);
+		return template;
 	}
 	
 	@Override
-	public void purgeTemplate(Template template) {
+	public void purgeHL7Template(HL7Template template) {
 		sessionFactory.getCurrentSession().delete(template);
 	}
 }

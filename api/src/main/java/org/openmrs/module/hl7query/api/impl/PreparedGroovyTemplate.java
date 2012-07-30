@@ -17,7 +17,7 @@ import groovy.text.Template;
 
 import java.util.Map;
 
-import org.openmrs.module.hl7query.TemplateException;
+import org.openmrs.module.hl7query.HL7TemplateException;
 
 
 /**
@@ -35,12 +35,12 @@ public class PreparedGroovyTemplate implements PreparedTemplate {
      * @see org.openmrs.module.hl7query.api.impl.PreparedTemplate#evaluate(java.util.Map)
      */
     @Override
-    public String evaluate(Map<String, Object> bindings) throws TemplateException {
+    public String evaluate(Map<String, Object> bindings) throws HL7TemplateException {
     	try {
     		return (bindings == null ? template.make() : template.make(bindings)).toString();
     	}
     	catch (Exception ex) {
-    		throw new TemplateException(ex);
+    		throw new HL7TemplateException(ex);
     	}
     }
 	
