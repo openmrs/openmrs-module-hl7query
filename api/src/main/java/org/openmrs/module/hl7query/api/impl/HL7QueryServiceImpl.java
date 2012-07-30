@@ -22,6 +22,7 @@ import org.apache.commons.logging.LogFactory;
 import org.openmrs.api.APIException;
 import org.openmrs.api.impl.BaseOpenmrsService;
 import org.openmrs.module.hl7query.HL7Template;
+import org.openmrs.module.hl7query.HL7TemplateFunctions;
 import org.openmrs.module.hl7query.api.HL7QueryService;
 import org.openmrs.module.hl7query.api.db.HL7QueryDAO;
 
@@ -39,6 +40,9 @@ public class HL7QueryServiceImpl extends BaseOpenmrsService implements HL7QueryS
 	
 	// cache of compiled templates (by name)
 	private Map<String, PreparedTemplate> templateCache;
+	
+	// cache this so we don't have to recreate it every time
+	private HL7TemplateFunctions templateFunctions = new HL7TemplateFunctions();
 		
 	public HL7QueryServiceImpl() {
 		templateFactories = new HashMap<String, TemplateFactory<?>>();
@@ -65,6 +69,7 @@ public class HL7QueryServiceImpl extends BaseOpenmrsService implements HL7QueryS
 	 * @should evaluate a groovy template
 	 * @should fail to evaluate a groovy template against bad input
 	 * @should fail to evaluate a template of an unknown language
+	 * @should add the HL7TemplateFunctions class as func to bindings
 	 */
 	@Override
 	public String evaluateTemplate(HL7Template template, Map<String, Object> bindings) {
@@ -77,6 +82,9 @@ public class HL7QueryServiceImpl extends BaseOpenmrsService implements HL7QueryS
 			prepared = factory.prepareTemplate(template.getTemplate());
 			templateCache.put(template.getName(), prepared);
 		}
+		
+		bindings.put("func", templateFunctions);
+		
 		return prepared.evaluate(bindings);
 	}
 	

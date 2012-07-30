@@ -66,5 +66,15 @@ public class HL7QueryServiceImplTest {
     	
 	    service.evaluateTemplate(t, null);
     }
+
+	/**
+     * @see HL7QueryServiceImpl#evaluateTemplate(HL7Template,Map)
+     * @verifies add the HL7TemplateFunctions class as func to bindings
+     */
+    @Test
+    public void evaluateTemplate_shouldAddTheHL7TemplateFunctionsClassAsFuncToBindings() throws Exception {
+	    //TODO auto-generated
+		Assert.fail("Not yet implemented");
+    }
 	
 }
