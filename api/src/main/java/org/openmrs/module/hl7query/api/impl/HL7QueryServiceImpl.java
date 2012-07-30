@@ -14,6 +14,7 @@
 package org.openmrs.module.hl7query.api.impl;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.logging.Log;
@@ -85,5 +86,50 @@ public class HL7QueryServiceImpl extends BaseOpenmrsService implements HL7QueryS
 	public void clearTemplateCache() {
 		templateCache.clear();
 	}
+
+	@Override
+    public Template getTemplate(Integer id) {
+	    return dao.getTemplate(id);
+    }
+
+	@Override
+    public Template getTemplateByUuid(String uuid) {
+	    return dao.getTemplateByUuid(uuid);
+    }
+
+	@Override
+    public Template getTemplateByName(String name) {
+	    return dao.getTemplateByName(name);
+    }
+
+	@Override
+    public List<Template> getTemplatesByName(String name) {
+	    return dao.getTemplatesByName(name);
+    }
+
+	@Override
+    public List<Template> getTemplatesByEntity(String entity) {
+	    return dao.getTemplatesByEntity(entity);
+    }
+
+	@Override
+    public Template saveTemplate(Template template) {
+	    return dao.saveTemplate(template);
+    }
+
+	@Override
+    public Template retireTemplate(Template template, String reason) {
+	    return dao.retireTemplate(template, reason);
+    }
+
+	@Override
+    public Template unretireTemplate(Template template) {
+	    return dao.unretireTemplate(template);
+	}
+
+	@Override
+    public void purgeTemplate(Template template) {
+	    dao.purgeTemplate(template);
+    }
 	
 }

@@ -13,14 +13,31 @@
  */
 package org.openmrs.module.hl7query.api.db;
 
+import java.util.List;
+
+import org.openmrs.module.hl7query.Template;
 import org.openmrs.module.hl7query.api.HL7QueryService;
 
 /**
- *  Database methods for {@link HL7QueryService}.
+ * Database methods for {@link HL7QueryService}.
  */
 public interface HL7QueryDAO {
 	
-	/*
-	 * Add DAO methods here
-	 */
+	Template getTemplate(Integer id);
+	
+	Template getTemplateByUuid(String uuid);
+	
+	Template getTemplateByName(String name);
+	
+	List<Template> getTemplatesByName(String name);
+	
+	List<Template> getTemplatesByEntity(String entity);
+	
+	Template saveTemplate(Template template);
+	
+	Template retireTemplate(Template template, String reason);
+	
+	Template unretireTemplate(Template template);
+	
+	void purgeTemplate(Template template);
 }

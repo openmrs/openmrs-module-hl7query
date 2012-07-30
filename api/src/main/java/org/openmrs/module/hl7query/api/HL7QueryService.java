@@ -13,6 +13,7 @@
  */
 package org.openmrs.module.hl7query.api;
 
+import java.util.List;
 import java.util.Map;
 
 import org.openmrs.api.OpenmrsService;
@@ -42,5 +43,27 @@ public interface HL7QueryService extends OpenmrsService {
 	 * @return the result of evaluating the given template against the given bindings
 	 */
 	String evaluateTemplate(Template template, Map<String, Object> bindings);
+	
+	@Transactional(readOnly = true)
+	Template getTemplate(Integer id);
+	
+	@Transactional(readOnly = true)
+	Template getTemplateByUuid(String uuid);
+	
+	@Transactional(readOnly = true)
+	Template getTemplateByName(String name);
+	
+	@Transactional(readOnly = true)
+	List<Template> getTemplatesByName(String name);
+	
+	@Transactional(readOnly = true)
+	List<Template> getTemplatesByEntity(String entity);
+	
+	Template saveTemplate(Template template);
+	
+	Template retireTemplate(Template template, String reason);
 
+	Template unretireTemplate(Template template);
+	
+	void purgeTemplate(Template template);
 }
