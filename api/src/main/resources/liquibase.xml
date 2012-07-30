@@ -1,12 +1,54 @@
 <?xml version="1.0" encoding="UTF-8"?>
- 
+
 <databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog/1.9"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog/1.9
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog/1.9
                   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd">
-    <!--
-        See http://www.liquibase.org/manual/home#available_database_refactorings
-        for a list of supported elements and attributes
-    -->
-    
+
+	<changeSet author="raff" id="20120730-1340">
+		<comment>Create the hl7query_template table</comment>
+		<createTable tableName="hl7query_template">
+			<column name="hl7query_template_id" type="int" autoIncrement="true">
+				<constraints primaryKey="true" nullable="false" />
+			</column>
+			<column name="uuid" type="char(38)">
+				<constraints nullable="false" unique="true" />
+			</column>
+			<column name="creator" type="int">
+				<constraints nullable="false" />
+			</column>
+			<column name="date_created" type="datetime">
+				<constraints nullable="false" />
+			</column>
+			<column name="retired_by" type="int" />
+			<column name="date_retired" type="datetime" />
+			<column name="retire_reason" type="varchar(255)" />
+
+			<column name="name" type="varchar(255)">
+				<constraints nullable="false" unique="true" />
+			</column>
+			<column name="description" type="varchar(255)" />
+
+			<column name="language" type="varchar(50)" defaultValue="groovy">
+				<constraints nullable="false" />
+			</column>
+			<column name="hl7_entity" type="varchar(50)" />
+			<column name="template" type="clob">
+				<constraints nullable="false" />
+			</column>
+		</createTable>
+	</changeSet>
+	<changeSet author="raff" id="20120730-1345">
+		<comment>Add creator FK to hl7query_template</comment>
+		<addForeignKeyConstraint constraintName="hl7query_template_creator"
+			baseTableName="hl7query_template" baseColumnNames="creator"
+			referencedTableName="users" referencedColumnNames="user_id" />
+	</changeSet>
+	<changeSet author="raff" id="20120730-1350">
+		<comment>Add retired_by FK to hl7query_template</comment>
+		<addForeignKeyConstraint constraintName="hl7query_template_retired_by"
+			baseTableName="hl7query_template" baseColumnNames="retired_by"
+			referencedTableName="users" referencedColumnNames="user_id" />
+	</changeSet>
+
 </databaseChangeLog>
