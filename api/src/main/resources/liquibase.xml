@@ -26,6 +26,8 @@
 			<column name="retired_by" type="int" />
 			<column name="date_retired" type="datetime" />
 			<column name="retire_reason" type="varchar(255)" />
+			<column name="changed_by" type="int"/>
+            <column name="date_changed" type="datetime"/>
 
 			<column name="name" type="varchar(255)">
 				<constraints nullable="false" unique="true" />
@@ -51,6 +53,12 @@
 		<comment>Add retired_by FK to hl7query_template</comment>
 		<addForeignKeyConstraint constraintName="hl7query_template_retired_by"
 			baseTableName="hl7query_template" baseColumnNames="retired_by"
+			referencedTableName="users" referencedColumnNames="user_id" />
+	</changeSet>
+	<changeSet author="raff" id="20120730-1530">
+		<comment>Add changed_by FK to hl7query_template</comment>
+		<addForeignKeyConstraint constraintName="hl7query_template_changed_by"
+			baseTableName="hl7query_template" baseColumnNames="changed_by"
 			referencedTableName="users" referencedColumnNames="user_id" />
 	</changeSet>
 
