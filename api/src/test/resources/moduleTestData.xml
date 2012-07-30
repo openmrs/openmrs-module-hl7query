@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataset>
+	<hl7query_template hl7query_template_id="1" name="tester1" hl7_entity="PV1" template="random text1" language="groovy" creator="1" date_created="2012-08-29 10:35:30.0" retired="0" uuid="c147a176-da6c-11e1-be42-00248140a5eb" />
+	<hl7query_template hl7query_template_id="2" name="tester2" hl7_entity="OBR" template="random text2" language="groovy" creator="1" date_created="2012-08-29 10:35:30.0" retired="1" retired_by="1" date_retired="2012-08-29 11:35:30.0" uuid="ca5d0684-da6c-11e1-be42-00248140a5eb" />
+</dataset>

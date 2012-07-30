@@ -20,6 +20,7 @@ import org.junit.Test;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.hl7query.HL7Template;
 import org.openmrs.test.BaseModuleContextSensitiveTest;
+import org.openmrs.test.Verifies;
 
 /**
  * Tests {@link $ HL7QueryModuleService} .
@@ -198,4 +199,26 @@ public class HL7QueryServiceTest extends BaseModuleContextSensitiveTest {
 		Assert.assertNull(template.getRetireReason());
 		Assert.assertNull(template.getRetiredBy());
 	}
+
+	/**
+     * @see {@link HL7QueryService#getHL7Templates(null)}
+     * 
+     */
+    @Test
+    @Verifies(value = "should exclude retired templates if include retired is set to false", method = "getHL7Templates(null)")
+    public void getHL7Templates_shouldExcludeRetiredTemplatesIfIncludeRetiredIsSetToFalse() throws Exception {
+    	executeDataSet("moduleTestData.xml");
+	    Assert.assertEquals(1, getService().getHL7Templates(false).size());
+    }
+
+	/**
+     * @see {@link HL7QueryService#getHL7Templates(null)}
+     * 
+     */
+    @Test
+    @Verifies(value = "should get all templates", method = "getHL7Templates(null)")
+    public void getHL7Templates_shouldGetAllTemplates() throws Exception {
+    	executeDataSet("moduleTestData.xml");
+    	Assert.assertEquals(2, getService().getHL7Templates(true).size());
+    }
 }

@@ -21,7 +21,7 @@ import org.openmrs.module.web.extension.AdministrationSectionExt;
 
 /**
  * This class defines the links that will appear on the administration page under the
- * "hl7query.title" heading. 
+ * "hl7query.title" heading.
  */
 public class AdminList extends AdministrationSectionExt {
 	
@@ -45,6 +45,7 @@ public class AdminList extends AdministrationSectionExt {
 	public Map<String, String> getLinks() {
 		LinkedHashMap<String, String> map = new LinkedHashMap<String, String>();
 		map.put("/module/hl7query/manage.form", "hl7query.manage");
+		map.put("/module/hl7query/manageTemplates.list", "hl7query.manageTemplates");
 		return map;
 	}
 	
