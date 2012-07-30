@@ -29,7 +29,7 @@
 	<!-- Maps hibernate file's, if present -->
 	<mappingFiles>
 				
-		Template.hbm.xml
+		HL7Template.hbm.xml
 				
 	</mappingFiles>
 
