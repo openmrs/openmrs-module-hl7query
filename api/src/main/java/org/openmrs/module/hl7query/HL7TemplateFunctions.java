@@ -33,6 +33,22 @@ public class HL7TemplateFunctions {
 	
 	public static Log log = LogFactory.getLog(HL7TemplateFunctions.class);
 	
+	private HL7QueryService hl7queryService;
+	
+	private AdministrationService adminService;
+	
+	public HL7TemplateFunctions() {
+		// default constructor needed because we have a custom one below
+		this.hl7queryService = Context.getService(HL7QueryService.class);
+		this.adminService = Context.getAdministrationService();
+	}
+	
+	public HL7TemplateFunctions(Context context) {
+		// notice the little c's here
+		this.hl7queryService = context.getService(HL7QueryService.class);
+		this.adminService = context.getAdministrationService();
+	}
+	
 	/**
 	 * This method looks up another template and evaluates that and returns the product of the
 	 * template.
@@ -51,9 +67,7 @@ public class HL7TemplateFunctions {
 			return "";
 		}
 		
-		HL7QueryService service = Context.getService(HL7QueryService.class);
-		
-		HL7Template template = service.getHL7TemplateByName(templateName);
+		HL7Template template = hl7queryService.getHL7TemplateByName(templateName);
 		
 		// didn't find the template, fail early.
 		if (template == null) {
@@ -61,7 +75,7 @@ public class HL7TemplateFunctions {
 			return "";
 		}
 		
-		return service.evaluateTemplate(template, bindings);
+		return hl7queryService.evaluateTemplate(template, bindings);
 	}
 	
 	/**
@@ -78,11 +92,11 @@ public class HL7TemplateFunctions {
 	 * @should find gp if hl7query is left off beginning
 	 */
 	public String getGlobalProperty(String globalPropertyName) {
-		String gpValue = Context.getAdministrationService().getGlobalProperty(globalPropertyName);
+		String gpValue = adminService.getGlobalProperty(globalPropertyName);
 		
 		if (gpValue == null) {
 			// prepend the module id to save a little bit of space in the templates
-			gpValue = Context.getAdministrationService().getGlobalProperty("hl7query." + globalPropertyName);
+			gpValue = adminService.getGlobalProperty("hl7query." + globalPropertyName);
 		}
 		
 		// never return null

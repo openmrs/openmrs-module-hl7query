@@ -20,6 +20,7 @@ import java.util.Map;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openmrs.api.APIException;
+import org.openmrs.api.context.Context;
 import org.openmrs.api.impl.BaseOpenmrsService;
 import org.openmrs.module.hl7query.HL7Template;
 import org.openmrs.module.hl7query.HL7TemplateFunctions;
@@ -51,6 +52,17 @@ public class HL7QueryServiceImpl extends BaseOpenmrsService implements HL7QueryS
 	}
 	
 	/**
+	 * Convenience method used for testing. Lets the unit tests pass in a Mocked Context class. This
+	 * context is passed on to the {@link HL7TemplateFunctions} class
+	 * 
+	 * @param context an OpenMRS {@link Context} class that is probably just a Mock
+	 */
+	protected HL7QueryServiceImpl(Context context) {
+		this();
+		templateFunctions = new HL7TemplateFunctions(context);
+	}
+	
+	/**
 	 * @param dao the dao to set
 	 */
 	public void setDao(HL7QueryDAO dao) {
@@ -70,6 +82,7 @@ public class HL7QueryServiceImpl extends BaseOpenmrsService implements HL7QueryS
 	 * @should fail to evaluate a groovy template against bad input
 	 * @should fail to evaluate a template of an unknown language
 	 * @should add the HL7TemplateFunctions class as func to bindings
+	 * @shoudl not fail if bindings is null
 	 */
 	@Override
 	public String evaluateTemplate(HL7Template template, Map<String, Object> bindings) {
@@ -82,6 +95,9 @@ public class HL7QueryServiceImpl extends BaseOpenmrsService implements HL7QueryS
 			prepared = factory.prepareTemplate(template.getTemplate());
 			templateCache.put(template.getName(), prepared);
 		}
+		
+		if (bindings == null)
+			bindings = new HashMap<String, Object>();
 		
 		bindings.put("func", templateFunctions);
 		
