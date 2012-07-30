@@ -15,7 +15,7 @@ package org.openmrs.module.hl7query.api.impl;
 
 import java.util.Map;
 
-import org.openmrs.module.hl7query.TemplateException;
+import org.openmrs.module.hl7query.HL7TemplateException;
 
 
 /**
@@ -29,6 +29,6 @@ public interface PreparedTemplate {
      * @param bindings the model to prepare this template against
      * @return
      */
-    String evaluate(Map<String, Object> bindings) throws TemplateException;
+    String evaluate(Map<String, Object> bindings) throws HL7TemplateException;
 	
 }
