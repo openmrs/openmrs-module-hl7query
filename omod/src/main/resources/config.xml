@@ -26,6 +26,13 @@
 		<class>${project.parent.groupId}.${project.parent.artifactId}.extension.html.AdminList</class>
 	</extension>
 	
+	<!-- Module Global properties -->
+	<globalProperty>
+		<property>@MODULE_ID@.template</property>
+		<defaultValue></defaultValue>
+		<description>The default ORUR01 template to use to create the hl7 messages</description>
+	</globalProperty>
+	
 	<!-- Maps hibernate file's, if present -->
 	<mappingFiles>
 				
