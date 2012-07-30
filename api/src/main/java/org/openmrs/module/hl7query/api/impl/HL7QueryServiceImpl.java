@@ -24,6 +24,10 @@ import org.openmrs.module.hl7query.Template;
 import org.openmrs.module.hl7query.api.HL7QueryService;
 import org.openmrs.module.hl7query.api.db.HL7QueryDAO;
 
+import ca.uhn.hl7v2.model.Message;
+import ca.uhn.hl7v2.parser.DefaultXMLParser;
+import ca.uhn.hl7v2.parser.PipeParser;
+
 /**
  * It is a default implementation of {@link HL7QueryService}.
  */
@@ -86,4 +90,11 @@ public class HL7QueryServiceImpl extends BaseOpenmrsService implements HL7QueryS
 		templateCache.clear();
 	}
 	
+	/**
+	 * @see org.openmrs.module.hl7query.api.HL7QueryService#renderPipeDelimitedORUR01(java.lang.String)
+	 */
+	public String renderPipeDelimitedORUR01(String xml) throws Exception {
+		Message message = new DefaultXMLParser().parse(xml);
+        return new PipeParser().encode(message);
+    }
 }

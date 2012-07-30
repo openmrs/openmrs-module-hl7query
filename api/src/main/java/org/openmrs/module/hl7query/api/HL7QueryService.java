@@ -43,4 +43,13 @@ public interface HL7QueryService extends OpenmrsService {
 	 */
 	String evaluateTemplate(Template template, Map<String, Object> bindings);
 
+	/**
+	 * Converts an xml to pipe delimited hl7 message
+	 * 
+	 * @param xml the hl7 message in xml format
+	 * @return the pipe delimited hl7 message
+	 * @throws Exception
+	 * @should return pipe delimited hl7 message
+	 */
+	public String renderPipeDelimitedORUR01(String xml) throws Exception;
 }
