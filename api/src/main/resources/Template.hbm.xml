@@ -5,23 +5,26 @@
 
 <hibernate-mapping package="org.openmrs.module.hl7query">
 
-	<class name="Template" table="hl7query_template">
+	<class name="Template" entity-name="HL7QueryTemplate" table="hl7query_template">
 		<id name="templateId" type="int" column="hl7query_template_id"
 			unsaved-value="0">
 			<generator class="native" />
 		</id>
-		<discriminator column="id" insert="false" />
+		<discriminator column="hl7query_template_id" insert="false" />
 
 		<property name="uuid" type="java.lang.String" column="uuid"
 			length="38" unique="true" />
 
-		<property name="dateCreated" type="java.util.Date" column="date_created"
-			not-null="true" length="19" />
-
-		<many-to-one name="creator" class="User" not-null="true">
+		<many-to-one name="creator" class="org.openmrs.User" not-null="true">
 			<column name="creator" />
 		</many-to-one>
 
+		<property name="dateCreated" type="java.util.Date" column="date_created"
+			not-null="true" length="19" />
+
+		<property name="retired" type="boolean" column="retired"
+			length="1" not-null="true" />
+			
 		<many-to-one name="retiredBy" class="org.openmrs.User"
 			column="retired_by" />
 
@@ -30,9 +33,6 @@
 
 		<property name="retireReason" type="java.lang.String" column="retire_reason"
 			length="255" />
-
-		<property name="retired" type="boolean" column="retired"
-			length="1" not-null="true" />
 
 		<property name="name" type="java.lang.String" column="name"
 			not-null="true" unique="true" length="255" />
@@ -43,7 +43,7 @@
 		<property name="language" type="java.lang.String" column="language"
 			not-null="true" length="50" />
 
-		<property name="hl7_entity" type="java.lang.String" column="hl7_entity"
+		<property name="hl7Entity" type="java.lang.String" column="hl7_entity"
 			length="50" />
 
 		<property name="template" type="java.lang.String" column="template"
