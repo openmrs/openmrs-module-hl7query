@@ -20,9 +20,9 @@
 			<column name="date_created" type="datetime">
 				<constraints nullable="false" />
 			</column>
-			 <column name="retired" type="boolean" defaultValueBoolean="false">
-                <constraints nullable="false"/>
-            </column>
+			<column name="retired" type="boolean" defaultValueBoolean="false">
+				<constraints nullable="false" />
+			</column>
 			<column name="retired_by" type="int" />
 			<column name="date_retired" type="datetime" />
 			<column name="retire_reason" type="varchar(255)" />
