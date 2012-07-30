@@ -40,4 +40,6 @@ public interface HL7QueryDAO {
 	HL7Template unretireHL7Template(HL7Template hl7Template);
 	
 	void purgeHL7Template(HL7Template hl7Template);
+	
+	List<HL7Template> getHL7Templates(boolean includeRetired);
 }

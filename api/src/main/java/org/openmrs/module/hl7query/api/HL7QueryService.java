@@ -116,4 +116,16 @@ public interface HL7QueryService extends OpenmrsService {
 	 * @should purge template
 	 */
 	void purgeHL7Template(HL7Template hl7Template);
+	
+	/**
+	 * Gets all HL7 templates. 
+	 * TODO add/require view privileges and update manageTemplates.jsp to
+	 * require them
+	 * 
+	 * @param includeRetired specified whether retired templates should be included or not
+	 * @return a list of {@link HL7Template}s
+	 * @should get all templates
+	 * @should exclude retired templates if include retired is set to false
+	 */
+	List<HL7Template> getHL7Templates(boolean includeRetired);
 }

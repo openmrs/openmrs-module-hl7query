@@ -17,6 +17,7 @@ import java.util.List;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Order;
@@ -102,4 +103,13 @@ public class HibernateHL7QueryDAO implements HL7QueryDAO {
 	public void purgeHL7Template(HL7Template template) {
 		sessionFactory.getCurrentSession().delete(template);
 	}
+
+	@SuppressWarnings("unchecked")
+    @Override
+    public List<HL7Template> getHL7Templates(boolean includeRetired) {
+		Criteria c = sessionFactory.getCurrentSession().createCriteria(HL7Template.class);
+		if(!includeRetired)
+			c.add(Restrictions.eq("retired", includeRetired));
+		return c.list();
+    }
 }

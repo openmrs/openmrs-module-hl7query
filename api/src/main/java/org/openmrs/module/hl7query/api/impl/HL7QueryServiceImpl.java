@@ -131,5 +131,10 @@ public class HL7QueryServiceImpl extends BaseOpenmrsService implements HL7QueryS
     public void purgeHL7Template(HL7Template hl7Template) {
 	    dao.purgeHL7Template(hl7Template);
     }
+
+	@Override
+    public List<HL7Template> getHL7Templates(boolean includeRetired) {
+	    return dao.getHL7Templates(includeRetired);
+    }
 	
 }
