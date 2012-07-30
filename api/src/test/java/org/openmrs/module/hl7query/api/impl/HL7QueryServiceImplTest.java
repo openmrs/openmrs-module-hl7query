@@ -9,8 +9,8 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.openmrs.api.APIException;
-import org.openmrs.module.hl7query.Template;
-import org.openmrs.module.hl7query.TemplateException;
+import org.openmrs.module.hl7query.HL7Template;
+import org.openmrs.module.hl7query.HL7TemplateException;
 import org.openmrs.module.hl7query.api.HL7QueryService;
 
 public class HL7QueryServiceImplTest {
@@ -23,12 +23,12 @@ public class HL7QueryServiceImplTest {
 	}
 
 	/**
-     * @see HL7QueryServiceImpl#evaluateTemplate(Template,Map)
+     * @see HL7QueryServiceImpl#evaluateTemplate(HL7Template,Map)
      * @verifies evaluate a groovy template
      */
     @Test
     public void evaluateTemplate_shouldEvaluateAGroovyTemplate() throws Exception {
-    	Template t = new Template();
+    	HL7Template t = new HL7Template();
     	t.setLanguage(HL7QueryService.LANGUAGE_GROOVY);
     	t.setTemplate("Easy as ${ list.join(', ') }");
     	
@@ -40,12 +40,12 @@ public class HL7QueryServiceImplTest {
     }
 
 	/**
-     * @see HL7QueryServiceImpl#evaluateTemplate(Template,Map)
+     * @see HL7QueryServiceImpl#evaluateTemplate(HL7Template,Map)
      * @verifies fail to evaluate a groovy template against bad input
      */
-    @Test(expected=TemplateException.class)
+    @Test(expected=HL7TemplateException.class)
     public void evaluateTemplate_shouldFailToEvaluateAGroovyTemplateAgainstBadInput() throws Exception {
-    	Template t = new Template();
+    	HL7Template t = new HL7Template();
     	t.setLanguage(HL7QueryService.LANGUAGE_GROOVY);
     	t.setTemplate("Easy as ${ list.join(', ') }");
     	
@@ -55,12 +55,12 @@ public class HL7QueryServiceImplTest {
     }
 
 	/**
-     * @see HL7QueryServiceImpl#evaluateTemplate(Template,Map)
+     * @see HL7QueryServiceImpl#evaluateTemplate(HL7Template,Map)
      * @verifies fail to evaluate a template of an unknown language
      */
     @Test(expected=APIException.class)
     public void evaluateTemplate_shouldFailToEvaluateATemplateOfAnUnknownLanguage() throws Exception {
-    	Template t = new Template();
+    	HL7Template t = new HL7Template();
     	t.setLanguage("C++");
     	t.setTemplate("Easy as 1, 2, 3");
     	

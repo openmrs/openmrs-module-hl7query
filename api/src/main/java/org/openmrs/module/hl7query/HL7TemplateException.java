@@ -17,20 +17,20 @@ import org.openmrs.api.APIException;
 
 
 /**
- * Exceptions that related to compiling or evaluating a {@link Template}
+ * Exceptions that related to compiling or evaluating a {@link HL7Template}
  */
-public class TemplateException extends APIException {
+public class HL7TemplateException extends APIException {
 	
 	private static final long serialVersionUID = 1L;
 
-	public TemplateException() {
+	public HL7TemplateException() {
 		super();
 	}
 	
     /**
      * @param cause
      */
-    public TemplateException(Exception cause) {
+    public HL7TemplateException(Exception cause) {
 	    super(cause);
     }
     
@@ -38,7 +38,7 @@ public class TemplateException extends APIException {
      * @param message
      * @param cause
      */
-    public TemplateException(String message, Exception cause) {
+    public HL7TemplateException(String message, Exception cause) {
     	super(message, cause);
     }
 	

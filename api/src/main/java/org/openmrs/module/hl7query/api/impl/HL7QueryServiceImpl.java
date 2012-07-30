@@ -14,13 +14,14 @@
 package org.openmrs.module.hl7query.api.impl;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openmrs.api.APIException;
 import org.openmrs.api.impl.BaseOpenmrsService;
-import org.openmrs.module.hl7query.Template;
+import org.openmrs.module.hl7query.HL7Template;
 import org.openmrs.module.hl7query.api.HL7QueryService;
 import org.openmrs.module.hl7query.api.db.HL7QueryDAO;
 
@@ -60,13 +61,13 @@ public class HL7QueryServiceImpl extends BaseOpenmrsService implements HL7QueryS
 	}
 	
 	/**
-	 * @see org.openmrs.module.hl7query.api.HL7QueryService#evaluateTemplate(org.openmrs.module.hl7query.Template, java.util.Map)
+	 * @see org.openmrs.module.hl7query.api.HL7QueryService#evaluateTemplate(org.openmrs.module.hl7query.HL7Template, java.util.Map)
 	 * @should evaluate a groovy template
 	 * @should fail to evaluate a groovy template against bad input
 	 * @should fail to evaluate a template of an unknown language
 	 */
 	@Override
-	public String evaluateTemplate(Template template, Map<String, Object> bindings) {
+	public String evaluateTemplate(HL7Template template, Map<String, Object> bindings) {
 		PreparedTemplate prepared = templateCache.get(template.getName());
 		if (prepared == null) {
 			TemplateFactory<?> factory = templateFactories.get(template.getLanguage());
@@ -85,5 +86,50 @@ public class HL7QueryServiceImpl extends BaseOpenmrsService implements HL7QueryS
 	public void clearTemplateCache() {
 		templateCache.clear();
 	}
+
+	@Override
+    public HL7Template getHL7Template(Integer id) {
+	    return dao.getHL7Template(id);
+    }
+
+	@Override
+    public HL7Template getHL7TemplateByUuid(String uuid) {
+	    return dao.getHL7TemplateByUuid(uuid);
+    }
+
+	@Override
+    public HL7Template getHL7TemplateByName(String name) {
+	    return dao.getHL7TemplateByName(name);
+    }
+
+	@Override
+    public List<HL7Template> getHL7TemplatesByName(String name) {
+	    return dao.getHL7TemplatesByName(name);
+    }
+
+	@Override
+    public List<HL7Template> getHL7TemplatesByEntity(String entity) {
+	    return dao.getHL7TemplatesByEntity(entity);
+    }
+
+	@Override
+    public HL7Template saveHL7Template(HL7Template hl7Template) {
+	    return dao.saveHL7Template(hl7Template);
+    }
+
+	@Override
+    public HL7Template retireHL7Template(HL7Template hl7Template, String reason) {
+	    return dao.retireHL7Template(hl7Template, reason);
+    }
+
+	@Override
+    public HL7Template unretireHL7Template(HL7Template hl7Template) {
+	    return dao.unretireHL7Template(hl7Template);
+	}
+
+	@Override
+    public void purgeHL7Template(HL7Template hl7Template) {
+	    dao.purgeHL7Template(hl7Template);
+    }
 	
 }
