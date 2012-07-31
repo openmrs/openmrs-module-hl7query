@@ -15,6 +15,7 @@ package org.openmrs.module.hl7query;
 
 import org.openmrs.BaseOpenmrsMetadata;
 import org.openmrs.OpenmrsMetadata;
+import org.openmrs.module.hl7query.api.HL7QueryService;
 
 /**
  * A template that describes how to generate an HL7 message, or a fragment of one.
@@ -27,7 +28,7 @@ public class HL7Template extends BaseOpenmrsMetadata implements OpenmrsMetadata 
 
 	private String hl7Entity;
 	
-	private String language = "groovy";
+	private String language = HL7QueryService.LANGUAGE_GROOVY;
 	
 	private String template;
 	
@@ -64,14 +65,14 @@ public class HL7Template extends BaseOpenmrsMetadata implements OpenmrsMetadata 
 	/**
 	 * @return the hl7Entity
 	 */
-	public String getHl7Entity() {
+	public String getHL7Entity() {
 		return hl7Entity;
 	}
 	
 	/**
 	 * @param hl7Entity the hl7Entity to set
 	 */
-	public void setHl7Entity(String hl7Entity) {
+	public void setHL7Entity(String hl7Entity) {
 		this.hl7Entity = hl7Entity;
 	}
 	

@@ -69,7 +69,7 @@ public class HibernateHL7QueryDAO implements HL7QueryDAO {
 	public List<HL7Template> getHL7TemplatesByName(String name) {
 		@SuppressWarnings("unchecked")
 		List<HL7Template> list = sessionFactory.getCurrentSession().createCriteria(HL7Template.class)
-		        .add(Restrictions.ilike("name", name, MatchMode.ANYWHERE)).addOrder(Order.asc("templateId")).list();
+		        .add(Restrictions.ilike("name", name, MatchMode.ANYWHERE)).addOrder(Order.asc("HL7TemplateId")).list();
 		return list;
 	}
 	
@@ -77,7 +77,7 @@ public class HibernateHL7QueryDAO implements HL7QueryDAO {
 	public List<HL7Template> getHL7TemplatesByEntity(String entity) {
 		@SuppressWarnings("unchecked")
 		List<HL7Template> list = sessionFactory.getCurrentSession().createCriteria(HL7Template.class)
-		        .add(Restrictions.eq("hl7Entity", entity)).addOrder(Order.asc("templateId")).list();
+		        .add(Restrictions.eq("HL7Entity", entity)).addOrder(Order.asc("HL7TemplateId")).list();
 		return list;
 	}
 	
