@@ -13,14 +13,28 @@
  */
 package org.openmrs.module.hl7query.web.controller;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.openmrs.Encounter;
+import org.openmrs.Patient;
+import org.openmrs.PatientIdentifierType;
+import org.openmrs.api.APIException;
+import org.openmrs.api.EncounterService;
+import org.openmrs.api.PatientService;
 import org.openmrs.api.context.Context;
+import org.openmrs.module.hl7query.HL7Template;
+import org.openmrs.module.hl7query.api.HL7QueryService;
+import org.openmrs.module.hl7query.util.HL7QueryConstants;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -30,22 +44,66 @@ import org.springframework.web.bind.annotation.ResponseBody;
  * The main controller.
  */
 @Controller
-public class  HL7QueryController {
+public class HL7QueryController {
 	
 	protected final Log log = LogFactory.getLog(getClass());
 	
-	@RequestMapping(value = "/module/hl7query/ORUR01/", method = RequestMethod.GET)
+	@RequestMapping(value = "/module/hl7query/ORUR01", method = RequestMethod.GET)
 	@ResponseBody
-	public Object getEncounters(
-			@RequestParam(value = "patientId", required = true) String patientId,
-			@RequestParam(value = "idType", required = true) String idType,
-			@RequestParam(value = "encounterId", required = false) String encounterId,
-			@RequestParam(value = "startDate", required = false) String startDate,
-			@RequestParam(value = "endDate", required = false) String endDate,
-			HttpServletRequest request, HttpServletResponse response) {
+	public Object getEncounters(@RequestParam(value = "patientId", required = false) String patientId,
+	                            @RequestParam(value = "idTypeUuid", required = false) String idTypeUuid,
+	                            @RequestParam(value = "encounterUuid", required = false) String encounterUuid,
+	                            @RequestParam(value = "startDate", required = false) Date startDate,
+	                            @RequestParam(value = "endDate", required = false) Date endDate, HttpServletRequest request) {
 		
+		List<Encounter> encounters = new ArrayList<Encounter>();
+		EncounterService encounterService = Context.getEncounterService();
+		HL7QueryService hL7QueryService = Context.getService(HL7QueryService.class);
+		HL7Template template = null;
+		Patient patient = null;
+		if (StringUtils.isBlank(patientId))
+			throw new APIException("Patient identifier cannot be blank");
+		
+		//TODO Use HL7TemplateFunctions.getGlobalProperty(String globalPropertyName) after
+		//the code for HLQRY-23 is done
+		String templateNameGP = Context.getAdministrationService().getGlobalProperty(HL7QueryConstants.HL7QUERY_GP_TEMPLATE);
+		template = hL7QueryService.getHL7TemplateByName(templateNameGP);
+		if (template == null)
+			throw new APIException("Cannot find template with name '" + templateNameGP + "'");
+		
+		if (encounterUuid != null) {
+			Encounter encounter = encounterService.getEncounterByUuid(encounterUuid);
+			if (encounter == null)
+				throw new APIException("Cannot find an encounter with uuid:" + encounterUuid);
+			patient = encounter.getPatient();
+			encounters.add(encounterService.getEncounterByUuid(encounterUuid));
+		} else {
+			PatientService patientService = Context.getPatientService();
+			PatientIdentifierType identifierType = patientService.getPatientIdentifierTypeByUuid(idTypeUuid);
+			if (identifierType == null)
+				throw new APIException("Cannot find a patient identifier type with uuid:" + idTypeUuid);
 			
-				return response;
+			List<PatientIdentifierType> idTypes = new ArrayList<PatientIdentifierType>();
+			idTypes.add(identifierType);
+			List<Patient> patients = Context.getPatientService().getPatients(null, patientId, idTypes, true);
+			if (patients.size() == 0)
+				throw new APIException("Cannot find a patient with " + identifierType.getName() + " :" + patientId);
+			else if (patients.size() > 1)
+				throw new APIException("Found multiple patients with " + identifierType.getName() + " :" + patientId);
+			
+			patient = patients.get(0);
+			encounters.addAll(encounterService.getEncounters(patient, null, startDate, endDate, null, null, null, false));
+		}
 		
+		Map<String, Object> bindings = new HashMap<String, Object>();
+		bindings.put("patient", patient);
+		bindings.put("encounters", encounters);
+		
+		String hl7Output = hL7QueryService.evaluateTemplate(template, bindings);
+		
+		//TODO convert the message to the appropriate format depending on the accept header value
+		String acceptHeader = request.getHeader("Accept");
+		
+		return hl7Output;
 	}
 }
