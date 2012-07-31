@@ -61,5 +61,45 @@
 			baseTableName="hl7query_template" baseColumnNames="changed_by"
 			referencedTableName="users" referencedColumnNames="user_id" />
 	</changeSet>
+	
+	<changeSet author="dkayiwa" id="1641256230538-332231">
+		<insert tableName="hl7query_template">
+			<column name="name" value="PV1-TEMPLATE" />
+			<column name="description" value="Template for the PV1 segment" />
+			<column name="hl7_entity" value="PV1" />
+			<column name="language" value="groovy" />
+			<column name="creator" valueNumeric="1" />
+			<column name="date_created" valueDate="2012-07-31" />
+			<column name="retired" valueBoolean="false" />
+			<column name="uuid" value="AABBCCf4-15f5-102d-96e4-000c29c2ABCD" />
+			<column name="template">
+				<![CDATA[
+					<ORU_R01.VISIT>
+						<PV1>
+						    <PV1.2>0</PV1.2> <!-- The patient class. It is a hardcoded -->
+						    <PV1.3>
+						        <PL.1>${ encounter.getLocation().getUuid() }</PL.1>
+						        <PL.4>
+						            <HD.1>${ encounter.getLocation().getName() }</HD.1>
+						        </PL.4>
+						    </PV1.3>
+						    <PV1.4>${ encounter.getEncounterType().getName() }</PV1.4>
+						    <PV1.7>
+						        <XCN.1>${ encounter.getProvider().getUuid() }</XCN.1>
+						        <XCN.2>
+						            <FN.1>${ encounter.getProvider().getFamilyName() }</FN.1>
+						        </XCN.2>
+						        <XCN.3>${ encounter.getProvider().getGivenName() }</XCN.3>
+						        <XCN.13>NID</XCN.13> <!-- This is the identifier type name of the identifier we will use to identify the provider. The user will be allowed to set it -->
+						    </PV1.7>
+						    <PV1.44>
+						        <TS.1>${ encounter.getEncounterDatetime() }</TS.1> <!-- The date the visit took place -->
+						    </PV1.44>
+						</PV1>
+					 </ORU_R01.VISIT>" 
+				]]>
+		   </column>
+		</insert>
+	</changeSet>
 
 </databaseChangeLog>
