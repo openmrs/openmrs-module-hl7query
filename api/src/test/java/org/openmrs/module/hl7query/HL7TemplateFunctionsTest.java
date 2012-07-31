@@ -22,7 +22,11 @@ import org.openmrs.api.context.Context;
 import org.openmrs.module.hl7query.api.HL7QueryService;
 import org.openmrs.test.BaseModuleContextSensitiveTest;
 
-// TODO: change this to use mocks instead of the actual db
+/**
+ * This class tests {@link HL7TemplateFunctions}
+ *
+ */
+//TODO: change this to use mocks instead of the actual db
 public class HL7TemplateFunctionsTest extends BaseModuleContextSensitiveTest {
 	
 	/**
