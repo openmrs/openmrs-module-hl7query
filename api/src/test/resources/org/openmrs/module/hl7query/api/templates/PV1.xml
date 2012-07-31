@@ -1,6 +1,6 @@
 <ORU_R01.VISIT>
 	<PV1>
-	    <PV1.2>0</PV1.2> <!-- The patient class. It is a hardcoded -->
+	    <PV1.2>0</PV1.2>
 	    <PV1.3>
 	        <PL.1>${ encounter.getLocation().getUuid() }</PL.1>
 	        <PL.4>
@@ -14,10 +14,10 @@
 	            <FN.1>${ encounter.getProvider().getFamilyName() }</FN.1>
 	        </XCN.2>
 	        <XCN.3>${ encounter.getProvider().getGivenName() }</XCN.3>
-	        <XCN.13>NID</XCN.13> <!-- This is the identifier type name of the identifier we will use to identify the provider. The user will be allowed to set it -->
+	        <XCN.13>NID</XCN.13>
 	    </PV1.7>
 	    <PV1.44>
-	        <TS.1>${ encounter.getEncounterDatetime() }</TS.1> <!-- The date the visit took place -->
+	        <TS.1>${ encounter.getEncounterDatetime() }</TS.1>
 	    </PV1.44>
 	</PV1>
 </ORU_R01.VISIT>
