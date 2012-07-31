@@ -14,10 +14,9 @@ import org.openmrs.api.APIException;
 import org.openmrs.module.hl7query.Template;
 import org.openmrs.module.hl7query.TemplateException;
 import org.openmrs.module.hl7query.api.HL7QueryService;
-import org.openmrs.test.BaseModuleContextSensitiveTest;
 import org.openmrs.test.Verifies;
 
-public class HL7QueryServiceImplTest extends BaseModuleContextSensitiveTest {
+public class HL7QueryServiceImplTest {
 	
 	HL7QueryServiceImpl service;
 	
@@ -72,14 +71,14 @@ public class HL7QueryServiceImplTest extends BaseModuleContextSensitiveTest {
     }
 	
     /**
-     * @see {@link HL7QueryService#renderPipeDelimitedORUR01(String)}
+     * @see {@link HL7QueryService#renderPipeDelimitedHl7(String)}
      */
     @Test
-    @Verifies(value = "should return pipe delimited hl7 message", method = "renderPipeDelimitedORUR01(String)")
-    public void renderPipeDelimitedORUR01_shouldReturnPipeDelimitedHl7Message() throws Exception {
+    @Verifies(value = "should return pipe delimited hl7 message", method = "renderPipeDelimitedHl7(String)")
+    public void renderPipeDelimitedHl7_shouldReturnPipeDelimitedHl7Message() throws Exception {
     	InputStream inputStream = getClass().getClassLoader().getResourceAsStream("org/openmrs/module/hl7query/api/impl/sample-hl7.xml");
     	String xml = IOUtils.toString(inputStream);
-    	String output = service.renderPipeDelimitedORUR01(xml);
+    	String output = service.renderPipeDelimitedHl7(xml);
     	Assert.assertNotNull(output);
     }
 }

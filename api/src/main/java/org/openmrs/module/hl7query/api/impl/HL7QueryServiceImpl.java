@@ -91,9 +91,9 @@ public class HL7QueryServiceImpl extends BaseOpenmrsService implements HL7QueryS
 	}
 	
 	/**
-	 * @see org.openmrs.module.hl7query.api.HL7QueryService#renderPipeDelimitedORUR01(java.lang.String)
+	 * @see org.openmrs.module.hl7query.api.HL7QueryService#renderPipeDelimitedHl7(java.lang.String)
 	 */
-	public String renderPipeDelimitedORUR01(String xml) throws Exception {
+	public String renderPipeDelimitedHl7(String xml) throws Exception {
 		Message message = new DefaultXMLParser().parse(xml);
         return new PipeParser().encode(message);
     }

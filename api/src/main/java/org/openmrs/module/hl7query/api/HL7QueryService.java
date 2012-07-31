@@ -51,5 +51,5 @@ public interface HL7QueryService extends OpenmrsService {
 	 * @throws Exception
 	 * @should return pipe delimited hl7 message
 	 */
-	public String renderPipeDelimitedORUR01(String xml) throws Exception;
+	public String renderPipeDelimitedHl7(String xml) throws Exception;
 }
