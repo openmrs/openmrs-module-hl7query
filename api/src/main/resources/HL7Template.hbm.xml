@@ -50,7 +50,7 @@
 		<property name="language" type="java.lang.String" column="language"
 			not-null="true" length="50" />
 
-		<property name="hl7Entity" type="java.lang.String" column="hl7_entity"
+		<property name="HL7Entity" type="java.lang.String" column="hl7_entity"
 			length="50" />
 
 		<property name="template" type="java.lang.String" column="template"
