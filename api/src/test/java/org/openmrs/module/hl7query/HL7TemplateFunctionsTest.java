@@ -13,10 +13,17 @@
  */
 package org.openmrs.module.hl7query;
 
+import java.util.Map;
+
 import org.junit.Assert;
 import org.junit.Test;
+import org.openmrs.GlobalProperty;
+import org.openmrs.api.context.Context;
+import org.openmrs.module.hl7query.api.HL7QueryService;
+import org.openmrs.test.BaseModuleContextSensitiveTest;
 
-public class HL7TemplateFunctionsTest {
+// TODO: change this to use mocks instead of the actual db
+public class HL7TemplateFunctionsTest extends BaseModuleContextSensitiveTest {
 	
 	/**
 	 * @see HL7TemplateFunctions#evaluateTemplate(String,Map)
@@ -24,8 +31,16 @@ public class HL7TemplateFunctionsTest {
 	 */
 	@Test
 	public void evaluateTemplate_shouldPassThroughToServiceLayerEvaluateMethod() throws Exception {
-		//TODO auto-generated
-		Assert.fail("Not yet implemented");
+		// add a simple template to our db
+		HL7Template t = new HL7Template();
+		t.setName("simple");
+		t.setLanguage(HL7QueryService.LANGUAGE_GROOVY);
+		t.setTemplate("The value of locale.allowed.list is: ${ func.getGlobalProperty('locale.allowed.list') }");
+		Context.getService(HL7QueryService.class).saveHL7Template(t);
+		
+		HL7TemplateFunctions functions = new HL7TemplateFunctions();
+		
+		Assert.assertEquals("The value of locale.allowed.list is: en", functions.evaluateTemplate("simple", null));
 	}
 	
 	/**
@@ -34,8 +49,9 @@ public class HL7TemplateFunctionsTest {
 	 */
 	@Test
 	public void evaluateTemplate_shouldNotFailWithNotFoundTemplate() throws Exception {
-		//TODO auto-generated
-		Assert.fail("Not yet implemented");
+		HL7TemplateFunctions functions = new HL7TemplateFunctions();
+		
+		Assert.assertEquals("", functions.evaluateTemplate("anonexistanttemplate", null));
 	}
 	
 	/**
@@ -44,8 +60,16 @@ public class HL7TemplateFunctionsTest {
 	 */
 	@Test
 	public void getGlobalProperty_shouldReturnEmptyStringIfGpDoesntExist() throws Exception {
-		//TODO auto-generated
-		Assert.fail("Not yet implemented");
+		// add a simple template to our db
+		HL7Template t = new HL7Template();
+		t.setName("nonexistantgptemplate");
+		t.setLanguage(HL7QueryService.LANGUAGE_GROOVY);
+		t.setTemplate("-${ func.getGlobalProperty('nonexistantgp') }-");
+		Context.getService(HL7QueryService.class).saveHL7Template(t);
+		
+		HL7TemplateFunctions functions = new HL7TemplateFunctions();
+		
+		Assert.assertEquals("--", functions.evaluateTemplate("nonexistantgptemplate", null));
 	}
 	
 	/**
@@ -54,8 +78,20 @@ public class HL7TemplateFunctionsTest {
 	 */
 	@Test
 	public void getGlobalProperty_shouldPreprendHl7queryIfGpDoesntExist() throws Exception {
-		//TODO auto-generated
-		Assert.fail("Not yet implemented");
+		String GPNAME = "customgp";
+		
+		// add a gp to the gp table WITH "hl7query" in front of it!
+		Context.getAdministrationService().saveGlobalProperty(new GlobalProperty("hl7query." + GPNAME, "acustomvalue"));
+		// add a simple template to our db
+		HL7Template t = new HL7Template();
+		t.setName("prefixtesttemplate");
+		t.setLanguage(HL7QueryService.LANGUAGE_GROOVY);
+		t.setTemplate("Value is: ${ func.getGlobalProperty('" + GPNAME + "') }");
+		Context.getService(HL7QueryService.class).saveHL7Template(t);
+		
+		HL7TemplateFunctions functions = new HL7TemplateFunctions();
+		
+		Assert.assertEquals("Value is: acustomvalue", functions.evaluateTemplate("prefixtesttemplate", null));
 	}
 	
 	/**
@@ -64,8 +100,20 @@ public class HL7TemplateFunctionsTest {
 	 */
 	@Test
 	public void getGlobalProperty_shouldReturnGpIfGpExists() throws Exception {
-		//TODO auto-generated
-		Assert.fail("Not yet implemented");
+		String GPNAME = "customgp";
+		
+		// add a gp to the gp table (no hl7query prefix)
+		Context.getAdministrationService().saveGlobalProperty(new GlobalProperty(GPNAME, "acustomvalue"));
+		// add a simple template to our db
+		HL7Template t = new HL7Template();
+		t.setName("customgptemplate");
+		t.setLanguage(HL7QueryService.LANGUAGE_GROOVY);
+		t.setTemplate("Value is: ${ func.getGlobalProperty('" + GPNAME + "') }");
+		Context.getService(HL7QueryService.class).saveHL7Template(t);
+		
+		HL7TemplateFunctions functions = new HL7TemplateFunctions();
+		
+		Assert.assertEquals("Value is: acustomvalue", functions.evaluateTemplate("customgptemplate", null));
 	}
 	
 	/**
@@ -74,7 +122,19 @@ public class HL7TemplateFunctionsTest {
 	 */
 	@Test
 	public void getGlobalProperty_shouldFindGpIfHl7queryIsLeftOffBeginning() throws Exception {
-		//TODO auto-generated
-		Assert.fail("Not yet implemented");
+		String GPNAME = "customgp";
+		
+		// add a gp to the gp table (no hl7query prefix)
+		Context.getAdministrationService().saveGlobalProperty(new GlobalProperty(GPNAME, "acustomvalue"));
+		// add a simple template to our db
+		HL7Template t = new HL7Template();
+		t.setName("customgp");
+		t.setLanguage(HL7QueryService.LANGUAGE_GROOVY);
+		t.setTemplate("Value is: ${ func.getGlobalProperty('" + GPNAME + "') }");
+		Context.getService(HL7QueryService.class).saveHL7Template(t);
+		
+		HL7TemplateFunctions functions = new HL7TemplateFunctions();
+		
+		Assert.assertEquals("Value is: acustomvalue", functions.evaluateTemplate("customgp", null));
 	}
 }

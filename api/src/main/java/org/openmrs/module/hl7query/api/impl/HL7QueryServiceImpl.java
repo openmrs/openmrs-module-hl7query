@@ -20,7 +20,6 @@ import java.util.Map;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openmrs.api.APIException;
-import org.openmrs.api.context.Context;
 import org.openmrs.api.impl.BaseOpenmrsService;
 import org.openmrs.module.hl7query.HL7Template;
 import org.openmrs.module.hl7query.HL7TemplateFunctions;
@@ -49,17 +48,6 @@ public class HL7QueryServiceImpl extends BaseOpenmrsService implements HL7QueryS
 		templateFactories = new HashMap<String, TemplateFactory<?>>();
 		templateFactories.put(HL7QueryService.LANGUAGE_GROOVY, new GroovyTemplateFactory());
 		templateCache = new HashMap<String, PreparedTemplate>();
-	}
-	
-	/**
-	 * Convenience method used for testing. Lets the unit tests pass in a Mocked Context class. This
-	 * context is passed on to the {@link HL7TemplateFunctions} class
-	 * 
-	 * @param context an OpenMRS {@link Context} class that is probably just a Mock
-	 */
-	protected HL7QueryServiceImpl(Context context) {
-		this();
-		templateFunctions = new HL7TemplateFunctions(context);
 	}
 	
 	/**

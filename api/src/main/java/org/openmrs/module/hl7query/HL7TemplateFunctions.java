@@ -31,24 +31,37 @@ import org.openmrs.module.hl7query.api.HL7QueryService;
  */
 public class HL7TemplateFunctions {
 	
-	public static Log log = LogFactory.getLog(HL7TemplateFunctions.class);
+    public static Log log = LogFactory.getLog(HL7TemplateFunctions.class);
 	
 	private HL7QueryService hl7queryService;
 	
 	private AdministrationService adminService;
 	
-	public HL7TemplateFunctions() {
-		// default constructor needed because we have a custom one below
-		this.hl7queryService = Context.getService(HL7QueryService.class);
-		this.adminService = Context.getAdministrationService();
-	}
+	protected HL7QueryService getHl7queryService() {
+		if (hl7queryService == null)
+			hl7queryService = Context.getService(HL7QueryService.class);
+		
+    	return hl7queryService;
+    }
+
 	
-	public HL7TemplateFunctions(Context context) {
-		// notice the little c's here
-		this.hl7queryService = context.getService(HL7QueryService.class);
-		this.adminService = context.getAdministrationService();
-	}
+    public void setHl7queryService(HL7QueryService hl7queryService) {
+    	this.hl7queryService = hl7queryService;
+    }
+
 	
+    protected AdministrationService getAdminService() {
+    	if (adminService == null)
+    		adminService = Context.getAdministrationService();
+    	
+    	return adminService;
+    }
+
+	
+    public void setAdminService(AdministrationService adminService) {
+    	this.adminService = adminService;
+    }
+
 	/**
 	 * This method looks up another template and evaluates that and returns the product of the
 	 * template.
@@ -67,7 +80,7 @@ public class HL7TemplateFunctions {
 			return "";
 		}
 		
-		HL7Template template = hl7queryService.getHL7TemplateByName(templateName);
+		HL7Template template = getHl7queryService().getHL7TemplateByName(templateName);
 		
 		// didn't find the template, fail early.
 		if (template == null) {
@@ -75,7 +88,7 @@ public class HL7TemplateFunctions {
 			return "";
 		}
 		
-		return hl7queryService.evaluateTemplate(template, bindings);
+		return getHl7queryService().evaluateTemplate(template, bindings);
 	}
 	
 	/**
@@ -92,11 +105,11 @@ public class HL7TemplateFunctions {
 	 * @should find gp if hl7query is left off beginning
 	 */
 	public String getGlobalProperty(String globalPropertyName) {
-		String gpValue = adminService.getGlobalProperty(globalPropertyName);
+		String gpValue = getAdminService().getGlobalProperty(globalPropertyName);
 		
 		if (gpValue == null) {
 			// prepend the module id to save a little bit of space in the templates
-			gpValue = adminService.getGlobalProperty("hl7query." + globalPropertyName);
+			gpValue = getAdminService().getGlobalProperty("hl7query." + globalPropertyName);
 		}
 		
 		// never return null

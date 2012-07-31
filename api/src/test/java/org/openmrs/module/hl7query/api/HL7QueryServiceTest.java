@@ -15,14 +15,18 @@ package org.openmrs.module.hl7query.api;
 
 import static org.junit.Assert.assertNotNull;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import junit.framework.Assert;
 
 import org.junit.Test;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.hl7query.HL7Template;
+import org.openmrs.module.hl7query.api.impl.HL7QueryServiceImpl;
 import org.openmrs.test.BaseModuleContextSensitiveTest;
+import org.openmrs.test.TestUtil;
 import org.openmrs.test.Verifies;
 
 /**
@@ -367,5 +371,24 @@ public class HL7QueryServiceTest extends BaseModuleContextSensitiveTest {
 		//then
 		Assert.assertNotNull(existingTemplates);
 		Assert.assertEquals(0, existingTemplates.size());
+	}
+	
+	/**
+	 * @see HL7QueryService#evaluateTemplate(HL7Template,Map)
+	 * @verifies add the HL7TemplateFunctions class as func to bindings
+	 */
+	@Test
+	public void evaluateTemplate_shouldAddTheHL7TemplateFunctionsClassAsFuncToBindings() throws Exception {
+		
+		TestUtil.printOutTableContents(getConnection(), "global_property");
+		
+		HL7Template t = new HL7Template();
+		t.setLanguage(HL7QueryService.LANGUAGE_GROOVY);
+		t.setTemplate("The value of locale.allowed.list is: ${ func.getGlobalProperty('locale.allowed.list') }");
+		
+		Map<String, Object> bindings = new HashMap<String, Object>();
+		
+		String evaluated = getService().evaluateTemplate(t, bindings);
+		Assert.assertEquals("The value of locale.allowed.list is: en", evaluated);
 	}
 }
