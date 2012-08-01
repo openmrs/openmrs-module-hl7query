@@ -61,5 +61,33 @@
 			baseTableName="hl7query_template" baseColumnNames="changed_by"
 			referencedTableName="users" referencedColumnNames="user_id" />
 	</changeSet>
+ 
+ 	<changeSet author="JUDY" id="20130731-1140">
+		<comment>Add values for Default patient name  template to the hl7queryTemplate table</comment>
+		<insert tableName="hl7query_template">
+			<column name="name" value="Default Patient Name"></column>
+			<column name="description" value="Template for the PID.5 segment"></column>
+			<column name="hl7_entity" value="PID.5"></column>
+			<column name="language" value="groovy"></column>
+			<column name="creator" valueNumeric="1"></column>
+			<column name="date_created" valueDate="2012-07-31"></column>
+			<column name="retired" valueBoolean="false"></column>
+			<column name="uuid" value="AADDCCf4-15f6-104d-91f4-000c22c2DABC"></column>
+			<column name="template">
+				<![CDATA[
+					<PID.5> 
+						for (patientname in patient.getNames()) { 
+			             	<XPN.1><FN.1>${patient.getFamilyName()}</FN.1></XPN.1>
+			         		<XPN.2>${patient.getGivenName()}</XPN.2>
+			         		<XPN.3>${patient.getMiddleName()}</XPN.3>
+			         	}	         			
+    				</PID.5>
+    				]]>
+			</column>
+		</insert>		
+	</changeSet>
+ 
+ 
+  
 
 </databaseChangeLog>
