@@ -61,6 +61,7 @@
 			baseTableName="hl7query_template" baseColumnNames="changed_by"
 			referencedTableName="users" referencedColumnNames="user_id" />
 	</changeSet>
+
  
  	<changeSet author="JUDY" id="20130731-1140">
 		<comment>Add values for Default patient name  template to the hl7queryTemplate table</comment>
@@ -88,6 +89,6 @@
 	</changeSet>
  
  
-  
+
 
 </databaseChangeLog>

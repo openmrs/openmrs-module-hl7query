@@ -1,0 +1,7 @@
+<PID.5> 
+						for (patientname in patient.getNames()) { 
+			             	<XPN.1><FN.1>${patient.getFamilyName()}</FN.1></XPN.1>
+			         		<XPN.2>${patient.getGivenName()}</XPN.2>
+			         		<XPN.3>${patient.getMiddleName()}</XPN.3>
+			         	}	         			
+</PID.5>
