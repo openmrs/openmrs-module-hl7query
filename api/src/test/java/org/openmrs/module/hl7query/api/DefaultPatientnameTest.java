@@ -51,7 +51,7 @@ public class DefaultPatientnameTest {
 		patient.addName(new PersonName("PATIENT GIVENNAME", "PATIENT MIDDLENAME", "PATIENT FAMILYNAME"));		
 		encounter.setPatient(patient);
 		
-		 InputStream inputStream = getClass().getClassLoader().getResourceAsStream("org/openmrs/module/hl7query-api/src/main/resources/Templates/DefaultPatientNameTemplate.xml");	 
+		 InputStream inputStream = getClass().getClassLoader().getResourceAsStream("Templates/DefaultPatientNameTemplate.xml");	 
 	     String xml = IOUtils.toString(inputStream);
 	     
 	     HL7Template template = new HL7Template();

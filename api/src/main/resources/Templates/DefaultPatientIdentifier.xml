@@ -1,0 +1,8 @@
+<PID.3> 
+    for (identifier in patient.getIdentifiers()){
+      <CX.1>${encounter.getPatient().getActiveIdentifiers()}</CX.1> 
+      <CX.5>${encounter.getPatient().getPatientIdentifierType().Name}</CX.5> 
+      }
+ </PID.3>
+ 
+ 
