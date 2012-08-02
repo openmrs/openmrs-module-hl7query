@@ -67,7 +67,7 @@ public class HL7OBXORUR01TemplateTest extends MockBaseTest {
 		obs.setValueNumeric(10d);
 		
 		Map<String, Object> bindings = new HashMap<String, Object>();
-		bindings.put("index", 0);
+		bindings.put("obsIndex", 0);
 		bindings.put("obs", obs);
 		bindings.put("implementationId", "MVP");
 		
@@ -110,7 +110,7 @@ public class HL7OBXORUR01TemplateTest extends MockBaseTest {
 		obs.setValueNumeric(10d);
 		
 		Map<String, Object> bindings = new HashMap<String, Object>();
-		bindings.put("index", 0);
+		bindings.put("obsIndex", 0);
 		bindings.put("obs", obs);
 		bindings.put("implementationId", "MVP");
 		
@@ -154,7 +154,7 @@ public class HL7OBXORUR01TemplateTest extends MockBaseTest {
 		obs.setValueCoded(conceptValue);
 		
 		Map<String, Object> bindings = new HashMap<String, Object>();
-		bindings.put("index", 0);
+		bindings.put("obsIndex", 0);
 		bindings.put("obs", obs);
 		bindings.put("implementationId", "MVP");
 		
@@ -206,7 +206,7 @@ public class HL7OBXORUR01TemplateTest extends MockBaseTest {
 		obs.setValueCoded(conceptValue);
 		
 		Map<String, Object> bindings = new HashMap<String, Object>();
-		bindings.put("index", 0);
+		bindings.put("obsIndex", 0);
 		bindings.put("obs", obs);
 		bindings.put("implementationId", "MVP");
 		
