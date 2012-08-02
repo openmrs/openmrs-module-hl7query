@@ -35,7 +35,7 @@ import org.powermock.modules.junit4.PowerMockRunner;
  * <p>
  * It provides a spied HL7QueryServiceImpl, which can be accessed through
  * <code>Context.getService(HL7QueryService.class)</code> or the <code>hl7QueryService</code> field.
- * By defaults all methods from HL7QueryServiceImpl will be called, but you can stub some if you
+ * By default all methods from HL7QueryServiceImpl will be called, but you can stub some if you
  * want to return different results.
  * <p>
  * The spied HL7QueryServiceImpl uses a dao mock stored in the <code>hl7QueryDAOMock</code> field.

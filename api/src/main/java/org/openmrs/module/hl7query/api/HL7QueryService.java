@@ -16,6 +16,7 @@ package org.openmrs.module.hl7query.api;
 import java.util.List;
 import java.util.Map;
 
+import org.openmrs.api.APIException;
 import org.openmrs.api.OpenmrsService;
 import org.openmrs.module.hl7query.HL7Template;
 import org.springframework.transaction.annotation.Transactional;
@@ -43,6 +44,16 @@ public interface HL7QueryService extends OpenmrsService {
 	 * @return the result of evaluating the given template against the given bindings
 	 */
 	String evaluateTemplate(HL7Template hl7Template, Map<String, Object> bindings);
+	
+	/**
+	 * Calls {@link HL7QueryService#evaluateTemplate(HL7Template, Map)} for the found by name template.
+	 * 
+	 * @param name
+	 * @param bindings
+	 * @return the result of evaluating the given template against the given bindings
+	 * @throws APIException
+	 */
+	String evaluateHL7TemplateByName(String name, Map<String, Object> bindings) throws APIException;
 	
 	/**
 	 * Gets HL7Template by ID.

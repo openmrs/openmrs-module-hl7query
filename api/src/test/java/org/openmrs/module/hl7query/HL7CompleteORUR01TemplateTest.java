@@ -13,25 +13,78 @@
  */
 package org.openmrs.module.hl7query;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
+import org.apache.commons.lang.StringUtils;
+import org.junit.Assert;
 import org.junit.Test;
+import org.openmrs.Encounter;
+import org.openmrs.EncounterType;
+import org.openmrs.Location;
+import org.openmrs.Patient;
 
-public class HL7CompleteORUR01TemplateTest extends MockBaseTest {	
+public class HL7CompleteORUR01TemplateTest extends MockBaseTest {
 	
 	@Test
 	public void shouldEvaluateCompleteORUR01Template() throws Exception {
 		//given
+		Patient patient = new Patient();
+		List<Encounter> encounters = new ArrayList<Encounter>();
 		
+		String locationUUID = UUID.randomUUID().toString();
+		
+		Location location = new Location();
+		location.setUuid(locationUUID);
+		location.setName("locationName");
+		
+		Date encounterDatetime = new Date();
+		
+		Encounter encounter = new Encounter();
+		encounter.setLocation(location);
+		encounter.setEncounterType(new EncounterType("encounterTypeName", ""));
+		encounter.setEncounterDatetime(encounterDatetime);
+		
+		encounters.add(encounter);
+		
+		Date encounter2Datetime = new Date();
+		
+		Encounter encounter2 = new Encounter();
+		encounter2.setLocation(location);
+		encounter2.setEncounterType(new EncounterType("encounter2TypeName", ""));
+		encounter2.setEncounterDatetime(encounter2Datetime);
+		
+		encounters.add(encounter2);
 		
 		Map<String, Object> bindings = new HashMap<String, Object>();
+		bindings.put("patient", patient);
+		bindings.put("encounters", encounters);
 		
 		//when
 		HL7Template hl7Template = hl7QueryService.getHL7TemplateByName("Generic ORUR01");
 		String evaluatedTemplate = hl7QueryService.evaluateTemplate(hl7Template, bindings);
+		evaluatedTemplate = StringUtils.deleteWhitespace(evaluatedTemplate);
 		
 		//then
-		
+		Assert.assertEquals(
+		    "<?xmlversion=\"1.0\"?><ORU_R01.VISIT><PV1><PV1.2>0</PV1.2>"
+		            + "<PV1.3><PL.1>"
+		            + locationUUID
+		            + "</PL.1><PL.4><HD.1>locationName</HD.1></PL.4></PV1.3>"
+		            + "<PV1.4>encounterTypeName</PV1.4><PV1.7><XCN.1>null</XCN.1><XCN.2><FN.1>null</FN.1></XCN.2><XCN.3>null</XCN.3><XCN.13>NID</XCN.13></PV1.7>"
+		            + "<PV1.44><TS.1>"
+		            + StringUtils.deleteWhitespace(encounterDatetime.toString())
+		            + "</TS.1></PV1.44></PV1></ORU_R01.VISIT>"
+		            + "<ORU_R01.VISIT><PV1><PV1.2>1</PV1.2>"
+		            + "<PV1.3><PL.1>"
+		            + locationUUID
+		            + "</PL.1><PL.4><HD.1>locationName</HD.1></PL.4></PV1.3>"
+		            + "<PV1.4>encounter2TypeName</PV1.4><PV1.7><XCN.1>null</XCN.1><XCN.2><FN.1>null</FN.1></XCN.2><XCN.3>null</XCN.3><XCN.13>NID</XCN.13></PV1.7>"
+		            + "<PV1.44><TS.1>" + StringUtils.deleteWhitespace(encounter2Datetime.toString())
+		            + "</TS.1></PV1.44></PV1></ORU_R01.VISIT>", evaluatedTemplate);
 	}
 }
