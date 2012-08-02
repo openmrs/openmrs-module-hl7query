@@ -28,6 +28,7 @@ import org.openmrs.EncounterType;
 import org.openmrs.Location;
 import org.openmrs.Patient;
 import org.openmrs.PatientIdentifier;
+import org.openmrs.PatientIdentifierType;
 import org.openmrs.Person;
 import org.openmrs.PersonName;
 import org.openmrs.module.hl7query.HL7Template;
@@ -69,8 +70,12 @@ HL7QueryServiceImpl service;
 
             PatientIdentifier patientIdentifier = new PatientIdentifier();
             patientIdentifier.setIdentifier("PATIENT IDENTIFIER");
-
-
+            
+            PatientIdentifierType patientIdentifierType= new PatientIdentifierType();
+            patientIdentifierType.setName("IDENTIFIER TYPE");  
+            patientIdentifier.setIdentifierType(patientIdentifierType);
+            
+            
             InputStream inputStream = getClass().getClassLoader().getResourceAsStream("Templates/DefaultPatientIdentifier.xml");
     String xml = IOUtils.toString(inputStream);
 
@@ -81,10 +86,12 @@ HL7QueryServiceImpl service;
     Map<String, Object> bindings = new HashMap<String, Object>();
     bindings.put("encounter", encounter);
     bindings.put("patientIdentifier", patientIdentifier);
-
+    bindings.put("patientIdentifierType", patientIdentifierType);
+    
     String evaluated = service.evaluateTemplate(template, bindings);
     
     Assert.assertTrue(evaluated.contains("<CX.1>PATIENT IDENTIFIER</CX.1>"));
+    Assert.assertTrue(evaluated.contains("<CX.5>IDENTIFIER TYPE</CX.5>"));
 
 
 }
