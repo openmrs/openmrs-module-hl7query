@@ -119,4 +119,18 @@ public class HL7TemplateFunctions {
 		return gpValue;
 	}
 	
+	/**
+	 * Returns the implementation id of the implementation site. This is an
+	 * hl7concept source, which is used in creating the MSH segment.
+	 * 
+	 * @return the implementation id
+	 */
+	public String getImplementationId(){
+		//If the Implementation id is set, return it
+		if(getAdminService().getImplementationId().getImplementationId() != null)
+			return getAdminService().getImplementationId().getImplementationId();
+		else //If the Implementation id  is missing, then return null
+			return null;
+	}
+	
 }
