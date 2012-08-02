@@ -141,5 +141,121 @@
 		   </column>
 		</insert>
 	</changeSet>
+	
+	<changeSet author="raff" id="20120802-1040">
+		<insert tableName="hl7query_template">
+			<column name="name" value="Generic OBX" />
+			<column name="description" value="Template for the OBX segment" />
+			<column name="hl7_entity" value="OBX" />
+			<column name="language" value="groovy" />
+			<column name="creator" valueNumeric="1" />
+			<column name="date_created" valueDate="2012-08-02" />
+			<column name="retired" valueBoolean="false" />
+			<column name="uuid" value="548df85c-f25e-41e2-b068-524fee4569b1" />
+			<column name="template">
+				<![CDATA[
+<% 
+import org.openmrs.hl7.HL7Constants
+
+//Expects obsIndex, obs and implementationId bindings.
+
+def obx3ce1 = ""
+def obx3ce2 = obs.getConcept()?.getName()?.toString()
+def obx3ce3 = ""
+
+if (obs.getConcept()?.getConceptMappings()?.size() > 0) {
+	def map = obs.getConcept().getConceptMappings().iterator().next()
+	
+	obx3ce1 = map.getSourceCode()
+	obx3ce3 = map.getSource()?.getName()
+} else {
+	//If concept mappings are not available, use conceptId and implementationId.
+	obx3ce1 = obs.getConcept()?.getId()
+	obx3ce3 = implementationId
+}
+
+//Fields set based on the concept datatype.
+//Fields set to "" are not displayed.
+def obx5 = ""
+def obx5ce1 = ""
+def obx5ce2 = ""
+def obx5ce3 = ""
+def hideObx6 = true //Displays or hides obx6 fields.
+def obx6ce1 = ""
+def obx6ce3 = ""
+
+def conceptDatatype = obs.getConcept().getDatatype()
+def conceptType = conceptDatatype.getHl7Abbreviation()
+
+if (conceptDatatype.isNumeric()) {
+	obx5 = obs.getValueNumeric()
+	hideObx6 = false
+	obx6ce1 = obs.getConcept()?.getUnits()
+	obx6ce3 = "UCUM"
+} else if (conceptDatatype.isCoded()) {
+	obx5ce2 = obs.getValueCoded()?.getName()?.toString()
+	
+	if (obs.getValueCoded()?.getConceptMappings()?.size() > 0) {
+		def valueMap = obs.getValueCoded().getConceptMappings().iterator().next()
+	
+		obx5ce1 = valueMap.getSourceCode()
+		obx5ce3 = valueMap.getSource()?.getName()
+	} else { 
+		//If concept mappings are not available, use concept id and implementationId.
+		obx5ce1 = obs.getValueCoded()?.getId()
+		obx5ce3 = implementationId
+	}
+} else if (conceptDatatype.isText()) {
+	obx5 = obs.getValueText()
+} else if (conceptDatatype.isDateTime()) {
+	obx5 = obs.getDateTime()
+} else if (conceptDatatype.isBoolean()) {
+	obx5 = obs.getValueAsBoolean()
+}
+%>
+
+<ORU_R01.OBSERVATION>
+	<OBX>
+		<OBX.1>${obsIndex}</OBX.1>
+		<OBX.2>${conceptType}</OBX.2>
+
+		<OBX.3>
+			<CE.1>${obx3ce1}</CE.1>
+			<CE.2>${obx3ce2}</CE.2>
+			<CE.3>${obx3ce3}</CE.3>
+		</OBX.3>
+
+		<OBX.5>
+			<% if (obx5) { print obx5 } %>
+			<% if (obx5ce1) { %>
+			<CE.1>${obx5ce1}</CE.1>
+			<% } %>
+			<% if (obx5ce2) { %>
+			<CE.2>${obx5ce2}</CE.2>
+			<% } %>
+			<% if (obx5ce3) { %>
+			<CE.3>${obx5ce3}</CE.3>
+			<% } %>
+		</OBX.5>
+		<% if (!hideObx6) { %>
+		<OBX.6>
+			<% if (obx6ce1) { %>
+			<CE.1>${obx6ce1}</CE.1>
+			<% } %>
+			<% if (obx6ce3) { %>
+			<CE.3>${obx6ce3}</CE.3>
+			<% } %>
+		</OBX.6>
+		<% } %>
+
+		<OBX.14>
+			<TS.1>${obs.getDateCreated()}</TS.1>
+		</OBX.14>
+	</OBX>
+</ORU_R01.OBSERVATION>
+				]]>
+		   </column>
+		</insert>
+	</changeSet>
 
 </databaseChangeLog>
