@@ -1,6 +1,6 @@
 <ORU_R01.VISIT>
 	<PV1>
-	    <PV1.2>${encounterIndex}</PV1.2>
+	    <PV1.2>0</PV1.2>
 	    <PV1.3>
 	        <PL.1>${ encounter.getLocation().getUuid() }</PL.1>
 	        <PL.4>

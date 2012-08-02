@@ -6,9 +6,7 @@ import org.openmrs.module.hl7query.api.HL7QueryService
 ${HL7TemplateConstants.XML_HEADER}
 
 <% 
-def encounterIndex = 0
 for (encounter in encounters) {
-	print Context.getService(HL7QueryService.class).evaluateHL7TemplateByName("Generic PV1", [encounter:encounter, encounterIndex:encounterIndex])
-	encounterIndex++
+	print Context.getService(HL7QueryService.class).evaluateHL7TemplateByName("Generic PV1", [encounter:encounter])
 }
 %>

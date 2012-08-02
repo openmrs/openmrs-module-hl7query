@@ -79,7 +79,7 @@ public class HL7CompleteORUR01TemplateTest extends MockBaseTest {
 		            + "<PV1.44><TS.1>"
 		            + StringUtils.deleteWhitespace(encounterDatetime.toString())
 		            + "</TS.1></PV1.44></PV1></ORU_R01.VISIT>"
-		            + "<ORU_R01.VISIT><PV1><PV1.2>1</PV1.2>"
+		            + "<ORU_R01.VISIT><PV1><PV1.2>0</PV1.2>"
 		            + "<PV1.3><PL.1>"
 		            + locationUUID
 		            + "</PL.1><PL.4><HD.1>locationName</HD.1></PL.4></PV1.3>"
