@@ -1,0 +1,13 @@
+<% 
+import org.openmrs.api.context.Context
+import org.openmrs.module.hl7query.api.HL7QueryService
+
+def templatePID3 = Context.getService(HL7QueryService.class).getHL7TemplateByName("Default Patient Identifier")
+def templatePID5 = Context.getService(HL7QueryService.class).getHL7TemplateByName("Default Patient Name")
+%>
+
+<PID>
+    <PID.1>${ index }</PID.1>
+    ${ templatePID3.template }
+    ${ templatePID5.template }
+</PID>
