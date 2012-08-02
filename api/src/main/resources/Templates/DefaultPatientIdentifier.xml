@@ -1,0 +1,3 @@
+<PID.3>
+      <CX.1>${ patientIdentifier.getIdentifier() }</CX.1>
+</PID.3>

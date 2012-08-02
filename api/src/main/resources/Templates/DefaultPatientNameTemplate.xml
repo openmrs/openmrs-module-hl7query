@@ -1,7 +1,7 @@
 <PID.5> 
-						for (patientName in patient.getNames()) { 
+
 			             	<XPN.1><FN.1>${encounter.getPatient().getFamilyName()}</FN.1></XPN.1>
 			         		<XPN.2>${encounter.getPatient().getGivenName()}</XPN.2>
 			         		<XPN.3>${encounter.getPatient().getMiddleName()}</XPN.3>
-			         	}	         			
+			         		         			
 </PID.5>
