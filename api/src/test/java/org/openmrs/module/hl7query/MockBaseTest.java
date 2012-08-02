@@ -13,33 +13,87 @@
  */
 package org.openmrs.module.hl7query;
 
+import java.io.InputStream;
 import java.util.Arrays;
 import java.util.Locale;
 
-import org.junit.Before;
+import org.apache.commons.io.IOUtils;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.openmrs.api.AdministrationService;
 import org.openmrs.api.context.Context;
+import org.openmrs.module.hl7query.api.HL7QueryService;
+import org.openmrs.module.hl7query.api.db.HL7QueryDAO;
+import org.openmrs.module.hl7query.api.impl.HL7QueryServiceImpl;
 import org.powermock.api.mockito.PowerMockito;
+import org.powermock.core.classloader.annotations.PowerMockIgnore;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
 /**
  * Setups basic mocks for tests.
+ * <p>
+ * It provides a spied HL7QueryServiceImpl, which can be accessed through
+ * <code>Context.getService(HL7QueryService.class)</code> or the <code>hl7QueryService</code> field.
+ * By defaults all methods from HL7QueryServiceImpl will be called, but you can stub some if you
+ * want to return different results.
+ * <p>
+ * The spied HL7QueryServiceImpl uses a dao mock stored in the <code>hl7QueryDAOMock</code> field.
+ * You must stub all methods in that mock, which are called by HL7QueryServiceImpl.
+ * <p>
+ * If you want to call <code>Context.getService(HL7QueryService.class).getHL7Template(1)</code>, you
+ * need to precede it with <code> HL7Template someTemplate = new HL7Template(1);
+ * Mockito.when(hl7QueryDAOMock.getHL7Template(1)).thenReturn(someTemplate);</code>
  */
 @RunWith(PowerMockRunner.class)
 @PrepareForTest(Context.class)
+@PowerMockIgnore("org.apache.log4j.*")
 public abstract class MockBaseTest {
 	
-	@Before
-	public void setupMocks() {
+	protected final HL7QueryService hl7QueryService;
+	
+	protected final HL7QueryDAO hl7QueryDAOMock;
+	
+	public MockBaseTest() {
 		AdministrationService administrationService = Mockito.mock(AdministrationService.class);
 		Mockito.when(administrationService.getAllowedLocales()).thenReturn(Arrays.asList(Locale.ENGLISH));
+		
+		hl7QueryDAOMock = Mockito.mock(HL7QueryDAO.class);
+		HL7QueryServiceImpl hl7QueryServiceImpl = Mockito.spy(new HL7QueryServiceImpl());
+		hl7QueryServiceImpl.setDao(hl7QueryDAOMock);
+		hl7QueryService = hl7QueryServiceImpl;
 		
 		PowerMockito.mockStatic(Context.class);
 		Mockito.when(Context.getLocale()).thenReturn(Locale.ENGLISH);
 		Mockito.when(Context.getAdministrationService()).thenReturn(administrationService);
+		Mockito.when(Context.getService(HL7QueryService.class)).thenReturn(hl7QueryService);
+		
+		try {
+			setupStandardTemplates();
+		}
+		catch (Exception e) {
+			throw new IllegalStateException(e);
+		}
+	}
+	
+	public void setupStandardTemplates() throws Exception {
+		InputStream resource = ClassLoader.getSystemResourceAsStream("org/openmrs/module/hl7query/api/templates/PV1.xml");
+		HL7Template pv1Template = new HL7Template();
+		pv1Template.setName("Generic PV1");
+		pv1Template.setTemplate(IOUtils.toString(resource));
+		Mockito.when(hl7QueryDAOMock.getHL7TemplateByName("Generic PV1")).thenReturn(pv1Template);
+		
+		resource = ClassLoader.getSystemResourceAsStream("templates/obx_orur01.xml");
+		HL7Template obxTemplate = new HL7Template();
+		obxTemplate.setName("Generic OBX");
+		obxTemplate.setTemplate(IOUtils.toString(resource));
+		Mockito.when(hl7QueryDAOMock.getHL7TemplateByName("Generic OBX")).thenReturn(obxTemplate);
+		
+		resource = ClassLoader.getSystemResourceAsStream("templates/complete_orur01.xml");
+		HL7Template completeTemplate = new HL7Template();
+		completeTemplate.setName("Generic ORUR01");
+		completeTemplate.setTemplate(IOUtils.toString(resource));
+		Mockito.when(hl7QueryDAOMock.getHL7TemplateByName("Generic ORUR01")).thenReturn(completeTemplate);
 	}
 	
 }
