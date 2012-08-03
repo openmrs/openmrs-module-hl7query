@@ -116,7 +116,7 @@
 				<![CDATA[
 					<ORU_R01.ORDER_OBSERVATION>
 						<OBR>
-						    <OBR.1>0</OBR.1>
+						    <OBR.1>${ encounterIndex }</OBR.1>
 						    <OBR.3>
 						        <EI.1>${ encounter.getUuid() }</EI.1>
 						    </OBR.3>
