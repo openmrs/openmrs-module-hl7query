@@ -28,7 +28,67 @@ import org.openmrs.EncounterType;
 import org.openmrs.Location;
 import org.openmrs.Patient;
 
+import ca.uhn.hl7v2.HL7Exception;
+import ca.uhn.hl7v2.model.Message;
+import ca.uhn.hl7v2.model.v25.message.ORU_R01;
+import ca.uhn.hl7v2.parser.EncodingNotSupportedException;
+import ca.uhn.hl7v2.parser.GenericParser;
+
 public class HL7CompleteORUR01TemplateTest extends MockBaseTest {
+	
+	@Test
+	public void shouldParseHL7StringToORUR01Object() throws Exception {
+		Patient patient = new Patient();
+		List<Encounter> encounters = new ArrayList<Encounter>();
+		
+		String locationUUID = UUID.randomUUID().toString();
+		
+		Location location = new Location();
+		location.setUuid(locationUUID);
+		location.setName("locationName");
+		
+		Date encounterDatetime = new Date();
+		
+		Encounter encounter = new Encounter();
+		encounter.setLocation(location);
+		encounter.setEncounterType(new EncounterType("encounterTypeName", ""));
+		encounter.setEncounterDatetime(encounterDatetime);
+		
+		encounters.add(encounter);
+		
+		Date encounter2Datetime = new Date();
+		
+		Encounter encounter2 = new Encounter();
+		encounter2.setLocation(location);
+		encounter2.setEncounterType(new EncounterType("encounter2TypeName", ""));
+		encounter2.setEncounterDatetime(encounter2Datetime);
+		
+		encounters.add(encounter2);
+		
+		Map<String, Object> bindings = new HashMap<String, Object>();
+		bindings.put("patient", patient);
+		bindings.put("encounters", encounters);
+		
+		//when
+		HL7Template hl7Template = hl7QueryService.getHL7TemplateByName("Generic ORUR01");
+		String evaluatedTemplate = hl7QueryService.evaluateTemplate(hl7Template, bindings);
+		evaluatedTemplate = StringUtils.deleteWhitespace(evaluatedTemplate);
+		
+		//Parsing the String using HAPI will validate if it contains a properly 
+		//formatted ORUR01 message
+		GenericParser parser = new GenericParser();
+		Message message;
+		try {
+			message = parser.parse(evaluatedTemplate);
+		}
+		catch (EncodingNotSupportedException e) {
+			Assert.assertTrue(false);
+		}
+		catch (HL7Exception e) {
+			Assert.assertTrue(false);
+		}
+		
+	}
 	
 	@Test
 	public void shouldEvaluateCompleteORUR01Template() throws Exception {
