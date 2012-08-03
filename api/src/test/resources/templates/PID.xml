@@ -1,17 +1,12 @@
-<%
-import org.openmrs.api.context.Context
-import org.openmrs.module.hl7query.api.HL7QueryService
-
-def templatePID3 = Context.getService(HL7QueryService.class).getHL7TemplateByName("Default Patient Identifier")
-def templatePID5 = Context.getService(HL7QueryService.class).getHL7TemplateByName("Default Patient Name")
-%>
-
 <PID>
     <PID.1>${ index }</PID.1>
-    <% for (identifier in patient.getActiveIdentifiers()) { %>
-     	${ templatePID3.template }
-    <% } %>
-    <% for (name in patient.getNames()) { %>
-     	${ templatePID5.template }
-    <% } %>
+    <% 
+    	for (identifier in patient.getActiveIdentifiers()) {
+    		print func.evaluateTemplate("Default Patient Identifier", [patient:patient])
+     	}
+
+    	for (name in patient.getNames()) {
+     		print func.evaluateTemplate("Default Patient Name", [patient:patient])
+   		}
+  	%>
 </PID>
