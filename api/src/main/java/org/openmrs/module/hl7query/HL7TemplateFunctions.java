@@ -92,6 +92,13 @@ public class HL7TemplateFunctions {
 	}
 	
 	/**
+	 * @return the xml header
+	 */
+	public String getXMLHeader() {
+		return "<?xml version=\"1.0\"?>";
+	}
+	
+	/**
 	 * Looks up a global property by name. Useful for creating/storing/looking up constants. <br/>
 	 * If the GP doesn't exist, as a convenience, a second lookup is done for "hl7query." +
 	 * <code>globalPropertyName</code>

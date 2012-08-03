@@ -1,12 +1,10 @@
-<% 
-import org.openmrs.api.context.Context
-import org.openmrs.module.hl7query.HL7TemplateConstants
-import org.openmrs.module.hl7query.api.HL7QueryService
-%>
-${HL7TemplateConstants.XML_HEADER}
-
+${func.getXMLHeader()}
+<ORU_R01 xmlns="urn:hl7-org:v2xml">
+<ORU_R01.PATIENT_RESULT>
 <% 
 for (encounter in encounters) {
-	print Context.getService(HL7QueryService.class).evaluateHL7TemplateByName("Generic PV1", [encounter:encounter])
+	print func.evaluateTemplate("Generic PV1", [encounter:encounter])
 }
 %>
+</ORU_R01.PATIENT_RESULT>
+</ORU_R01>

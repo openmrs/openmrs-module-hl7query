@@ -149,14 +149,5 @@ public class HL7QueryServiceImpl extends BaseOpenmrsService implements HL7QueryS
     public List<HL7Template> getHL7Templates(boolean includeRetired) {
 	    return dao.getHL7Templates(includeRetired);
     }
-
-	@Override
-    public String evaluateHL7TemplateByName(String name, Map<String, Object> bindings) throws APIException {
-	    HL7Template hl7Template = getHL7TemplateByName(name);
-	    if (hl7Template == null) {
-	    	throw new APIException("Template " + name + " does not exist!");
-	    }
-	    return evaluateTemplate(hl7Template, bindings);
-    }
 	
 }
