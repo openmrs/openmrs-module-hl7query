@@ -30,11 +30,12 @@ import org.openmrs.Person;
 import org.openmrs.PersonName;
 import org.openmrs.module.hl7query.HL7Template;
 import org.openmrs.module.hl7query.api.impl.HL7QueryServiceImpl;
+import org.openmrs.test.BaseModuleContextSensitiveTest;
 
 /**
  * Class to test the hl7 template segments.
  */
-public class Hl7TemplateGeneratorTest {
+public class Hl7TemplateGeneratorTest extends BaseModuleContextSensitiveTest {
 
 	HL7QueryServiceImpl service;
 	
@@ -85,4 +86,70 @@ public class Hl7TemplateGeneratorTest {
 	    Assert.assertTrue(evaluated.contains("<FN.1>PROVIDER FAMILYNAME</FN.1>"));
 	    Assert.assertTrue(evaluated.contains("<XCN.3>PROVIDER GIVENNAME</XCN.3>"));
     }
+	
+	@Test
+	public void testOBREncSegmentTemplate() throws Exception {
+		
+		Encounter encounter = new Encounter();
+		
+		Date date = new Date();
+		encounter.setEncounterDatetime(date);
+		encounter.setUuid("ENCOUNTER UUID");
+		
+		EncounterType encounterType = new EncounterType();
+		encounterType.setName("ENCOUNTER TYPE NAME");
+		encounter.setEncounterType(encounterType);
+		
+		Location location = new Location(1);
+		location.setUuid("LOCATION UUID");
+		location.setName("LOCATION NAME");
+		encounter.setLocation(location);
+		
+		Person provider = new Person(1);
+		provider.setUuid("PROVIDER UUID");
+		provider.addName(new PersonName("PROVIDER GIVENNAME",  "PROVIDER MIDDLENAME",  "PROVIDER FAMILYNAME"));
+		encounter.setProvider(provider);
+		
+		
+		InputStream inputStream = getClass().getClassLoader().getResourceAsStream("org/openmrs/module/hl7query/api/templates/OBR-ENC.xml");
+    	String xml = IOUtils.toString(inputStream);
+    	
+    	HL7Template template = new HL7Template();
+    	template.setLanguage(HL7QueryService.LANGUAGE_GROOVY);
+    	template.setTemplate(xml);
+  
+        Map<String, Object> bindings = new HashMap<String, Object>();
+        bindings.put("encounter", encounter);
+        
+        String evaluated = service.evaluateTemplate(template, bindings);
+	   
+        Assert.assertTrue(evaluated.contains("<EI.1>ENCOUNTER UUID</EI.1>"));
+	    Assert.assertTrue(evaluated.contains("<OBR.20>LOCATION UUID</OBR.20>"));
+	    Assert.assertTrue(evaluated.contains("<OBR.21>LOCATION NAME</OBR.21>"));
+	    Assert.assertTrue(evaluated.contains("<CE.2>ENCOUNTER TYPE NAME</CE.2>"));
+	    Assert.assertTrue(evaluated.contains("<XCN.1>PROVIDER UUID</XCN.1>"));
+	    Assert.assertTrue(evaluated.contains("<FN.1>PROVIDER FAMILYNAME</FN.1>"));
+	    Assert.assertTrue(evaluated.contains("<XCN.3>PROVIDER GIVENNAME</XCN.3>"));
+    }
+	
+	@Test
+	public void testPDISegmentTemplate() throws Exception {
+		executeDataSet("templatesTestData.xml");
+		
+		InputStream inputStream = getClass().getClassLoader().getResourceAsStream("templates/PID.xml");
+    	String xml = IOUtils.toString(inputStream);
+    	
+    	HL7Template template = new HL7Template();
+    	template.setLanguage(HL7QueryService.LANGUAGE_GROOVY);
+    	template.setTemplate(xml);
+  
+        Map<String, Object> bindings = new HashMap<String, Object>();
+        bindings.put("index", 4);
+        
+        String evaluated = service.evaluateTemplate(template, bindings);
+	   
+        Assert.assertTrue(evaluated.contains("<PID.1>4</PID.1>"));
+        Assert.assertTrue(evaluated.contains("PID.3 Template"));
+        Assert.assertTrue(evaluated.contains("PID.5 Template"));
+	}
 }
