@@ -15,12 +15,14 @@ package org.openmrs.module.hl7query.api;
 
 import static org.junit.Assert.assertNotNull;
 
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import junit.framework.Assert;
 
+import org.apache.commons.io.IOUtils;
 import org.junit.Test;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.hl7query.HL7Template;
@@ -391,4 +393,16 @@ public class HL7QueryServiceTest extends BaseModuleContextSensitiveTest {
 		String evaluated = getService().evaluateTemplate(t, bindings);
 		Assert.assertEquals("The value of locale.allowed.list is: en", evaluated);
 	}
+	
+	/**
+	* @see {@link HL7QueryService#renderPipeDelimitedHl7(String)}
+	*/
+    @Test
+    @Verifies(value = "should return pipe delimited hl7 message", method = "renderPipeDelimitedHl7(String)")
+    public void renderPipeDelimitedHl7_shouldReturnPipeDelimitedHl7Message() throws Exception {
+    	InputStream inputStream = getClass().getClassLoader().getResourceAsStream("sample-hl7.xml");
+    	String xml = IOUtils.toString(inputStream);
+    	String output = new HL7QueryServiceImpl().renderPipeDelimitedHl7(xml);
+    	Assert.assertNotNull(output);
+    }
 }
