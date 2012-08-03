@@ -23,9 +23,6 @@
 		</dependency> 
 		-->
 
-		
-		
-
 		<!-- Begin OpenMRS core -->
 		
 		<dependency>
