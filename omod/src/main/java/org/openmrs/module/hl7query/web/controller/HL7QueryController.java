@@ -101,7 +101,7 @@ public class HL7QueryController {
 		
 		String acceptHeader = request.getHeader("Accept");
 		if (acceptHeader == null || !acceptHeader.contains("text/xml")) {
-			hl7Output = hL7QueryService.renderPipeDelimitedHl7(hl7Output);
+			//hl7Output = hL7QueryService.renderPipeDelimitedHl7(hl7Output);
 		}
 		
 		return hl7Output;
