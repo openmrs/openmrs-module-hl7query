@@ -138,7 +138,7 @@ public class Hl7TemplateGeneratorTest extends BaseModuleContextSensitiveTest {
     }
 	
 	@Test
-	public void testPDISegmentTemplate() throws Exception {
+	public void testPIDSegmentTemplate() throws Exception {
 		executeDataSet("templatesTestData.xml");
 		
 		InputStream inputStream = getClass().getClassLoader().getResourceAsStream("templates/PID.xml");
