@@ -305,5 +305,39 @@ if (conceptDatatype.isNumeric()) {
 			</column>
 		</insert>		
 	</changeSet>
+	
+	<changeSet author="dkayiwa" id="1111256230538-332111">
+		<insert tableName="hl7query_template">
+			<column name="name" value="Generic PID" />
+			<column name="description" value="Template for the PID segment" />
+			<column name="hl7_entity" value="PID" />
+			<column name="language" value="groovy" />
+			<column name="creator" valueNumeric="1" />
+			<column name="date_created" valueDate="2012-08-02" />
+			<column name="retired" valueBoolean="false" />
+			<column name="uuid" value="EBCCCCf4-18f5-109d-96e4-000c29c2EABC" />
+			<column name="template">
+			<![CDATA[
+				<%
+				import org.openmrs.api.context.Context
+				import org.openmrs.module.hl7query.api.HL7QueryService
+				
+				def templatePID3 = Context.getService(HL7QueryService.class).getHL7TemplateByName("Default Patient Identifier")
+				def templatePID5 = Context.getService(HL7QueryService.class).getHL7TemplateByName("Default Patient Name")
+				
+				%>
+				<PID>
+					<PID.1>${ index }</PID.1>
+					<% for (identifier in patient.getActiveIdentifiers()) { %>
+						${ templatePID3.template }
+					<% } %>
+					<% for (name in patient.getNames()) { %>
+						${ templatePID5.template }
+					<% } %>
+				</PID>
+			]]>
+			</column>
+		</insert>
+	</changeSet>
 
 </databaseChangeLog>

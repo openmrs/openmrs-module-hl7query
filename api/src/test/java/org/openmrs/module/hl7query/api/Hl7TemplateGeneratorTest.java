@@ -26,6 +26,9 @@ import org.junit.Test;
 import org.openmrs.Encounter;
 import org.openmrs.EncounterType;
 import org.openmrs.Location;
+import org.openmrs.Patient;
+import org.openmrs.PatientIdentifier;
+import org.openmrs.PatientIdentifierType;
 import org.openmrs.Person;
 import org.openmrs.PersonName;
 import org.openmrs.module.hl7query.HL7Template;
@@ -145,8 +148,19 @@ public class Hl7TemplateGeneratorTest extends BaseModuleContextSensitiveTest {
     	template.setLanguage(HL7QueryService.LANGUAGE_GROOVY);
     	template.setTemplate(xml);
   
+    	Patient patient = new Patient(1);
+        patient.setUuid("PROVIDER UUID");
+        patient.addName(new PersonName("PROVIDER GIVENNAME1", "PROVIDER MIDDLENAME1", "PROVIDER FAMILYNAME1"));
+        patient.addName(new PersonName("PROVIDER GIVENNAME2", "PROVIDER MIDDLENAME2", "PROVIDER FAMILYNAME2"));
+        patient.addName(new PersonName("PROVIDER GIVENNAME3", "PROVIDER MIDDLENAME3", "PROVIDER FAMILYNAME3"));
+
+        patient.addIdentifier(new PatientIdentifier("1", new PatientIdentifierType(), new Location()));
+        patient.addIdentifier(new PatientIdentifier("2", new PatientIdentifierType(), new Location()));
+        patient.addIdentifier(new PatientIdentifier("3", new PatientIdentifierType(), new Location()));
+       
         Map<String, Object> bindings = new HashMap<String, Object>();
         bindings.put("index", 4);
+        bindings.put("patient", patient);
         
         String evaluated = service.evaluateTemplate(template, bindings);
 	   
