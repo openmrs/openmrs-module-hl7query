@@ -126,7 +126,8 @@ public class HL7QueryServiceImpl extends BaseOpenmrsService implements HL7QueryS
 
 	@Override
     public HL7Template saveHL7Template(HL7Template hl7Template) {
-	    return dao.saveHL7Template(hl7Template);
+	    clearTemplateCache();
+		return dao.saveHL7Template(hl7Template);
     }
 
 	@Override
