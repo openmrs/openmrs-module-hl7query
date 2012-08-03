@@ -257,5 +257,53 @@ if (conceptDatatype.isNumeric()) {
 		   </column>
 		</insert>
 	</changeSet>
+	
+	<changeSet author="JUDY" id="201307331-1740">
+		<comment>Add values for Default patient name  template to the hl7queryTemplate table</comment>
+		<insert tableName="hl7query_template">
+			<column name="name" value="Default Patient Name"></column>
+			<column name="description" value="Template for the PID.5 segment"></column>
+			<column name="hl7_entity" value="PID.5"></column>
+			<column name="language" value="groovy"></column>
+			<column name="creator" valueNumeric="1"></column>
+			<column name="date_created" valueDate="2012-07-31"></column>
+			<column name="retired" valueBoolean="false"></column>
+			<column name="uuid" value="AADDCCFf4-15f6-104d-91f4-000c22c2DABC"></column>
+			<column name="template">
+				<![CDATA[
+					<PID.5> 
+						
+			             	<XPN.1><FN.1>${encounter.getPatient().getFamilyName()}</FN.1></XPN.1>
+			         		<XPN.2>${encounter.getPatient().getGivenName()}</XPN.2>
+			         		<XPN.3>${encounter.getPatient().getMiddleName()}</XPN.3>
+			         	         			
+					</PID.5>
+    				]]>
+			</column>
+		</insert>		
+	</changeSet>
+		
+<changeSet author="JUDY" id="20120802-0522">
+		<comment>Add values for Default patient Identifier template</comment>
+		<insert tableName="hl7query_template">
+			<column name="name" value="Default Patient Identifier"></column>
+			<column name="description" value="Template for the PID.3 segment"></column>
+			<column name="hl7_entity" value="PID.3"></column>
+			<column name="language" value="groovy"></column>
+			<column name="creator" valueNumeric="1"></column>
+			<column name="date_created" valueDate="2012-08-01"></column>
+			<column name="retired" valueBoolean="false"></column>
+			<column name="uuid" value="AADDCCDf4-18f6-184d-91f4-000c22c2DYUC"></column>
+			<column name="template">
+				<![CDATA[
+					<PID.3>
+      					<CX.1>${ patientIdentifier.getIdentifier() }</CX.1>
+      					<CX.5>${ patientIdentifier.getIdentifierType()}</CX.5>
+					</PID.3>
+
+    				]]>
+			</column>
+		</insert>		
+	</changeSet>
 
 </databaseChangeLog>
