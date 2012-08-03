@@ -61,5 +61,882 @@
 			baseTableName="hl7query_template" baseColumnNames="changed_by"
 			referencedTableName="users" referencedColumnNames="user_id" />
 	</changeSet>
+	<changeSet author="skathol" id="20120801-1703">
+		<insert tableName="hl7query_template">
+			<column name="name" value="MSH" />
+			<column name="description" value="Template for the MSH segment" />
+			<column name="hl7_entity" value="MSH" />
+			<column name="language" value="groovy" />
+			<column name="creator" valueNumeric="1" />
+			<column name="date_created" valueDate="2012-08-01" />
+			<column name="retired" valueBoolean="false" />
+			<column name="uuid" value="7b1522c0-dc2c-11e1-9b23-0800200c9a66" />
+			<column name="template">
+				<![CDATA[
+<%
+import org.openmrs.api.context.Context
+import org.openmrs.api.AdministrationService
+
+def adminService = Context.getAdministrationService()
+%>				
+	<MSH>
+        <MSH.1>|</MSH.1>
+        <MSH.2>^~\&amp;</MSH.2>
+        <MSH.4>
+            <HD.1><% adminService.getGlobalProperty("hl7query.messageSource") %></HD.1>
+        </MSH.4>
+        <MSH.6>
+            <HD.1><% adminService.getGlobalProperty("hl7query.messageFacility") %></HD.1>
+        </MSH.6>
+        <MSH.7>
+            <TS.1><% new Date() %></TS.1>
+        </MSH.7>
+        <MSH.9>
+            <MSG.1>ORU</MSG.1>
+            <MSG.2>R01</MSG.2>
+            <MSG.3>ORU_R01</MSG.3>
+        </MSH.9>
+        <MSH.10><% UUID.randomUUID().toString() %></MSH.10>
+        <MSH.11>
+            <PT.1>D</PT.1>
+            <PT.2>C</PT.2>
+        </MSH.11>
+        <MSH.12>
+            <VID.1><% adminService.getGlobalProperty("hl7query.messageVersion") %></VID.1>
+            <VID.2>
+                <CE.1><% adminService.getGlobalProperty("hl7query.messageInternationalizationCode") %></CE.1>
+            </VID.2>
+        </MSH.12>
+        <MSH.21>
+            <EI.1>CLSM_V0.83</EI.1>
+        </MSH.21>
+    </MSH>]]>
+			</column>
+		</insert>
+	</changeSet>
+	
+	<changeSet author="dkayiwa" id="1641256230538-332231">
+		<insert tableName="hl7query_template">
+			<column name="name" value="Generic PV1" />
+			<column name="description" value="Template for the PV1 segment" />
+			<column name="hl7_entity" value="PV1" />
+			<column name="language" value="groovy" />
+			<column name="creator" valueNumeric="1" />
+			<column name="date_created" valueDate="2012-07-31" />
+			<column name="retired" valueBoolean="false" />
+			<column name="uuid" value="AABBCCf4-15f5-102d-96e4-000c29c2ABCD" />
+			<column name="template">
+				<![CDATA[
+					<ORU_R01.VISIT>
+						<PV1>
+						    <PV1.2>0</PV1.2>
+						    <PV1.3>
+						        <PL.1>${ encounter.getLocation().getUuid() }</PL.1>
+						        <PL.4>
+						            <HD.1>${ encounter.getLocation().getName() }</HD.1>
+						        </PL.4>
+						    </PV1.3>
+						    <PV1.4>${ encounter.getEncounterType().getName() }</PV1.4>
+						    <PV1.7>
+						        <XCN.1>${ encounter.getProvider().getUuid() }</XCN.1>
+						        <XCN.2>
+						            <FN.1>${ encounter.getProvider().getFamilyName() }</FN.1>
+						        </XCN.2>
+						        <XCN.3>${ encounter.getProvider().getGivenName() }</XCN.3>
+						        <XCN.13>NID</XCN.13>
+						    </PV1.7>
+						    <PV1.44>
+						        <TS.1>${ encounter.getEncounterDatetime() }</TS.1>
+						    </PV1.44>
+						</PV1>
+					 </ORU_R01.VISIT>
+				]]>
+		   </column>
+		</insert>
+	</changeSet>
+	
+	<changeSet author="dkayiwa" id="2641256230538-332232">
+		<insert tableName="hl7query_template">
+			<column name="name" value="Generic OBR-ENC" />
+			<column name="description" value="Template for the OBR Encounter segment" />
+			<column name="hl7_entity" value="OBR-ENC" />
+			<column name="language" value="groovy" />
+			<column name="creator" valueNumeric="1" />
+			<column name="date_created" valueDate="2012-08-01" />
+			<column name="retired" valueBoolean="false" />
+			<column name="uuid" value="BBCCCCf4-15f5-102d-96e4-000c29c2EFGH" />
+			<column name="template">
+				<![CDATA[
+					<ORU_R01.ORDER_OBSERVATION>
+						<OBR>
+						    <OBR.1>${ encounterIndex }</OBR.1>
+						    <OBR.3>
+						        <EI.1>${ encounter.getUuid() }</EI.1>
+						    </OBR.3>
+						    <OBR.4>
+						        <CE.2>${ encounter.getEncounterType().getName() }</CE.2>
+						    </OBR.4>
+						    <OBR.7>
+						        <TS.1>201207120000</TS.1>
+						    </OBR.7>
+						    <OBR.16>
+						        <XCN.1>${ encounter.getProvider().getUuid() }</XCN.1>
+						        <XCN.2>
+						            <FN.1>${ encounter.getProvider().getFamilyName() }</FN.1>
+						        </XCN.2>
+						        <XCN.3>${ encounter.getProvider().getGivenName() }</XCN.3>
+						    </OBR.16>
+						    <OBR.20>${ encounter.getLocation().getUuid() }</OBR.20>
+						    <OBR.21>${ encounter.getLocation().getName() }</OBR.21>
+						</OBR>
+					</ORU_R01.ORDER_OBSERVATION>
+				]]>
+		   </column>
+		</insert>
+	</changeSet>
+	
+	<changeSet author="raff" id="20120802-1040">
+		<insert tableName="hl7query_template">
+			<column name="name" value="Generic OBX" />
+			<column name="description" value="Template for the OBX segment" />
+			<column name="hl7_entity" value="OBX" />
+			<column name="language" value="groovy" />
+			<column name="creator" valueNumeric="1" />
+			<column name="date_created" valueDate="2012-08-02" />
+			<column name="retired" valueBoolean="false" />
+			<column name="uuid" value="548df85c-f25e-41e2-b068-524fee4569b1" />
+			<column name="template">
+				<![CDATA[
+<% 
+import org.openmrs.hl7.HL7Constants
+
+//Expects obsIndex, obs and implementationId bindings.
+
+def obx3ce1 = ""
+def obx3ce2 = obs.getConcept()?.getName()?.toString()
+def obx3ce3 = ""
+
+if (obs.getConcept()?.getConceptMappings()?.size() > 0) {
+	def map = obs.getConcept().getConceptMappings().iterator().next()
+	
+	obx3ce1 = map.getSourceCode()
+	obx3ce3 = map.getSource()?.getName()
+} else {
+	//If concept mappings are not available, use conceptId and implementationId.
+	obx3ce1 = obs.getConcept()?.getId()
+	obx3ce3 = implementationId
+}
+
+//Fields set based on the concept datatype.
+//Fields set to "" are not displayed.
+def obx5 = ""
+def obx5ce1 = ""
+def obx5ce2 = ""
+def obx5ce3 = ""
+def hideObx6 = true //Displays or hides obx6 fields.
+def obx6ce1 = ""
+def obx6ce3 = ""
+
+def conceptDatatype = obs.getConcept().getDatatype()
+def conceptType = conceptDatatype.getHl7Abbreviation()
+
+if (conceptDatatype.isNumeric()) {
+	obx5 = obs.getValueNumeric()
+	hideObx6 = false
+	obx6ce1 = obs.getConcept()?.getUnits()
+	obx6ce3 = "UCUM"
+} else if (conceptDatatype.isCoded()) {
+	obx5ce2 = obs.getValueCoded()?.getName()?.toString()
+	
+	if (obs.getValueCoded()?.getConceptMappings()?.size() > 0) {
+		def valueMap = obs.getValueCoded().getConceptMappings().iterator().next()
+	
+		obx5ce1 = valueMap.getSourceCode()
+		obx5ce3 = valueMap.getSource()?.getName()
+	} else { 
+		//If concept mappings are not available, use concept id and implementationId.
+		obx5ce1 = obs.getValueCoded()?.getId()
+		obx5ce3 = implementationId
+	}
+} else if (conceptDatatype.isText()) {
+	obx5 = obs.getValueText()
+} else if (conceptDatatype.isDateTime()) {
+	obx5 = obs.getDateTime()
+} else if (conceptDatatype.isBoolean()) {
+	obx5 = obs.getValueAsBoolean()
+}
+%>
+
+<ORU_R01.OBSERVATION>
+	<OBX>
+		<OBX.1>${obsIndex}</OBX.1>
+		<OBX.2>${conceptType}</OBX.2>
+
+		<OBX.3>
+			<CE.1>${obx3ce1}</CE.1>
+			<CE.2>${obx3ce2}</CE.2>
+			<CE.3>${obx3ce3}</CE.3>
+		</OBX.3>
+
+		<OBX.5>
+			<% if (obx5) { print obx5 } %>
+			<% if (obx5ce1) { %>
+			<CE.1>${obx5ce1}</CE.1>
+			<% } %>
+			<% if (obx5ce2) { %>
+			<CE.2>${obx5ce2}</CE.2>
+			<% } %>
+			<% if (obx5ce3) { %>
+			<CE.3>${obx5ce3}</CE.3>
+			<% } %>
+		</OBX.5>
+		<% if (!hideObx6) { %>
+		<OBX.6>
+			<% if (obx6ce1) { %>
+			<CE.1>${obx6ce1}</CE.1>
+			<% } %>
+			<% if (obx6ce3) { %>
+			<CE.3>${obx6ce3}</CE.3>
+			<% } %>
+		</OBX.6>
+		<% } %>
+
+		<OBX.14>
+			<TS.1>${obs.getDateCreated()}</TS.1>
+		</OBX.14>
+	</OBX>
+</ORU_R01.OBSERVATION>
+				]]>
+		   </column>
+		</insert>
+	</changeSet>
+	
+	<changeSet author="JUDY" id="201307331-1740">
+		<comment>Add values for Default patient name  template to the hl7queryTemplate table</comment>
+		<insert tableName="hl7query_template">
+			<column name="name" value="Default Patient Name"></column>
+			<column name="description" value="Template for the PID.5 segment"></column>
+			<column name="hl7_entity" value="PID.5"></column>
+			<column name="language" value="groovy"></column>
+			<column name="creator" valueNumeric="1"></column>
+			<column name="date_created" valueDate="2012-07-31"></column>
+			<column name="retired" valueBoolean="false"></column>
+			<column name="uuid" value="AADDCCFf4-15f6-104d-91f4-000c22c2DABC"></column>
+			<column name="template">
+				<![CDATA[
+					<PID.5> 
+						
+			             	<XPN.1><FN.1>${encounter.getPatient().getFamilyName()}</FN.1></XPN.1>
+			         		<XPN.2>${encounter.getPatient().getGivenName()}</XPN.2>
+			         		<XPN.3>${encounter.getPatient().getMiddleName()}</XPN.3>
+			         	         			
+					</PID.5>
+    				]]>
+			</column>
+		</insert>		
+	</changeSet>
+		
+<changeSet author="JUDY" id="20120802-0522">
+		<comment>Add values for Default patient Identifier template</comment>
+		<insert tableName="hl7query_template">
+			<column name="name" value="Default Patient Identifier"></column>
+			<column name="description" value="Template for the PID.3 segment"></column>
+			<column name="hl7_entity" value="PID.3"></column>
+			<column name="language" value="groovy"></column>
+			<column name="creator" valueNumeric="1"></column>
+			<column name="date_created" valueDate="2012-08-01"></column>
+			<column name="retired" valueBoolean="false"></column>
+			<column name="uuid" value="AADDCCDf4-18f6-184d-91f4-000c22c2DYUC"></column>
+			<column name="template">
+				<![CDATA[
+					<PID.3>
+      					<CX.1>${ patientIdentifier.getIdentifier() }</CX.1>
+      					<CX.5>${ patientIdentifier.getIdentifierType()}</CX.5>
+					</PID.3>
+
+    				]]>
+			</column>
+		</insert>		
+	</changeSet>
+	
+	<changeSet author="dkayiwa" id="1111256230538-332111">
+		<insert tableName="hl7query_template">
+			<column name="name" value="Generic PID" />
+			<column name="description" value="Template for the PID segment" />
+			<column name="hl7_entity" value="PID" />
+			<column name="language" value="groovy" />
+			<column name="creator" valueNumeric="1" />
+			<column name="date_created" valueDate="2012-08-02" />
+			<column name="retired" valueBoolean="false" />
+			<column name="uuid" value="EBCCCCf4-18f5-109d-96e4-000c29c2EABC" />
+			<column name="template">
+			<![CDATA[
+				<%
+				import org.openmrs.api.context.Context
+				import org.openmrs.module.hl7query.api.HL7QueryService
+				
+				def templatePID3 = Context.getService(HL7QueryService.class).getHL7TemplateByName("Default Patient Identifier")
+				def templatePID5 = Context.getService(HL7QueryService.class).getHL7TemplateByName("Default Patient Name")
+				
+				%>
+				<PID>
+					<PID.1>${ index }</PID.1>
+					<% for (identifier in patient.getActiveIdentifiers()) { %>
+						${ templatePID3.template }
+					<% } %>
+					<% for (name in patient.getNames()) { %>
+						${ templatePID5.template }
+					<% } %>
+				</PID>
+			]]>
+			</column>
+		</insert>
+	</changeSet>
+	
+	<changeSet author="dkayiwa" id="1641256230538-332231">
+		<insert tableName="hl7query_template">
+			<column name="name" value="Generic PV1" />
+			<column name="description" value="Template for the PV1 segment" />
+			<column name="hl7_entity" value="PV1" />
+			<column name="language" value="groovy" />
+			<column name="creator" valueNumeric="1" />
+			<column name="date_created" valueDate="2012-07-31" />
+			<column name="retired" valueBoolean="false" />
+			<column name="uuid" value="AABBCCf4-15f5-102d-96e4-000c29c2ABCD" />
+			<column name="template">
+				<![CDATA[
+					<ORU_R01.VISIT>
+						<PV1>
+						    <PV1.2>0</PV1.2>
+						    <PV1.3>
+						        <PL.1>${ encounter.getLocation().getUuid() }</PL.1>
+						        <PL.4>
+						            <HD.1>${ encounter.getLocation().getName() }</HD.1>
+						        </PL.4>
+						    </PV1.3>
+						    <PV1.4>${ encounter.getEncounterType().getName() }</PV1.4>
+						    <PV1.7>
+						        <XCN.1>${ encounter.getProvider().getUuid() }</XCN.1>
+						        <XCN.2>
+						            <FN.1>${ encounter.getProvider().getFamilyName() }</FN.1>
+						        </XCN.2>
+						        <XCN.3>${ encounter.getProvider().getGivenName() }</XCN.3>
+						        <XCN.13>NID</XCN.13>
+						    </PV1.7>
+						    <PV1.44>
+						        <TS.1>${ encounter.getEncounterDatetime() }</TS.1>
+						    </PV1.44>
+						</PV1>
+					 </ORU_R01.VISIT>
+				]]>
+		   </column>
+		</insert>
+	</changeSet>
+	
+	<changeSet author="dkayiwa" id="2641256230538-332232">
+		<insert tableName="hl7query_template">
+			<column name="name" value="Generic OBR-ENC" />
+			<column name="description" value="Template for the OBR Encounter segment" />
+			<column name="hl7_entity" value="OBR-ENC" />
+			<column name="language" value="groovy" />
+			<column name="creator" valueNumeric="1" />
+			<column name="date_created" valueDate="2012-08-01" />
+			<column name="retired" valueBoolean="false" />
+			<column name="uuid" value="BBCCCCf4-15f5-102d-96e4-000c29c2EFGH" />
+			<column name="template">
+				<![CDATA[
+					<ORU_R01.ORDER_OBSERVATION>
+						<OBR>
+						    <OBR.1>${ encounterIndex }</OBR.1>
+						    <OBR.3>
+						        <EI.1>${ encounter.getUuid() }</EI.1>
+						    </OBR.3>
+						    <OBR.4>
+						        <CE.2>${ encounter.getEncounterType().getName() }</CE.2>
+						    </OBR.4>
+						    <OBR.7>
+						        <TS.1>201207120000</TS.1>
+						    </OBR.7>
+						    <OBR.16>
+						        <XCN.1>${ encounter.getProvider().getUuid() }</XCN.1>
+						        <XCN.2>
+						            <FN.1>${ encounter.getProvider().getFamilyName() }</FN.1>
+						        </XCN.2>
+						        <XCN.3>${ encounter.getProvider().getGivenName() }</XCN.3>
+						    </OBR.16>
+						    <OBR.20>${ encounter.getLocation().getUuid() }</OBR.20>
+						    <OBR.21>${ encounter.getLocation().getName() }</OBR.21>
+						</OBR>
+					</ORU_R01.ORDER_OBSERVATION>
+				]]>
+		   </column>
+		</insert>
+	</changeSet>
+	
+	<changeSet author="raff" id="20120802-1040">
+		<insert tableName="hl7query_template">
+			<column name="name" value="Generic OBX" />
+			<column name="description" value="Template for the OBX segment" />
+			<column name="hl7_entity" value="OBX" />
+			<column name="language" value="groovy" />
+			<column name="creator" valueNumeric="1" />
+			<column name="date_created" valueDate="2012-08-02" />
+			<column name="retired" valueBoolean="false" />
+			<column name="uuid" value="548df85c-f25e-41e2-b068-524fee4569b1" />
+			<column name="template">
+				<![CDATA[
+<% 
+import org.openmrs.hl7.HL7Constants
+
+//Expects obsIndex, obs and implementationId bindings.
+
+def obx3ce1 = ""
+def obx3ce2 = obs.getConcept()?.getName()?.toString()
+def obx3ce3 = ""
+
+if (obs.getConcept()?.getConceptMappings()?.size() > 0) {
+	def map = obs.getConcept().getConceptMappings().iterator().next()
+	
+	obx3ce1 = map.getSourceCode()
+	obx3ce3 = map.getSource()?.getName()
+} else {
+	//If concept mappings are not available, use conceptId and implementationId.
+	obx3ce1 = obs.getConcept()?.getId()
+	obx3ce3 = implementationId
+}
+
+//Fields set based on the concept datatype.
+//Fields set to "" are not displayed.
+def obx5 = ""
+def obx5ce1 = ""
+def obx5ce2 = ""
+def obx5ce3 = ""
+def hideObx6 = true //Displays or hides obx6 fields.
+def obx6ce1 = ""
+def obx6ce3 = ""
+
+def conceptDatatype = obs.getConcept().getDatatype()
+def conceptType = conceptDatatype.getHl7Abbreviation()
+
+if (conceptDatatype.isNumeric()) {
+	obx5 = obs.getValueNumeric()
+	hideObx6 = false
+	obx6ce1 = obs.getConcept()?.getUnits()
+	obx6ce3 = "UCUM"
+} else if (conceptDatatype.isCoded()) {
+	obx5ce2 = obs.getValueCoded()?.getName()?.toString()
+	
+	if (obs.getValueCoded()?.getConceptMappings()?.size() > 0) {
+		def valueMap = obs.getValueCoded().getConceptMappings().iterator().next()
+	
+		obx5ce1 = valueMap.getSourceCode()
+		obx5ce3 = valueMap.getSource()?.getName()
+	} else { 
+		//If concept mappings are not available, use concept id and implementationId.
+		obx5ce1 = obs.getValueCoded()?.getId()
+		obx5ce3 = implementationId
+	}
+} else if (conceptDatatype.isText()) {
+	obx5 = obs.getValueText()
+} else if (conceptDatatype.isDateTime()) {
+	obx5 = obs.getDateTime()
+} else if (conceptDatatype.isBoolean()) {
+	obx5 = obs.getValueAsBoolean()
+}
+%>
+
+<ORU_R01.OBSERVATION>
+	<OBX>
+		<OBX.1>${obsIndex}</OBX.1>
+		<OBX.2>${conceptType}</OBX.2>
+
+		<OBX.3>
+			<CE.1>${obx3ce1}</CE.1>
+			<CE.2>${obx3ce2}</CE.2>
+			<CE.3>${obx3ce3}</CE.3>
+		</OBX.3>
+
+		<OBX.5>
+			<% if (obx5) { print obx5 } %>
+			<% if (obx5ce1) { %>
+			<CE.1>${obx5ce1}</CE.1>
+			<% } %>
+			<% if (obx5ce2) { %>
+			<CE.2>${obx5ce2}</CE.2>
+			<% } %>
+			<% if (obx5ce3) { %>
+			<CE.3>${obx5ce3}</CE.3>
+			<% } %>
+		</OBX.5>
+		<% if (!hideObx6) { %>
+		<OBX.6>
+			<% if (obx6ce1) { %>
+			<CE.1>${obx6ce1}</CE.1>
+			<% } %>
+			<% if (obx6ce3) { %>
+			<CE.3>${obx6ce3}</CE.3>
+			<% } %>
+		</OBX.6>
+		<% } %>
+
+		<OBX.14>
+			<TS.1>${obs.getDateCreated()}</TS.1>
+		</OBX.14>
+	</OBX>
+</ORU_R01.OBSERVATION>
+				]]>
+		   </column>
+		</insert>
+	</changeSet>
+	
+	<changeSet author="JUDY" id="201307331-1740">
+		<comment>Add values for Default patient name  template to the hl7queryTemplate table</comment>
+		<insert tableName="hl7query_template">
+			<column name="name" value="Default Patient Name"></column>
+			<column name="description" value="Template for the PID.5 segment"></column>
+			<column name="hl7_entity" value="PID.5"></column>
+			<column name="language" value="groovy"></column>
+			<column name="creator" valueNumeric="1"></column>
+			<column name="date_created" valueDate="2012-07-31"></column>
+			<column name="retired" valueBoolean="false"></column>
+			<column name="uuid" value="AADDCCFf4-15f6-104d-91f4-000c22c2DABC"></column>
+			<column name="template">
+				<![CDATA[
+					<PID.5> 
+						
+			             	<XPN.1><FN.1>${encounter.getPatient().getFamilyName()}</FN.1></XPN.1>
+			         		<XPN.2>${encounter.getPatient().getGivenName()}</XPN.2>
+			         		<XPN.3>${encounter.getPatient().getMiddleName()}</XPN.3>
+			         	         			
+					</PID.5>
+    				]]>
+			</column>
+		</insert>		
+	</changeSet>
+		
+<changeSet author="JUDY" id="20120802-0522">
+		<comment>Add values for Default patient Identifier template</comment>
+		<insert tableName="hl7query_template">
+			<column name="name" value="Default Patient Identifier"></column>
+			<column name="description" value="Template for the PID.3 segment"></column>
+			<column name="hl7_entity" value="PID.3"></column>
+			<column name="language" value="groovy"></column>
+			<column name="creator" valueNumeric="1"></column>
+			<column name="date_created" valueDate="2012-08-01"></column>
+			<column name="retired" valueBoolean="false"></column>
+			<column name="uuid" value="AADDCCDf4-18f6-184d-91f4-000c22c2DYUC"></column>
+			<column name="template">
+				<![CDATA[
+					<PID.3>
+      					<CX.1>${ patientIdentifier.getIdentifier() }</CX.1>
+      					<CX.5>${ patientIdentifier.getIdentifierType()}</CX.5>
+					</PID.3>
+
+    				]]>
+			</column>
+		</insert>		
+	</changeSet>
+	
+	<changeSet author="dkayiwa" id="1111256230538-332111">
+		<insert tableName="hl7query_template">
+			<column name="name" value="Generic PID" />
+			<column name="description" value="Template for the PID segment" />
+			<column name="hl7_entity" value="PID" />
+			<column name="language" value="groovy" />
+			<column name="creator" valueNumeric="1" />
+			<column name="date_created" valueDate="2012-08-02" />
+			<column name="retired" valueBoolean="false" />
+			<column name="uuid" value="EBCCCCf4-18f5-109d-96e4-000c29c2EABC" />
+			<column name="template">
+			<![CDATA[
+				<PID>
+				    <PID.1>${ index }</PID.1>
+				    <% 
+				    	for (identifier in patient.getActiveIdentifiers()) {
+				    		print func.evaluateTemplate("Default Patient Identifier", [patient:patient])
+				     	}
+				
+				    	for (name in patient.getNames()) {
+				     		print func.evaluateTemplate("Default Patient Name", [patient:patient])
+				   		}
+				  	%>
+				</PID>
+			]]>
+			</column>
+		</insert>
+	</changeSet>
+	
+	<changeSet author="dkayiwa" id="1641256230538-332231">
+		<insert tableName="hl7query_template">
+			<column name="name" value="Generic PV1" />
+			<column name="description" value="Template for the PV1 segment" />
+			<column name="hl7_entity" value="PV1" />
+			<column name="language" value="groovy" />
+			<column name="creator" valueNumeric="1" />
+			<column name="date_created" valueDate="2012-07-31" />
+			<column name="retired" valueBoolean="false" />
+			<column name="uuid" value="AABBCCf4-15f5-102d-96e4-000c29c2ABCD" />
+			<column name="template">
+				<![CDATA[
+					<ORU_R01.VISIT>
+						<PV1>
+						    <PV1.2>0</PV1.2>
+						    <PV1.3>
+						        <PL.1>${ encounter.getLocation().getUuid() }</PL.1>
+						        <PL.4>
+						            <HD.1>${ encounter.getLocation().getName() }</HD.1>
+						        </PL.4>
+						    </PV1.3>
+						    <PV1.4>${ encounter.getEncounterType().getName() }</PV1.4>
+						    <PV1.7>
+						        <XCN.1>${ encounter.getProvider().getUuid() }</XCN.1>
+						        <XCN.2>
+						            <FN.1>${ encounter.getProvider().getFamilyName() }</FN.1>
+						        </XCN.2>
+						        <XCN.3>${ encounter.getProvider().getGivenName() }</XCN.3>
+						        <XCN.13>NID</XCN.13>
+						    </PV1.7>
+						    <PV1.44>
+						        <TS.1>${ encounter.getEncounterDatetime() }</TS.1>
+						    </PV1.44>
+						</PV1>
+					 </ORU_R01.VISIT>
+				]]>
+		   </column>
+		</insert>
+	</changeSet>
+	
+	<changeSet author="dkayiwa" id="2641256230538-332232">
+		<insert tableName="hl7query_template">
+			<column name="name" value="Generic OBR-ENC" />
+			<column name="description" value="Template for the OBR Encounter segment" />
+			<column name="hl7_entity" value="OBR-ENC" />
+			<column name="language" value="groovy" />
+			<column name="creator" valueNumeric="1" />
+			<column name="date_created" valueDate="2012-08-01" />
+			<column name="retired" valueBoolean="false" />
+			<column name="uuid" value="BBCCCCf4-15f5-102d-96e4-000c29c2EFGH" />
+			<column name="template">
+				<![CDATA[
+					<ORU_R01.ORDER_OBSERVATION>
+						<OBR>
+						    <OBR.1>${ encounterIndex }</OBR.1>
+						    <OBR.3>
+						        <EI.1>${ encounter.getUuid() }</EI.1>
+						    </OBR.3>
+						    <OBR.4>
+						        <CE.2>${ encounter.getEncounterType().getName() }</CE.2>
+						    </OBR.4>
+						    <OBR.7>
+						        <TS.1>201207120000</TS.1>
+						    </OBR.7>
+						    <OBR.16>
+						        <XCN.1>${ encounter.getProvider().getUuid() }</XCN.1>
+						        <XCN.2>
+						            <FN.1>${ encounter.getProvider().getFamilyName() }</FN.1>
+						        </XCN.2>
+						        <XCN.3>${ encounter.getProvider().getGivenName() }</XCN.3>
+						    </OBR.16>
+						    <OBR.20>${ encounter.getLocation().getUuid() }</OBR.20>
+						    <OBR.21>${ encounter.getLocation().getName() }</OBR.21>
+						</OBR>
+					</ORU_R01.ORDER_OBSERVATION>
+				]]>
+		   </column>
+		</insert>
+	</changeSet>
+	
+	<changeSet author="raff" id="20120802-1040">
+		<insert tableName="hl7query_template">
+			<column name="name" value="Generic OBX" />
+			<column name="description" value="Template for the OBX segment" />
+			<column name="hl7_entity" value="OBX" />
+			<column name="language" value="groovy" />
+			<column name="creator" valueNumeric="1" />
+			<column name="date_created" valueDate="2012-08-02" />
+			<column name="retired" valueBoolean="false" />
+			<column name="uuid" value="548df85c-f25e-41e2-b068-524fee4569b1" />
+			<column name="template">
+				<![CDATA[
+<% 
+import org.openmrs.hl7.HL7Constants
+
+//Expects obsIndex, obs and implementationId bindings.
+
+def obx3ce1 = ""
+def obx3ce2 = obs.getConcept()?.getName()?.toString()
+def obx3ce3 = ""
+
+if (obs.getConcept()?.getConceptMappings()?.size() > 0) {
+	def map = obs.getConcept().getConceptMappings().iterator().next()
+	
+	obx3ce1 = map.getSourceCode()
+	obx3ce3 = map.getSource()?.getName()
+} else {
+	//If concept mappings are not available, use conceptId and implementationId.
+	obx3ce1 = obs.getConcept()?.getId()
+	obx3ce3 = implementationId
+}
+
+//Fields set based on the concept datatype.
+//Fields set to "" are not displayed.
+def obx5 = ""
+def obx5ce1 = ""
+def obx5ce2 = ""
+def obx5ce3 = ""
+def hideObx6 = true //Displays or hides obx6 fields.
+def obx6ce1 = ""
+def obx6ce3 = ""
+
+def conceptDatatype = obs.getConcept().getDatatype()
+def conceptType = conceptDatatype.getHl7Abbreviation()
+
+if (conceptDatatype.isNumeric()) {
+	obx5 = obs.getValueNumeric()
+	hideObx6 = false
+	obx6ce1 = obs.getConcept()?.getUnits()
+	obx6ce3 = "UCUM"
+} else if (conceptDatatype.isCoded()) {
+	obx5ce2 = obs.getValueCoded()?.getName()?.toString()
+	
+	if (obs.getValueCoded()?.getConceptMappings()?.size() > 0) {
+		def valueMap = obs.getValueCoded().getConceptMappings().iterator().next()
+	
+		obx5ce1 = valueMap.getSourceCode()
+		obx5ce3 = valueMap.getSource()?.getName()
+	} else { 
+		//If concept mappings are not available, use concept id and implementationId.
+		obx5ce1 = obs.getValueCoded()?.getId()
+		obx5ce3 = implementationId
+	}
+} else if (conceptDatatype.isText()) {
+	obx5 = obs.getValueText()
+} else if (conceptDatatype.isDateTime()) {
+	obx5 = obs.getDateTime()
+} else if (conceptDatatype.isBoolean()) {
+	obx5 = obs.getValueAsBoolean()
+}
+%>
+
+<ORU_R01.OBSERVATION>
+	<OBX>
+		<OBX.1>${obsIndex}</OBX.1>
+		<OBX.2>${conceptType}</OBX.2>
+
+		<OBX.3>
+			<CE.1>${obx3ce1}</CE.1>
+			<CE.2>${obx3ce2}</CE.2>
+			<CE.3>${obx3ce3}</CE.3>
+		</OBX.3>
+
+		<OBX.5>
+			<% if (obx5) { print obx5 } %>
+			<% if (obx5ce1) { %>
+			<CE.1>${obx5ce1}</CE.1>
+			<% } %>
+			<% if (obx5ce2) { %>
+			<CE.2>${obx5ce2}</CE.2>
+			<% } %>
+			<% if (obx5ce3) { %>
+			<CE.3>${obx5ce3}</CE.3>
+			<% } %>
+		</OBX.5>
+		<% if (!hideObx6) { %>
+		<OBX.6>
+			<% if (obx6ce1) { %>
+			<CE.1>${obx6ce1}</CE.1>
+			<% } %>
+			<% if (obx6ce3) { %>
+			<CE.3>${obx6ce3}</CE.3>
+			<% } %>
+		</OBX.6>
+		<% } %>
+
+		<OBX.14>
+			<TS.1>${obs.getDateCreated()}</TS.1>
+		</OBX.14>
+	</OBX>
+</ORU_R01.OBSERVATION>
+				]]>
+		   </column>
+		</insert>
+	</changeSet>
+	
+	<changeSet author="JUDY" id="201307331-1740">
+		<comment>Add values for Default patient name  template to the hl7queryTemplate table</comment>
+		<insert tableName="hl7query_template">
+			<column name="name" value="Default Patient Name"></column>
+			<column name="description" value="Template for the PID.5 segment"></column>
+			<column name="hl7_entity" value="PID.5"></column>
+			<column name="language" value="groovy"></column>
+			<column name="creator" valueNumeric="1"></column>
+			<column name="date_created" valueDate="2012-07-31"></column>
+			<column name="retired" valueBoolean="false"></column>
+			<column name="uuid" value="AADDCCFf4-15f6-104d-91f4-000c22c2DABC"></column>
+			<column name="template">
+				<![CDATA[
+					<PID.5> 
+						
+			             	<XPN.1><FN.1>${encounter.getPatient().getFamilyName()}</FN.1></XPN.1>
+			         		<XPN.2>${encounter.getPatient().getGivenName()}</XPN.2>
+			         		<XPN.3>${encounter.getPatient().getMiddleName()}</XPN.3>
+			         	         			
+					</PID.5>
+    				]]>
+			</column>
+		</insert>		
+	</changeSet>
+		
+<changeSet author="JUDY" id="20120802-0522">
+		<comment>Add values for Default patient Identifier template</comment>
+		<insert tableName="hl7query_template">
+			<column name="name" value="Default Patient Identifier"></column>
+			<column name="description" value="Template for the PID.3 segment"></column>
+			<column name="hl7_entity" value="PID.3"></column>
+			<column name="language" value="groovy"></column>
+			<column name="creator" valueNumeric="1"></column>
+			<column name="date_created" valueDate="2012-08-01"></column>
+			<column name="retired" valueBoolean="false"></column>
+			<column name="uuid" value="AADDCCDf4-18f6-184d-91f4-000c22c2DYUC"></column>
+			<column name="template">
+				<![CDATA[
+					<PID.3>
+      					<CX.1>${ patientIdentifier.getIdentifier() }</CX.1>
+      					<CX.5>${ patientIdentifier.getIdentifierType()}</CX.5>
+					</PID.3>
+
+    				]]>
+			</column>
+		</insert>		
+	</changeSet>
+	
+	<changeSet author="dkayiwa" id="1111256230538-332111">
+		<insert tableName="hl7query_template">
+			<column name="name" value="Generic PID" />
+			<column name="description" value="Template for the PID segment" />
+			<column name="hl7_entity" value="PID" />
+			<column name="language" value="groovy" />
+			<column name="creator" valueNumeric="1" />
+			<column name="date_created" valueDate="2012-08-02" />
+			<column name="retired" valueBoolean="false" />
+			<column name="uuid" value="EBCCCCf4-18f5-109d-96e4-000c29c2EABC" />
+			<column name="template">
+			<![CDATA[
+				<PID>
+				    <PID.1>${ index }</PID.1>
+				    <% 
+				    	for (identifier in patient.getActiveIdentifiers()) {
+				    		print func.evaluateTemplate("Default Patient Identifier", [patient:patient])
+				     	}
+				
+				    	for (name in patient.getNames()) {
+				     		print func.evaluateTemplate("Default Patient Name", [patient:patient])
+				   		}
+				  	%>
+				</PID>
+			]]>
+			</column>
+		</insert>
+	</changeSet>
 
 </databaseChangeLog>
