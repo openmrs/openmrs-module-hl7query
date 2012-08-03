@@ -1,0 +1,12 @@
+<PID>
+    <PID.1>${ index }</PID.1>
+    <% 
+    	for (identifier in patient.getActiveIdentifiers()) {
+    		print func.evaluateTemplate("Default Patient Identifier", [patient:patient])
+     	}
+
+    	for (name in patient.getNames()) {
+     		print func.evaluateTemplate("Default Patient Name", [patient:patient])
+   		}
+  	%>
+</PID>

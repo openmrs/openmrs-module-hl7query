@@ -22,8 +22,13 @@ import org.apache.commons.logging.LogFactory;
 import org.openmrs.api.APIException;
 import org.openmrs.api.impl.BaseOpenmrsService;
 import org.openmrs.module.hl7query.HL7Template;
+import org.openmrs.module.hl7query.HL7TemplateFunctions;
 import org.openmrs.module.hl7query.api.HL7QueryService;
 import org.openmrs.module.hl7query.api.db.HL7QueryDAO;
+
+import ca.uhn.hl7v2.model.Message;
+import ca.uhn.hl7v2.parser.DefaultXMLParser;
+import ca.uhn.hl7v2.parser.PipeParser;
 
 /**
  * It is a default implementation of {@link HL7QueryService}.
@@ -39,6 +44,9 @@ public class HL7QueryServiceImpl extends BaseOpenmrsService implements HL7QueryS
 	
 	// cache of compiled templates (by name)
 	private Map<String, PreparedTemplate> templateCache;
+	
+	// cache this so we don't have to recreate it every time
+	private HL7TemplateFunctions templateFunctions = new HL7TemplateFunctions();
 		
 	public HL7QueryServiceImpl() {
 		templateFactories = new HashMap<String, TemplateFactory<?>>();
@@ -65,6 +73,8 @@ public class HL7QueryServiceImpl extends BaseOpenmrsService implements HL7QueryS
 	 * @should evaluate a groovy template
 	 * @should fail to evaluate a groovy template against bad input
 	 * @should fail to evaluate a template of an unknown language
+	 * @should add the HL7TemplateFunctions class as func to bindings
+	 * @shoudl not fail if bindings is null
 	 */
 	@Override
 	public String evaluateTemplate(HL7Template template, Map<String, Object> bindings) {
@@ -77,6 +87,12 @@ public class HL7QueryServiceImpl extends BaseOpenmrsService implements HL7QueryS
 			prepared = factory.prepareTemplate(template.getTemplate());
 			templateCache.put(template.getName(), prepared);
 		}
+		
+		if (bindings == null)
+			bindings = new HashMap<String, Object>();
+		
+		bindings.put("func", templateFunctions);
+		
 		return prepared.evaluate(bindings);
 	}
 	
@@ -114,7 +130,8 @@ public class HL7QueryServiceImpl extends BaseOpenmrsService implements HL7QueryS
 
 	@Override
     public HL7Template saveHL7Template(HL7Template hl7Template) {
-	    return dao.saveHL7Template(hl7Template);
+	    clearTemplateCache();
+		return dao.saveHL7Template(hl7Template);
     }
 
 	@Override
@@ -137,4 +154,11 @@ public class HL7QueryServiceImpl extends BaseOpenmrsService implements HL7QueryS
 	    return dao.getHL7Templates(includeRetired);
     }
 	
+	/**
+	* @see org.openmrs.module.hl7query.api.HL7QueryService#renderPipeDelimitedHl7(java.lang.String)
+	*/
+	public String renderPipeDelimitedHl7(String xml) throws Exception {
+		Message message = new DefaultXMLParser().parse(xml);
+	    return new PipeParser().encode(message);
+	}
 }
