@@ -13,13 +13,11 @@
  */
 package org.openmrs.module.hl7query;
 
-import java.io.InputStream;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
-import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
 import org.junit.Assert;
 import org.junit.Test;
@@ -30,18 +28,12 @@ import org.openmrs.ConceptName;
 import org.openmrs.ConceptNumeric;
 import org.openmrs.ConceptSource;
 import org.openmrs.Obs;
-import org.openmrs.module.hl7query.api.impl.HL7QueryServiceImpl;
 
 public class HL7OBXORUR01TemplateTest extends MockBaseTest {
 	
 	@Test
 	public void shouldEvaluateOBXORUR01TemplateForNumericConcept() throws Exception {
 		//given
-		InputStream resource = ClassLoader.getSystemResourceAsStream("templates/obx_orur01.xml");
-		HL7Template template = new HL7Template();
-		template.setName("obx_orur01");
-		template.setTemplate(IOUtils.toString(resource));
-		
 		ConceptSource source = new ConceptSource();
 		source.setName("PIH");
 		
@@ -72,7 +64,8 @@ public class HL7OBXORUR01TemplateTest extends MockBaseTest {
 		bindings.put("implementationId", "MVP");
 		
 		//when
-		String evaluatedTemplate = new HL7QueryServiceImpl().evaluateTemplate(template, bindings);
+		HL7Template hl7Template = hl7QueryService.getHL7TemplateByName("Generic OBX");
+		String evaluatedTemplate = hl7QueryService.evaluateTemplate(hl7Template, bindings);
 		
 		//then
 		evaluatedTemplate = StringUtils.deleteWhitespace(evaluatedTemplate);
@@ -87,11 +80,6 @@ public class HL7OBXORUR01TemplateTest extends MockBaseTest {
 	@Test
 	public void shouldEvaluateOBXORUR01TemplateForNumericConceptWithoutMapping() throws Exception {
 		//given
-		InputStream resource = ClassLoader.getSystemResourceAsStream("templates/obx_orur01.xml");
-		HL7Template template = new HL7Template();
-		template.setName("obx_orur01");
-		template.setTemplate(IOUtils.toString(resource));
-		
 		ConceptDatatype datatype = new ConceptDatatype();
 		datatype.setUuid(ConceptDatatype.NUMERIC_UUID);
 		datatype.setHl7Abbreviation(ConceptDatatype.NUMERIC);
@@ -115,7 +103,8 @@ public class HL7OBXORUR01TemplateTest extends MockBaseTest {
 		bindings.put("implementationId", "MVP");
 		
 		//when
-		String evaluatedTemplate = new HL7QueryServiceImpl().evaluateTemplate(template, bindings);
+		HL7Template hl7Template = hl7QueryService.getHL7TemplateByName("Generic OBX");
+		String evaluatedTemplate = hl7QueryService.evaluateTemplate(hl7Template, bindings);
 		evaluatedTemplate = StringUtils.deleteWhitespace(evaluatedTemplate);
 		
 		//then
@@ -130,11 +119,6 @@ public class HL7OBXORUR01TemplateTest extends MockBaseTest {
 	@Test
 	public void shouldEvaluateOBXORUR01TemplateForCodedConceptWithoutMappings() throws Exception {
 		//given
-		InputStream resource = ClassLoader.getSystemResourceAsStream("templates/obx_orur01.xml");
-		HL7Template template = new HL7Template();
-		template.setName("obx_orur01");
-		template.setTemplate(IOUtils.toString(resource));
-		
 		ConceptDatatype datatype = new ConceptDatatype();
 		datatype.setUuid(ConceptDatatype.CODED_UUID);
 		datatype.setHl7Abbreviation(ConceptDatatype.CODED);
@@ -159,7 +143,8 @@ public class HL7OBXORUR01TemplateTest extends MockBaseTest {
 		bindings.put("implementationId", "MVP");
 		
 		//when
-		String evaluatedTemplate = new HL7QueryServiceImpl().evaluateTemplate(template, bindings);
+		HL7Template hl7Template = hl7QueryService.getHL7TemplateByName("Generic OBX");
+		String evaluatedTemplate = hl7QueryService.evaluateTemplate(hl7Template, bindings);
 		evaluatedTemplate = StringUtils.deleteWhitespace(evaluatedTemplate);
 		
 		//then
@@ -174,11 +159,6 @@ public class HL7OBXORUR01TemplateTest extends MockBaseTest {
 	@Test
 	public void shouldEvaluateOBXORUR01TemplateForCodedConcept() throws Exception {
 		//given
-		InputStream resource = ClassLoader.getSystemResourceAsStream("templates/obx_orur01.xml");
-		HL7Template template = new HL7Template();
-		template.setName("obx_orur01");
-		template.setTemplate(IOUtils.toString(resource));
-		
 		ConceptDatatype datatype = new ConceptDatatype();
 		datatype.setUuid(ConceptDatatype.CODED_UUID);
 		datatype.setHl7Abbreviation(ConceptDatatype.CODED);
@@ -211,7 +191,8 @@ public class HL7OBXORUR01TemplateTest extends MockBaseTest {
 		bindings.put("implementationId", "MVP");
 		
 		//when
-		String evaluatedTemplate = new HL7QueryServiceImpl().evaluateTemplate(template, bindings);
+		HL7Template hl7Template = hl7QueryService.getHL7TemplateByName("Generic OBX");
+		String evaluatedTemplate = hl7QueryService.evaluateTemplate(hl7Template, bindings);
 		evaluatedTemplate = StringUtils.deleteWhitespace(evaluatedTemplate);
 		
 		//then

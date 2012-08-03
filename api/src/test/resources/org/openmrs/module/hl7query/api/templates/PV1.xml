@@ -9,11 +9,11 @@
 	    </PV1.3>
 	    <PV1.4>${ encounter.getEncounterType().getName() }</PV1.4>
 	    <PV1.7>
-	        <XCN.1>${ encounter.getProvider().getUuid() }</XCN.1>
+	        <XCN.1>${ encounter.getProvider()?.getUuid() }</XCN.1>
 	        <XCN.2>
-	            <FN.1>${ encounter.getProvider().getFamilyName() }</FN.1>
+	            <FN.1>${ encounter.getProvider()?.getFamilyName() }</FN.1>
 	        </XCN.2>
-	        <XCN.3>${ encounter.getProvider().getGivenName() }</XCN.3>
+	        <XCN.3>${ encounter.getProvider()?.getGivenName() }</XCN.3>
 	        <XCN.13>NID</XCN.13>
 	    </PV1.7>
 	    <PV1.44>

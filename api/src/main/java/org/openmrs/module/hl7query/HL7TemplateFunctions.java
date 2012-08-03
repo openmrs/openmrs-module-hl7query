@@ -92,6 +92,13 @@ public class HL7TemplateFunctions {
 	}
 	
 	/**
+	 * @return the xml header
+	 */
+	public String getXMLHeader() {
+		return "<?xml version=\"1.0\"?>";
+	}
+	
+	/**
 	 * Looks up a global property by name. Useful for creating/storing/looking up constants. <br/>
 	 * If the GP doesn't exist, as a convenience, a second lookup is done for "hl7query." +
 	 * <code>globalPropertyName</code>
@@ -117,6 +124,20 @@ public class HL7TemplateFunctions {
 			return "";
 		
 		return gpValue;
+	}
+	
+	/**
+	 * Returns the implementation id of the implementation site. This is an
+	 * hl7concept source, which is used in creating the MSH segment.
+	 * 
+	 * @return the implementation id
+	 */
+	public String getImplementationId(){
+		//If the Implementation id is set, return it
+		if(getAdminService().getImplementationId().getImplementationId() != null)
+			return getAdminService().getImplementationId().getImplementationId();
+		else //If the Implementation id  is missing, then return null
+			return null;
 	}
 	
 }
