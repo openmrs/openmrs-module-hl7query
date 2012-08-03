@@ -120,9 +120,11 @@ public class Hl7TemplateGeneratorTest extends BaseModuleContextSensitiveTest {
   
         Map<String, Object> bindings = new HashMap<String, Object>();
         bindings.put("encounter", encounter);
+        bindings.put("encounterIndex", 3);
         
         String evaluated = service.evaluateTemplate(template, bindings);
 	   
+        Assert.assertTrue(evaluated.contains("<OBR.1>3</OBR.1>"));
         Assert.assertTrue(evaluated.contains("<EI.1>ENCOUNTER UUID</EI.1>"));
 	    Assert.assertTrue(evaluated.contains("<OBR.20>LOCATION UUID</OBR.20>"));
 	    Assert.assertTrue(evaluated.contains("<OBR.21>LOCATION NAME</OBR.21>"));
