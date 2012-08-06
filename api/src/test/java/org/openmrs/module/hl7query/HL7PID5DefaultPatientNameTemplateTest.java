@@ -19,19 +19,14 @@ import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 
+import junit.framework.Assert;
+
 import org.apache.commons.io.IOUtils;
 import org.junit.Before;
 import org.junit.Test;
-
-import org.openmrs.Encounter;
-import org.openmrs.Patient;
-import org.openmrs.Person;
 import org.openmrs.PersonName;
-import org.openmrs.module.hl7query.HL7Template;
 import org.openmrs.module.hl7query.api.HL7QueryService;
 import org.openmrs.module.hl7query.api.impl.HL7QueryServiceImpl;
-
-import junit.framework.Assert;
 
 public class HL7PID5DefaultPatientNameTemplateTest {
 HL7QueryServiceImpl service;
@@ -43,14 +38,7 @@ HL7QueryServiceImpl service;
 	 	 	 }
 	 	
 	@Test
-	public void testDefaultPatientNameTemplate() throws Exception{
-		Encounter encounter = new Encounter();
-		
-		Patient patient = new Patient();	
-		patient.setUuid("PATIENT UUID");
-		patient.addName(new PersonName("PATIENT GIVENNAME", "PATIENT MIDDLENAME", "PATIENT FAMILYNAME"));		
-		encounter.setPatient(patient);
-		
+	public void testDefaultPatientNameTemplate() throws Exception{		
 		 InputStream inputStream = getClass().getClassLoader().getResourceAsStream("Templates/DefaultPatientNameTemplate.xml");	 
 	     String xml = IOUtils.toString(inputStream);
 	     
@@ -59,7 +47,7 @@ HL7QueryServiceImpl service;
 	     template.setTemplate(xml);
 	     
 	     Map<String, Object> bindings=new HashMap<String,Object>();
-	     bindings.put("encounter", encounter);
+	     bindings.put("patientName", new PersonName("PATIENT GIVENNAME", "PATIENT MIDDLENAME", "PATIENT FAMILYNAME"));
 	     
 	     String evaluated = service.evaluateTemplate(template, bindings);
 	     
