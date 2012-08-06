@@ -64,7 +64,7 @@ public class HL7QueryController {
 		if (StringUtils.isBlank(patientId) && StringUtils.isBlank(encounterUuid))
 			throw new APIException("Patient identifier cannot be blank when the encounter uuid is also blank");
 		
-		String templateNameGP = Context.getAdministrationService().getGlobalProperty(HL7QueryConstants.HL7QUERY_GP_TEMPLATE);
+		String templateNameGP = Context.getAdministrationService().getGlobalProperty(HL7QueryConstants.HL7QUERY_GP_ORUR01_TEMPLATE);
 		template = hL7QueryService.getHL7TemplateByName(templateNameGP);
 		if (template == null)
 			throw new APIException("Cannot find template with name '" + templateNameGP + "'");
