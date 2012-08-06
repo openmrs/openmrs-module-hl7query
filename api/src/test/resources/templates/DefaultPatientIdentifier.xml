@@ -1,4 +1,4 @@
 <PID.3>
-      <CX.1>${ patientIdentifier.getIdentifier() }</CX.1>
-      <CX.5>${ patientIdentifier.getIdentifierType()}</CX.5>
+	<CX.1>${patientIdentifier.getIdentifier()}</CX.1>
+	<CX.5>${patientIdentifier.getIdentifierType()}</CX.5>
 </PID.3>
