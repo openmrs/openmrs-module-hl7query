@@ -1,0 +1,4 @@
+<ORU_R01.PATIENT>
+${func.evaluateTemplate("Generic PID", [patient: encounter.patient])}
+${func.evaluateTemplate("Generic PV1", [encounter: encounter])}
+</ORU_R01.PATIENT>
