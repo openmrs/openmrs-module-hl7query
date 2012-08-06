@@ -1,0 +1,16 @@
+<PID>
+    <PID.1>1</PID.1>
+    <% 
+    	for (patientIdentifier in patient.getActiveIdentifiers()) {
+    		if (patientIdentifier.isPreferred()) {
+    			print func.evaluateTemplate("Default Patient Identifier", [patientIdentifier:patientIdentifier])
+    		}
+     	}
+
+		for (patientName in patient.getNames()) {
+			if (patientName.isPreferred() && !patientName.isVoided()) {
+    			print func.evaluateTemplate("Default Patient Name", [patientName:patientName])
+    		}
+    	}
+  	%>
+</PID>

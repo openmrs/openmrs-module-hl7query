@@ -61,11 +61,9 @@ public class HL7QueryController {
 		HL7QueryService hL7QueryService = Context.getService(HL7QueryService.class);
 		HL7Template template = null;
 		Patient patient = null;
-		if (StringUtils.isBlank(patientId))
-			throw new APIException("Patient identifier cannot be blank");
+		if (StringUtils.isBlank(patientId) && StringUtils.isBlank(encounterUuid))
+			throw new APIException("Patient identifier cannot be blank when the encounter uuid is also blank");
 		
-		//TODO Use HL7TemplateFunctions.getGlobalProperty(String globalPropertyName) after
-		//the code for HLQRY-23 is done
 		String templateNameGP = Context.getAdministrationService().getGlobalProperty(HL7QueryConstants.HL7QUERY_GP_TEMPLATE);
 		template = hL7QueryService.getHL7TemplateByName(templateNameGP);
 		if (template == null)
@@ -101,8 +99,14 @@ public class HL7QueryController {
 		
 		String hl7Output = hL7QueryService.evaluateTemplate(template, bindings);
 		
-		//TODO convert the message to the appropriate format depending on the accept header value
 		String acceptHeader = request.getHeader("Accept");
+		if (acceptHeader == null || !acceptHeader.contains("text/xml")) {
+			try {
+				hl7Output = hL7QueryService.renderPipeDelimitedHl7(hl7Output);
+			} catch (Exception e) {
+				log.error("Internal error while processing the hl7 message");
+			}
+		}
 		
 		return hl7Output;
 	}
