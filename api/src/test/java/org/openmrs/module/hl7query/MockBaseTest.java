@@ -98,6 +98,7 @@ public abstract class MockBaseTest {
 		templateNamesToPaths.put("Generic Patient", "templates/patient_orur01.xml");
 		templateNamesToPaths.put("Default Patient Identifier", "templates/DefaultPatientIdentifier.xml");
 		templateNamesToPaths.put("Default Patient Name", "templates/DefaultPatientNameTemplate.xml");
+		templateNamesToPaths.put("Generic Patient Result", "templates/patientResultTemplate.xml");
 		templateNamesToPaths.put("Generic MSH", "templates/MSH.xml");
 
 		for (Entry<String, String> templateNameToPath : templateNamesToPaths.entrySet()) {
