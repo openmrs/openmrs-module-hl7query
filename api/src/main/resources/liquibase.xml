@@ -271,13 +271,13 @@ if (conceptDatatype.isNumeric()) {
 			<column name="uuid" value="AADDCCFf4-15f6-104d-91f4-000c22c2DABC"></column>
 			<column name="template">
 				<![CDATA[
-					<PID.5> 
-						
-			             	<XPN.1><FN.1>${encounter.getPatient().getFamilyName()}</FN.1></XPN.1>
-			         		<XPN.2>${encounter.getPatient().getGivenName()}</XPN.2>
-			         		<XPN.3>${encounter.getPatient().getMiddleName()}</XPN.3>
-			         	         			
-					</PID.5>
+<PID.5>
+	<XPN.1>
+		<FN.1>${patientName.getFamilyName()}</FN.1>
+	</XPN.1>
+	<XPN.2>${patientName.getGivenName()}</XPN.2>
+	<XPN.3>${patientName.getMiddleName()}</XPN.3>
+</PID.5>
     				]]>
 			</column>
 		</insert>		
@@ -296,11 +296,10 @@ if (conceptDatatype.isNumeric()) {
 			<column name="uuid" value="AADDCCDf4-18f6-184d-91f4-000c22c2DYUC"></column>
 			<column name="template">
 				<![CDATA[
-					<PID.3>
-      					<CX.1>${ patientIdentifier.getIdentifier() }</CX.1>
-      					<CX.5>${ patientIdentifier.getIdentifierType()}</CX.5>
-					</PID.3>
-
+<PID.3>
+	<CX.1>${patientIdentifier.getIdentifier()}</CX.1>
+	<CX.5>${patientIdentifier.getIdentifierType()}</CX.5>
+</PID.3>
     				]]>
 			</column>
 		</insert>		
@@ -318,20 +317,45 @@ if (conceptDatatype.isNumeric()) {
 			<column name="uuid" value="EBCCCCf4-18f5-109d-96e4-000c29c2EABC" />
 			<column name="template">
 			<![CDATA[
-				<PID>
-				    <PID.1>${ index }</PID.1>
-				    <% 
-				    	for (identifier in patient.getActiveIdentifiers()) {
-				    		print func.evaluateTemplate("Default Patient Identifier", [patient:patient])
-				     	}
-				
-				    	for (name in patient.getNames()) {
-				     		print func.evaluateTemplate("Default Patient Name", [patient:patient])
-				   		}
-				  	%>
-				</PID>
+<PID>
+    <PID.1>1</PID.1>
+    <% 
+    	for (patientIdentifier in patient.getActiveIdentifiers()) {
+    		if (patientIdentifier.isPreferred()) {
+    			print func.evaluateTemplate("Default Patient Identifier", [patientIdentifier:patientIdentifier])
+    		}
+     	}
+
+		for (patientName in patient.getNames()) {
+			if (patientName.isPreferred() && !patientName.isVoided()) {
+    			print func.evaluateTemplate("Default Patient Name", [patientName:patientName])
+    		}
+    	}
+  	%>
+</PID>
 			]]>
 			</column>
+		</insert>
+	</changeSet>
+	
+	<changeSet author="raff" id="20120807-1530">
+		<insert tableName="hl7query_template">
+			<column name="name" value="Generic Patient" />
+			<column name="description" value="Template for the patient segment" />
+			<column name="hl7_entity" value="ORU_R01.PATIENT" />
+			<column name="language" value="groovy" />
+			<column name="creator" valueNumeric="1" />
+			<column name="date_created" valueDate="2012-08-07" />
+			<column name="retired" valueBoolean="false" />
+			<column name="uuid" value="36ff0f3a-2993-470b-a79a-d27b42403fbd" />
+			<column name="template">
+				<![CDATA[
+<ORU_R01.PATIENT>
+${func.evaluateTemplate("Generic PID", [patient: encounter.patient])}
+${func.evaluateTemplate("Generic PV1", [encounter: encounter])}
+</ORU_R01.PATIENT>
+				]]>
+		   </column>
 		</insert>
 	</changeSet>
 
