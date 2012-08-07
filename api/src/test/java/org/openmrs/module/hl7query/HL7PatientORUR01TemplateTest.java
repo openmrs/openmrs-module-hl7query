@@ -88,7 +88,7 @@ public class HL7PatientORUR01TemplateTest extends MockBaseTest {
 		        + "<ORU_R01.VISIT><PV1><PV1.2>0</PV1.2><PV1.3><PL.1>3d8bb0d6-6b5b-4f6d-92a3-d9b8e4972d48</PL.1>"
 		        + "<PL.4><HD.1>locationName</HD.1></PL.4></PV1.3><PV1.4>encounterTypeName</PV1.4><PV1.7>"
 		        + "<XCN.1>null</XCN.1><XCN.2><FN.1>null</FN.1></XCN.2><XCN.3>null</XCN.3><XCN.13>NID</XCN.13></PV1.7>"
-		        + "<PV1.44><TS.1>FriJan1407:31:30CET8727</TS.1></PV1.44></PV1></ORU_R01.VISIT></ORU_R01.PATIENT>",
+		        + "<PV1.44><TS.1>87270114093130</TS.1></PV1.44></PV1></ORU_R01.VISIT></ORU_R01.PATIENT>",
 		    evaluatedTemplate);
 	}
 }

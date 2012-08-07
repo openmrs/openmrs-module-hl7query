@@ -17,7 +17,7 @@
 	        <XCN.13>NID</XCN.13>
 	    </PV1.7>
 	    <PV1.44>
-	        <TS.1>${ encounter.getEncounterDatetime() }</TS.1>
+	        <TS.1>${ func.formatDate(encounter.getEncounterDatetime(), null) }</TS.1>
 	    </PV1.44>
 	</PV1>
 </ORU_R01.VISIT>
