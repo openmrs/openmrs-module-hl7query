@@ -13,6 +13,8 @@
  */
 package org.openmrs.module.hl7query;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Map;
 
 import org.apache.commons.logging.Log;
@@ -131,6 +133,30 @@ public class HL7TemplateFunctions {
 			return getAdminService().getImplementationId().getImplementationId();
 		else //If the Implementation id  is missing, then return null
 			return null;
+	}
+	
+	/**
+	 * Returns a String representation of the date object to be included in the hl7 
+	 * message
+	 * The user may specify the date string format by passing it in as 
+	 * a method parameter.
+	 * If the user does not specify a parameter, then the default format 
+	 * ('yyyyMMddHHmmss') will be used.
+	 * 
+	 * @param date the date
+	 * @param format the format
+	 * @return the string
+	 */
+	public String formatDate(Date date, String format){
+		String dateString;
+		SimpleDateFormat dateFormat = null;
+		if(format != null){
+			dateFormat = new SimpleDateFormat(format);
+		}else{
+			dateFormat = new SimpleDateFormat("yyyyMMddHHmmss"); 	
+		}
+		dateString = dateFormat.format(date);
+		return dateString;
 	}
 	
 }

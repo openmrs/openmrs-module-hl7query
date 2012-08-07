@@ -13,6 +13,9 @@
  */
 package org.openmrs.module.hl7query.util;
 
+/**
+ * Class with constants used for this module.
+ */
 public final class HL7QueryConstants {
 	
 	public static final String MODULE_ID = "hl7query";
@@ -20,5 +23,5 @@ public final class HL7QueryConstants {
 	/**
 	 * Global property name for the default ORUR01 template to use to create the hl7 messages
 	 */
-	public static final String HL7QUERY_GP_TEMPLATE = MODULE_ID + ".template";
+	public static final String HL7QUERY_GP_ORUR01_TEMPLATE = MODULE_ID + ".ORUR01Template";
 }
