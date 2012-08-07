@@ -142,14 +142,22 @@ public class HL7TemplateFunctions {
 	 * a method parameter.
 	 * If the user does not specify a parameter, then the default format 
 	 * ('yyyyMMddHHmmss') will be used.
+	 * If the user does not specify a date, then a new Date object would be used
+	 * instead.
 	 * 
 	 * @param date the date
+	 * 		The date to be parsed to String
 	 * @param format the format
+	 * 		The string used to format the date string
 	 * @return the string
+	 * 		The string representation of the given date object after it is formatted
 	 */
 	public String formatDate(Date date, String format){
 		String dateString;
 		SimpleDateFormat dateFormat = null;
+		if(date == null)
+			date = new Date();
+		
 		if(format != null){
 			dateFormat = new SimpleDateFormat(format);
 		}else{
