@@ -58,11 +58,20 @@ public abstract class MockBaseTest {
 	
 	protected final HL7QueryDAO hl7QueryDAOMock;
 	
+	protected final AdministrationService administrationService;
+	
 	public MockBaseTest() {
-		AdministrationService administrationService = Mockito.mock(AdministrationService.class);
+		administrationService = Mockito.mock(AdministrationService.class);
 		Mockito.when(administrationService.getAllowedLocales()).thenReturn(Arrays.asList(Locale.ENGLISH));
 		Mockito.when(administrationService.getGlobalProperty("hl7query.messageSource")).thenReturn("OPENMRS");
-		
+		Mockito.when(administrationService.getGlobalProperty("hl7query.messageFacility")).thenReturn("");
+		Mockito.when(administrationService.getGlobalProperty("hl7query.messageType")).thenReturn("ORU_R01");
+		Mockito.when(administrationService.getGlobalProperty("hl7query.messageProcessingId")).thenReturn("D");
+		Mockito.when(administrationService.getGlobalProperty("hl7query.messageProcessingMode")).thenReturn("C");
+		Mockito.when(administrationService.getGlobalProperty("hl7query.messageVersion")).thenReturn("2.5");
+		Mockito.when(administrationService.getGlobalProperty("hl7query.messageInternationalizationCode")).thenReturn("RWA");
+		Mockito.when(administrationService.getGlobalProperty("hl7query.messageProfile")).thenReturn("CLSM_V0.83");
+
 		hl7QueryDAOMock = Mockito.mock(HL7QueryDAO.class);
 		HL7QueryServiceImpl hl7QueryServiceImpl = Mockito.spy(new HL7QueryServiceImpl());
 		hl7QueryServiceImpl.setDao(hl7QueryDAOMock);

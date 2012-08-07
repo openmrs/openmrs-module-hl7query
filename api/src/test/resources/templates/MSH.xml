@@ -1,5 +1,15 @@
 <%
 import java.text.SimpleDateFormat
+
+def messageTypeAndTrigger = func.getGlobalProperty("messageType")
+def messageTypeArray = messageTypeAndTrigger.split("_")
+
+def messageType = ""
+def messageTrigger = ""
+if (messageTypeArray.length > 1) {
+	messageType = messageTypeArray[0]
+	messageTrigger = messageTypeArray[1]
+}
 %>	<MSH>
         <MSH.1>|</MSH.1>
         <MSH.2>^~&#92;&amp;</MSH.2>
@@ -13,9 +23,9 @@ import java.text.SimpleDateFormat
             <TS.1><% print new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()) %></TS.1>
         </MSH.7>
         <MSH.9>
-            <MSG.1>ORU</MSG.1>
-            <MSG.2>R01</MSG.2>
-            <MSG.3>ORU_R01</MSG.3>
+            <MSG.1><% print messageType %></MSG.1>
+            <MSG.2><% print messageTrigger %></MSG.2>
+            <MSG.3><% print messageTypeAndTrigger %></MSG.3>
         </MSH.9>
         <MSH.10><% print UUID.randomUUID().toString() %></MSH.10>
         <MSH.11>
