@@ -58,11 +58,10 @@ public abstract class MockBaseTest {
 	
 	protected final HL7QueryDAO hl7QueryDAOMock;
 	
-	protected final AdministrationService administrationService;
-	
 	public MockBaseTest() {
-		administrationService = Mockito.mock(AdministrationService.class);
+		AdministrationService administrationService = Mockito.mock(AdministrationService.class);
 		Mockito.when(administrationService.getAllowedLocales()).thenReturn(Arrays.asList(Locale.ENGLISH));
+		
 		Mockito.when(administrationService.getGlobalProperty("hl7query.messageSource")).thenReturn("OPENMRS");
 		Mockito.when(administrationService.getGlobalProperty("hl7query.messageFacility")).thenReturn("");
 		Mockito.when(administrationService.getGlobalProperty("hl7query.messageType")).thenReturn("ORU_R01");

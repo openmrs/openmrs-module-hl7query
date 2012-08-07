@@ -25,14 +25,12 @@ import org.junit.Before;
 import org.junit.Test;
 import org.openmrs.Encounter;
 import org.openmrs.EncounterType;
-import org.openmrs.GlobalProperty;
 import org.openmrs.Location;
 import org.openmrs.Patient;
 import org.openmrs.PatientIdentifier;
 import org.openmrs.PatientIdentifierType;
 import org.openmrs.Person;
 import org.openmrs.PersonName;
-import org.openmrs.api.context.Context;
 import org.openmrs.module.hl7query.HL7Template;
 import org.openmrs.module.hl7query.api.impl.HL7QueryServiceImpl;
 import org.openmrs.test.BaseModuleContextSensitiveTest;
@@ -47,22 +45,6 @@ public class Hl7TemplateGeneratorTest extends BaseModuleContextSensitiveTest {
 	@Before
 	public void beforeEachTest() {
 		service = new HL7QueryServiceImpl();
-	}
-	
-	//@Test
-	public void testMSHSegmentTemplate() throws Exception {
-		InputStream inputStream = getClass().getClassLoader().getResourceAsStream("templates/MSH.xml");
-    	String xml = IOUtils.toString(inputStream);
-    	
-    	HL7Template template = new HL7Template();
-    	template.setLanguage(HL7QueryService.LANGUAGE_GROOVY);
-    	template.setTemplate(xml);
-  
-        Map<String, Object> bindings = new HashMap<String, Object>();
-        
-        String evaluated = service.evaluateTemplate(template, bindings);		
-        
-        Assert.assertTrue(evaluated.contains("<MSH>"));
 	}
 	
 	@Test
