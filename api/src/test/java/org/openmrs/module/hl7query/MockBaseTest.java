@@ -23,6 +23,7 @@ import java.util.Map.Entry;
 import org.apache.commons.io.IOUtils;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
+import org.openmrs.GlobalProperty;
 import org.openmrs.api.AdministrationService;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.hl7query.api.HL7QueryService;
@@ -61,6 +62,15 @@ public abstract class MockBaseTest {
 		AdministrationService administrationService = Mockito.mock(AdministrationService.class);
 		Mockito.when(administrationService.getAllowedLocales()).thenReturn(Arrays.asList(Locale.ENGLISH));
 		
+		Mockito.when(administrationService.getGlobalProperty("hl7query.messageSource")).thenReturn("OPENMRS");
+		Mockito.when(administrationService.getGlobalProperty("hl7query.messageFacility")).thenReturn("");
+		Mockito.when(administrationService.getGlobalProperty("hl7query.messageType")).thenReturn("ORU_R01");
+		Mockito.when(administrationService.getGlobalProperty("hl7query.messageProcessingId")).thenReturn("D");
+		Mockito.when(administrationService.getGlobalProperty("hl7query.messageProcessingMode")).thenReturn("C");
+		Mockito.when(administrationService.getGlobalProperty("hl7query.messageVersion")).thenReturn("2.5");
+		Mockito.when(administrationService.getGlobalProperty("hl7query.messageInternationalizationCode")).thenReturn("RWA");
+		Mockito.when(administrationService.getGlobalProperty("hl7query.messageProfile")).thenReturn("CLSM_V0.83");
+
 		hl7QueryDAOMock = Mockito.mock(HL7QueryDAO.class);
 		HL7QueryServiceImpl hl7QueryServiceImpl = Mockito.spy(new HL7QueryServiceImpl());
 		hl7QueryServiceImpl.setDao(hl7QueryDAOMock);
@@ -88,7 +98,8 @@ public abstract class MockBaseTest {
 		templateNamesToPaths.put("Generic Patient", "templates/patient_orur01.xml");
 		templateNamesToPaths.put("Default Patient Identifier", "templates/DefaultPatientIdentifier.xml");
 		templateNamesToPaths.put("Default Patient Name", "templates/DefaultPatientNameTemplate.xml");
-		
+		templateNamesToPaths.put("Generic MSH", "templates/MSH.xml");
+
 		for (Entry<String, String> templateNameToPath : templateNamesToPaths.entrySet()) {
 			InputStream resource = ClassLoader.getSystemResourceAsStream(templateNameToPath.getValue());
 			HL7Template template = new HL7Template();

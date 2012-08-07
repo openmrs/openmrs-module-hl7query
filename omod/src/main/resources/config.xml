@@ -15,7 +15,6 @@
 	<require_version>${openMRSVersion}</require_version>
 	<!-- / Module Properties -->
 
-	
 	<!-- Module Activator -->
 	<activator>${project.parent.groupId}.${project.parent.artifactId}.HL7QueryActivator</activator>
 	
@@ -31,6 +30,46 @@
 		<property>@MODULE_ID@.template</property>
 		<defaultValue></defaultValue>
 		<description>The default ORUR01 template to use to create the hl7 messages</description>
+	</globalProperty>
+    <globalProperty>
+        <property>@MODULE_ID@.messageSource</property>
+        <defaultValue>OPENMRS</defaultValue>
+        <description>This is the value sent in MSH-4.</description>
+    </globalProperty>
+    <globalProperty>
+    	<property>@MODULE_ID@.messageFacility</property>
+    	<defaultValue></defaultValue>
+    	<description>This is the value sent in MSH-6.</description>
+    </globalProperty>
+	<globalProperty>
+		<property>@MODULE_ID@.messageType</property>
+		<defaultValue>ORU_R01</defaultValue>
+		<description>This is the value sent in MSH-9.</description>
+	</globalProperty>
+	<globalProperty>
+		<property>@MODULE_ID@.messageProcessingId</property>
+		<defaultValue>D</defaultValue>
+		<description>This is the value sent in MSH-11.1.</description>
+	</globalProperty>
+	<globalProperty>
+		<property>@MODULE_ID@.messageProcessingMode</property>
+		<defaultValue>C</defaultValue>
+		<description>This is the value sent in MSH-11.2.</description>
+	</globalProperty>
+	<globalProperty>
+		<property>@MODULE_ID@.messageVersion</property>
+		<defaultValue>2.5</defaultValue>
+		<description>This is the value sent in MSH-12.1.</description>
+	</globalProperty>
+	<globalProperty>
+		<property>@MODULE_ID@.messageInternationalizationCode</property>
+		<defaultValue>RWA</defaultValue>
+		<description>This is the value sent in MSH-12.2.</description>
+	</globalProperty>
+	<globalProperty>
+		<property>@MODULE_ID@.messageProfile</property>
+		<defaultValue>CLSM_V0.83</defaultValue>
+		<description>This is the value sent in MSH-21.</description>
 	</globalProperty>
 	
 	<!-- Maps hibernate file's, if present -->
