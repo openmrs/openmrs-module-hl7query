@@ -1,9 +1,8 @@
 <ORU_R01 xmlns="urn:hl7-org:v2xml">
-print func.evaluateTemplate("Default MSH")
 <ORU_R01.PATIENT_RESULT>
 <% 
 for (encounter in encounters) {
-	print func.evaluateTemplate("Generic Patient Result", [encounter:encounter])
+	print func.evaluateTemplate("Generic Patient", [encounter:encounter])
 }
 %>
 </ORU_R01>

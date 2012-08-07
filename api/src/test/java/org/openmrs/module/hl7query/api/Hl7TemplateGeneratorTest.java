@@ -150,21 +150,24 @@ public class Hl7TemplateGeneratorTest extends BaseModuleContextSensitiveTest {
   
     	Patient patient = new Patient(1);
         patient.setUuid("PROVIDER UUID");
-        patient.addName(new PersonName("PROVIDER GIVENNAME1", "PROVIDER MIDDLENAME1", "PROVIDER FAMILYNAME1"));
+        PersonName pn = new PersonName("PROVIDER GIVENNAME1", "PROVIDER MIDDLENAME1", "PROVIDER FAMILYNAME1");
+        pn.setPreferred(true);
+        patient.addName(pn);
         patient.addName(new PersonName("PROVIDER GIVENNAME2", "PROVIDER MIDDLENAME2", "PROVIDER FAMILYNAME2"));
         patient.addName(new PersonName("PROVIDER GIVENNAME3", "PROVIDER MIDDLENAME3", "PROVIDER FAMILYNAME3"));
 
-        patient.addIdentifier(new PatientIdentifier("1", new PatientIdentifierType(), new Location()));
+        PatientIdentifier pi = new PatientIdentifier("1", new PatientIdentifierType(), new Location());
+        pi.setPreferred(true);
+        patient.addIdentifier(pi);
         patient.addIdentifier(new PatientIdentifier("2", new PatientIdentifierType(), new Location()));
         patient.addIdentifier(new PatientIdentifier("3", new PatientIdentifierType(), new Location()));
        
         Map<String, Object> bindings = new HashMap<String, Object>();
-        bindings.put("index", 4);
         bindings.put("patient", patient);
         
         String evaluated = service.evaluateTemplate(template, bindings);
 	   
-        Assert.assertTrue(evaluated.contains("<PID.1>4</PID.1>"));
+        Assert.assertTrue(evaluated.contains("<PID.1>1</PID.1>"));
         Assert.assertTrue(evaluated.contains("PID.3 Template"));
         Assert.assertTrue(evaluated.contains("PID.5 Template"));
 	}
