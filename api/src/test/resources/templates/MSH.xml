@@ -1,5 +1,4 @@
 <%
-import java.text.SimpleDateFormat
 
 def messageTypeAndTrigger = func.getGlobalProperty("messageType")
 def messageTypeArray = messageTypeAndTrigger.split("_")

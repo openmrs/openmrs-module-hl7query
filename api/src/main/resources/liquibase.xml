@@ -73,7 +73,6 @@
 			<column name="uuid" value="7b1522c0-dc2c-11e1-9b23-0800200c9a66" />
 			<column name="template">
 				<![CDATA[<%
-import java.text.SimpleDateFormat
 
 def messageTypeAndTrigger = func.getGlobalProperty("messageType")
 def messageTypeArray = messageTypeAndTrigger.split("_")
