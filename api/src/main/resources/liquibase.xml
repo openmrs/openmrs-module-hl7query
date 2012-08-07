@@ -409,6 +409,7 @@ if (conceptDatatype.isNumeric()) {
 					<%
 						print func.evaluateTemplate("Generic Patient", [encounter:encounter])
 						print func.evaluateTemplate("Generic OBR-ENC", [encounter:encounter])
+						print func.evaluateTemplate("Generic OBS Group", [encounter:encounter])
 					%>
 					</ORU_R01.PATIENT>
 				</ORU_R01.PATIENT_RESULT>
