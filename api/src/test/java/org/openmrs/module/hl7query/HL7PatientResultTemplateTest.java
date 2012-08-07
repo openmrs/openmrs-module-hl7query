@@ -13,10 +13,8 @@
  */
 package org.openmrs.module.hl7query;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import junit.framework.Assert;
@@ -79,12 +77,7 @@ public class HL7PatientResultTemplateTest extends MockBaseTest {
 		encounter.setPatient(patient);
 		
 		Map<String, Object> bindings = new HashMap<String, Object>();
-		List<Encounter> encounters = new ArrayList<Encounter>();
-		encounters.add(encounter);
-		bindings.put("patient", patient);
 		bindings.put("encounter", encounter);
-		//The encounters should typically be got through the service
-		bindings.put("encounters", encounters);
 		
 		HL7Template hl7Template = hl7QueryService.getHL7TemplateByName("Generic Patient Result");
 		String evaluatedTemplate = hl7QueryService.evaluateTemplate(hl7Template, bindings);
