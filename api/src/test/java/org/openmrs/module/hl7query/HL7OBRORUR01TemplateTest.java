@@ -108,7 +108,7 @@ public class HL7OBRORUR01TemplateTest extends MockBaseTest {
 				"<EI.3>ENCOUNTERUUID</EI.3></EIP.2></OBR.29></OBR><ORU_R01.OBSERVATION>" +
 				"<OBX><OBX.1>1</OBX.1><OBX.2>NM</OBX.2><OBX.3><CE.1>200</CE.1><CE.2>NumericConcept</CE.2>" +
 				"<CE.3>AMPATH</CE.3></OBX.3><OBX.5>10.0</OBX.5><OBX.6><CE.1>mg</CE.1><CE.3>UCUM</CE.3>" +
-				"</OBX.6><OBX.14><TS.1>87270114093130</TS.1></OBX.14></OBX></ORU_R01.OBSERVATION>" +
+				"</OBX.6><OBX.14><TS.1>" + new HL7TemplateFunctions().formatDate(dateCreated, null) + "</TS.1></OBX.14></OBX></ORU_R01.OBSERVATION>" +
 				"</ORU_R01.ORDER_OBSERVATION>", evaluatedTemplate);
 	}
 	
