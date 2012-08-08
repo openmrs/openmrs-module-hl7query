@@ -73,7 +73,7 @@ public class HL7OBXORUR01TemplateTest extends MockBaseTest {
 		    "<ORU_R01.OBSERVATION><OBX>" + "<OBX.1>0</OBX.1><OBX.2>NM</OBX.2>"
 		            + "<OBX.3><CE.1>100</CE.1><CE.2>NumericConcept</CE.2><CE.3>PIH</CE.3></OBX.3>" + "<OBX.5>10.0</OBX.5>"
 		            + "<OBX.6><CE.1>mg</CE.1><CE.3>UCUM</CE.3></OBX.6>" + "<OBX.14><TS.1>"
-		            + StringUtils.deleteWhitespace(dateCreated.toString()) + "</TS.1></OBX.14>"
+		            + StringUtils.deleteWhitespace(new HL7TemplateFunctions().formatDate(dateCreated, null)) + "</TS.1></OBX.14>"
 		            + "</OBX></ORU_R01.OBSERVATION>", evaluatedTemplate);
 	}
 	
@@ -112,7 +112,7 @@ public class HL7OBXORUR01TemplateTest extends MockBaseTest {
 		    "<ORU_R01.OBSERVATION><OBX>" + "<OBX.1>0</OBX.1><OBX.2>NM</OBX.2>"
 		            + "<OBX.3><CE.1>1</CE.1><CE.2>NumericConcept</CE.2><CE.3>MVP</CE.3></OBX.3>" + "<OBX.5>10.0</OBX.5>"
 		            + "<OBX.6><CE.1>mg</CE.1><CE.3>UCUM</CE.3></OBX.6>" + "<OBX.14><TS.1>"
-		            + StringUtils.deleteWhitespace(dateCreated.toString()) + "</TS.1></OBX.14>"
+		            + StringUtils.deleteWhitespace(new HL7TemplateFunctions().formatDate(dateCreated, null)) + "</TS.1></OBX.14>"
 		            + "</OBX></ORU_R01.OBSERVATION>", evaluatedTemplate);
 	}
 	
@@ -152,7 +152,7 @@ public class HL7OBXORUR01TemplateTest extends MockBaseTest {
 		    "<ORU_R01.OBSERVATION><OBX>" + "<OBX.1>0</OBX.1><OBX.2>CWE</OBX.2>"
 		            + "<OBX.3><CE.1>1</CE.1><CE.2>CodedConcept</CE.2><CE.3>MVP</CE.3></OBX.3>"
 		            + "<OBX.5><CE.1>2</CE.1><CE.2>AnswerConcept</CE.2><CE.3>MVP</CE.3></OBX.5>" + "<OBX.14><TS.1>"
-		            + StringUtils.deleteWhitespace(dateCreated.toString()) + "</TS.1></OBX.14>"
+		            + StringUtils.deleteWhitespace(new HL7TemplateFunctions().formatDate(dateCreated, null)) + "</TS.1></OBX.14>"
 		            + "</OBX></ORU_R01.OBSERVATION>", evaluatedTemplate);
 	}
 	
@@ -200,7 +200,7 @@ public class HL7OBXORUR01TemplateTest extends MockBaseTest {
 		    "<ORU_R01.OBSERVATION><OBX>" + "<OBX.1>0</OBX.1><OBX.2>CWE</OBX.2>"
 		            + "<OBX.3><CE.1>1</CE.1><CE.2>CodedConcept</CE.2><CE.3>MVP</CE.3></OBX.3>"
 		            + "<OBX.5><CE.1>100</CE.1><CE.2>AnswerConcept</CE.2><CE.3>PIH</CE.3></OBX.5>" + "<OBX.14><TS.1>"
-		            + StringUtils.deleteWhitespace(dateCreated.toString()) + "</TS.1></OBX.14>"
+		            + StringUtils.deleteWhitespace(new HL7TemplateFunctions().formatDate(dateCreated, null)) + "</TS.1></OBX.14>"
 		            + "</OBX></ORU_R01.OBSERVATION>", evaluatedTemplate);
 	}
 }
