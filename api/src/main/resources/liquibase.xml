@@ -425,5 +425,84 @@ if (conceptDatatype.isNumeric()) {
 			</column>
 		</insert>
 	</changeSet>
+	
+	<changeSet author="dkayiwa" id="1231200030538-332456">
+		<insert tableName="hl7query_template">
+			<column name="name" value="Generic Obs Group" />
+			<column name="description" value="Template for the Obs Group segment" />
+			<column name="hl7_entity" value="OBR" />
+			<column name="language" value="groovy" />
+			<column name="creator" valueNumeric="1" />
+			<column name="date_created" valueDate="2012-08-08" />
+			<column name="retired" valueBoolean="false" />
+			<column name="uuid" value="11BB22f4-15f5-102d-96e4-000c29c2ABC7" />
+			<column name="template">
+				<![CDATA[
+					<ORU_R01.ORDER_OBSERVATION>
+					    <% 
+					    	def obsIndex = 0
+					    	
+					    	for (obs in encounter.getObs()) {
+					    		obsIndex++
+					    		
+					    		if (obs.getObsGroup() != null) {
+					    		   	print func.evaluateTemplate("Generic Obs Group Header", [obs:obs.getObsGroup(), obsGroupIndex:obsIndex, encounter:encounter, implementationId:implementationId])
+					    		}
+					    		
+					    		print func.evaluateTemplate("Generic OBX", [obs:obs, obsIndex:obsIndex, implementationId:implementationId])
+					     	}
+					  	%>	
+					</ORU_R01.ORDER_OBSERVATION>
+				]]>
+		   </column>
+		</insert>
+	</changeSet>
+	
+	<changeSet author="dkayiwa" id="1001200030538-000456">
+		<insert tableName="hl7query_template">
+			<column name="name" value="Generic Obs Group Header" />
+			<column name="description" value="Template for the Obs Group Header segment" />
+			<column name="hl7_entity" value="OBR-HEADER" />
+			<column name="language" value="groovy" />
+			<column name="creator" valueNumeric="1" />
+			<column name="date_created" valueDate="2012-08-08" />
+			<column name="retired" valueBoolean="false" />
+			<column name="uuid" value="00EF22h4-15f5-102d-96e4-000c29c20BA1" />
+			<column name="template">
+				<![CDATA[
+					<% 
+					def obx3ce1 = ""
+					def obx3ce3 = ""
+					
+					if (obs.getConcept()?.getConceptMappings()?.size() > 0) {
+						def map = obs.getConcept().getConceptMappings().iterator().next()
+						
+						obx3ce1 = map.getSourceCode()
+						obx3ce3 = map.getSource()?.getName()
+					} else {
+						//If concept mappings are not available, use conceptId and implementationId.
+						obx3ce1 = obs.getConcept()?.getId()
+						obx3ce3 = implementationId
+					}
+					%>
+					
+					<OBR>
+					     <OBR.1>${ obsGroupIndex }</OBR.1>
+					     <OBR.4>
+					         <CE.1>${ obx3ce1 }</CE.1>
+					         <CE.2>${ obs.getConcept().getName().toString() }</CE.2>
+					         <CE.3>${ obx3ce3 }</CE.3>
+					     </OBR.4>
+					     <OBR.18>0</OBR.18>
+					     <OBR.29>
+					         <EIP.2>
+					             <EI.3>${ encounter.getUuid() }</EI.3>
+					         </EIP.2>
+					     </OBR.29>
+					</OBR>
+				]]>
+		   </column>
+		</insert>
+	</changeSet>
 
 </databaseChangeLog>

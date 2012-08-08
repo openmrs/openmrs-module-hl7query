@@ -99,6 +99,8 @@ public abstract class MockBaseTest {
 		templateNamesToPaths.put("Default Patient Identifier", "templates/DefaultPatientIdentifier.xml");
 		templateNamesToPaths.put("Default Patient Name", "templates/DefaultPatientNameTemplate.xml");
 		templateNamesToPaths.put("Generic MSH", "templates/MSH.xml");
+		templateNamesToPaths.put("Generic Obs Group", "templates/OBR-OBS-GROUP.xml");
+		templateNamesToPaths.put("Generic Obs Group Header", "templates/OBR-OBS-GROUP-HEADER.xml");
 
 		for (Entry<String, String> templateNameToPath : templateNamesToPaths.entrySet()) {
 			InputStream resource = ClassLoader.getSystemResourceAsStream(templateNameToPath.getValue());
