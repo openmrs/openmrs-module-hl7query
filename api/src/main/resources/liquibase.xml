@@ -392,5 +392,38 @@ if (conceptDatatype.isNumeric()) {
 		</insert>
 	</changeSet>
 	
+	<changeSet id="20120807-1512" author="wyclif">
+		<insert tableName="hl7query_template">
+			<column name="name" value="ORUR01 template" />
+			<column name="description" value="Template for the ORUR01 message" />
+			<column name="hl7_entity" value="ORUR01" />
+			<column name="language" value="groovy" />
+			<column name="creator" valueNumeric="1" />
+			<column name="date_created" valueDate="2012-08-07" />
+			<column name="retired" valueBoolean="false" />
+			<column name="uuid" value="339aa8b6-e0b9-11e1-be42-00248140a5eb" />
+			<column name="template">
+			<![CDATA[
+				<ORU_R01 xmlns="urn:hl7-org:v2xml">
+				<%
+				print func.evaluateTemplate("Generic MSH", null) 
+
+				for (encounter in encounters) {
+
+					println '<ORU_R01.PATIENT_RESULT>'	
+						
+					print func.evaluateTemplate("Generic Patient", [encounter:encounter])
+					print func.evaluateTemplate("Generic OBR-ENC", [encounter:encounter])
+					print func.evaluateTemplate("Generic OBS Group", [encounter:encounter])	
+						
+					println '</ORU_R01.PATIENT_RESULT>'
+					
+				}
+				%>
+				</ORU_R01>
+			]]>
+			</column>
+		</insert>
+	</changeSet>
 
 </databaseChangeLog>
