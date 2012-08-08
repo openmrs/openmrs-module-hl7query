@@ -45,72 +45,90 @@ public interface HL7QueryService extends OpenmrsService {
 	String evaluateTemplate(HL7Template hl7Template, Map<String, Object> bindings);
 	
 	/**
-	 * 
-	 * Auto generated method comment
+	 * Gets HL7Template by ID.
 	 * 
 	 * @param id
-	 * @return
+	 * @return HL7Template or null
 	 * @should return template if exists
 	 * @should return null if does not exist
 	 */
 	@Transactional(readOnly = true)
 	HL7Template getHL7Template(Integer id);
 	
+	/**
+	 * Gets HL7Template by UUID.
+	 * 
+	 * @param uuid
+	 * @return HL7Template or null
+	 * @should return template if exists
+	 * @should return null if does not exist
+	 */
 	@Transactional(readOnly = true)
 	HL7Template getHL7TemplateByUuid(String uuid);
 	
 	/**
-	 * 
-	 * Auto generated method comment
+	 * Gets HL7Template by unique name.
 	 * 
 	 * @param name
-	 * @return
+	 * @return HL7Template or null
 	 * @should return template if exists
 	 * @should return null if does not exist
 	 */
 	@Transactional(readOnly = true)
 	HL7Template getHL7TemplateByName(String name);
 	
+	/**
+	 * Gets HL7Templates by partial name.
+	 * 
+	 * @param name
+	 * @return HL7Templates or empty list
+	 * @should return matching templates
+	 * @should return empty list if no matches
+	 */
 	@Transactional(readOnly = true)
 	List<HL7Template> getHL7TemplatesByName(String name);
 	
+	/**
+	 * Gets HL7Templates by entity.
+	 * 
+	 * @param entity
+	 * @return HL7Templates or empty list
+	 * @should return matching templates
+	 * @should return empty list if no matches
+	 */
 	@Transactional(readOnly = true)
 	List<HL7Template> getHL7TemplatesByEntity(String entity);
 	
 	/**
-	 * 
-	 * Auto generated method comment
+	 * Saves or updates the template.
 	 * 
 	 * @param hl7Template
-	 * @return
+	 * @return HL7Template
 	 * @should save template
 	 */
 	HL7Template saveHL7Template(HL7Template hl7Template);
 	
 	/**
-	 * 
-	 * Auto generated method comment
+	 * Retires the template.
 	 * 
 	 * @param hl7Template
 	 * @param reason
-	 * @return
+	 * @return HL7Template
 	 * @should retire template
 	 */
 	HL7Template retireHL7Template(HL7Template hl7Template, String reason);
 
 	/**
-	 * 
-	 * Auto generated method comment
+	 * Unretires the template.
 	 * 
 	 * @param hl7Template
-	 * @return
+	 * @return HL7Template
 	 * @should unretire template
 	 */
 	HL7Template unretireHL7Template(HL7Template hl7Template);
 	
 	/**
-	 * 
-	 * Auto generated method comment
+	 * Purges the template.
 	 * 
 	 * @param hl7Template
 	 * @should purge template
@@ -127,5 +145,17 @@ public interface HL7QueryService extends OpenmrsService {
 	 * @should get all templates
 	 * @should exclude retired templates if include retired is set to false
 	 */
+	@Transactional(readOnly = true)
 	List<HL7Template> getHL7Templates(boolean includeRetired);
+	
+	/**
+	* Converts an xml to pipe delimited hl7 message
+	*
+	* @param xml the hl7 message in xml format
+	* @return the pipe delimited hl7 message
+	* @throws Exception
+	* @should return pipe delimited hl7 message
+	*/
+	@Transactional(readOnly = true)
+	public String renderPipeDelimitedHl7(String xml) throws Exception;
 }

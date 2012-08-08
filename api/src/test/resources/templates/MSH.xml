@@ -1,0 +1,43 @@
+<%
+
+def messageTypeAndTrigger = func.getGlobalProperty("messageType")
+def messageTypeArray = messageTypeAndTrigger.split("_")
+
+def messageType = ""
+def messageTrigger = ""
+if (messageTypeArray.length > 1) {
+	messageType = messageTypeArray[0]
+	messageTrigger = messageTypeArray[1]
+}
+%>	<MSH>
+        <MSH.1>|</MSH.1>
+        <MSH.2>^~&#92;&amp;</MSH.2>
+        <MSH.4>
+            <HD.1><% print func.getGlobalProperty("messageSource") %></HD.1>
+        </MSH.4>
+        <MSH.6>
+            <HD.1><% print func.getGlobalProperty("messageFacility") %></HD.1>
+        </MSH.6>
+        <MSH.7>
+            <TS.1>${ func.formatDate(null, null) }</TS.1>
+        </MSH.7>
+        <MSH.9>
+            <MSG.1><% print messageType %></MSG.1>
+            <MSG.2><% print messageTrigger %></MSG.2>
+            <MSG.3><% print messageTypeAndTrigger %></MSG.3>
+        </MSH.9>
+        <MSH.10><% print UUID.randomUUID().toString() %></MSH.10>
+        <MSH.11>
+            <PT.1><% print func.getGlobalProperty("messageProcessingId") %></PT.1>
+            <PT.2><% print func.getGlobalProperty("messageProcessingMode") %></PT.2>
+        </MSH.11>
+        <MSH.12>
+            <VID.1><% print func.getGlobalProperty("messageVersion") %></VID.1>
+            <VID.2>
+                <CE.1><% print func.getGlobalProperty("messageInternationalizationCode") %></CE.1>
+            </VID.2>
+        </MSH.12>
+        <MSH.21>
+            <EI.1><% print func.getGlobalProperty("messageProfile") %></EI.1>
+        </MSH.21>
+    </MSH>

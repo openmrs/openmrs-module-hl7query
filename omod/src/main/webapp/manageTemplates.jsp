@@ -6,17 +6,17 @@
 
 <%@ include file="template/localHeader.jsp"%>
 
-<b class="boxHeader"><openmrs:message code="hl7query.templates"/></b>
+<b class="boxHeader"><spring:message code="hl7query.templates"/></b>
 <div class="box">
-<a href="<openmrs:contextPath />/module/hl7query/hl7Template.form"><openmrs:message code="hl7query.addTemplate"/></a>
+<a href="<openmrs:contextPath />/module/hl7query/hl7Template.form"><spring:message code="hl7query.addTemplate"/></a>
 <br />
 <br />
 <table cellpadding="4" cellspacing="0" style="border: 1px solid #918E90">
 	<c:if test="${fn:length(hL7Templates) > 0}">
 	<tr style="background-color: #CCCCCC">
-		<th valign="top"><openmrs:message code="hl7query.hl7Entity"/></th>
-		<th valign="top"><openmrs:message code="general.name"/></th>
-		<th valign="top"><openmrs:message code="general.description"/></th>
+		<th valign="top"><spring:message code="hl7query.hl7Entity"/></th>
+		<th valign="top"><spring:message code="general.name"/></th>
+		<th valign="top"><spring:message code="general.description"/></th>
 	</tr>
 	</c:if>
 	<c:forEach var="hL7Template" items="${hL7Templates}" varStatus="varStatus">
