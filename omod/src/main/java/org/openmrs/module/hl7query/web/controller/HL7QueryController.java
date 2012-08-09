@@ -48,7 +48,7 @@ public class HL7QueryController {
 	
 	protected final Log log = LogFactory.getLog(getClass());
 	
-	@RequestMapping(value = "/module/hl7query/ORUR01", method = RequestMethod.GET)
+	@RequestMapping(value = "module/hl7query/ORUR01", method = RequestMethod.GET)
 	@ResponseBody
 	public Object getEncounters(@RequestParam(value = "patientId", required = false) String patientId,
 	                            @RequestParam(value = "idTypeUuid", required = false) String idTypeUuid,

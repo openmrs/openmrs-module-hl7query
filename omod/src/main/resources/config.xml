@@ -27,7 +27,7 @@
 	
 	<!-- Module Global properties -->
 	<globalProperty>
-		<property>@MODULE_ID@.template</property>
+		<property>@MODULE_ID@.ORUR01Template</property>
 		<defaultValue></defaultValue>
 		<description>The default ORUR01 template to use to create the hl7 messages</description>
 	</globalProperty>
