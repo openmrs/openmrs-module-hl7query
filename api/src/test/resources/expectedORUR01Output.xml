@@ -35,6 +35,20 @@
  <ORU_R01.PATIENT>
  <PID>
  <PID.1>1</PID.1>
+<PID.3>
+<CX.1>1234</CX.1>
+<CX.5>ECID</CX.5>
+</PID.3>
+<PID.5>
+<XPN.1>
+<FN.1>Patient</FN.1>
+</XPN.1>
+<XPN.2>Mosa</XPN.2>
+</PID.5>
+<PID.7>
+<TS.1>19910405</TS.1>
+</PID.7>
+<PID.8>M</PID.8>
  </PID>
  <ORU_R01.VISIT>
  <PV1>
@@ -46,14 +60,13 @@
  </PL.4>
  </PV1.3>
  <PV1.4>encounterTypeName</PV1.4>
- <PV1.7>
- <XCN.1>null</XCN.1>
- <XCN.2>
- <FN.1>null</FN.1>
- </XCN.2>
- <XCN.3>null</XCN.3>
- <XCN.13>NID</XCN.13>
- </PV1.7>
+<PV1.7>
+<XCN.2>
+<FN.1>Doctor</FN.1>
+</XCN.2>
+<XCN.3>John</XCN.3>
+<XCN.13>NID</XCN.13>
+</PV1.7>
  <PV1.44>
  <TS.1>20120720193145</TS.1>
  </PV1.44>
@@ -237,6 +250,20 @@
  <ORU_R01.PATIENT>
  <PID>
  <PID.1>1</PID.1>
+<PID.3>
+<CX.1>1234</CX.1>
+<CX.5>ECID</CX.5>
+</PID.3>
+<PID.5>
+<XPN.1>
+<FN.1>Patient</FN.1>
+</XPN.1>
+<XPN.2>Mosa</XPN.2>
+</PID.5>
+<PID.7>
+<TS.1>19910405</TS.1>
+</PID.7>
+<PID.8>M</PID.8>
  </PID>
  <ORU_R01.VISIT>
  <PV1>
@@ -248,14 +275,13 @@
  </PL.4>
  </PV1.3>
  <PV1.4>encounter2TypeName</PV1.4>
- <PV1.7>
- <XCN.1>null</XCN.1>
- <XCN.2>
- <FN.1>null</FN.1>
- </XCN.2>
- <XCN.3>null</XCN.3>
- <XCN.13>NID</XCN.13>
- </PV1.7>
+<PV1.7>
+<XCN.2>
+<FN.1>Doctor</FN.1>
+</XCN.2>
+<XCN.3>John</XCN.3>
+<XCN.13>NID</XCN.13>
+</PV1.7>
  <PV1.44>
  <TS.1>20120720193145</TS.1>
  </PV1.44>
