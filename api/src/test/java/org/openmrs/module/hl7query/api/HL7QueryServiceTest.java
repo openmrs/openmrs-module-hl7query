@@ -274,13 +274,13 @@ public class HL7QueryServiceTest extends BaseModuleContextSensitiveTest {
 		HL7Template template = new HL7Template();
 		template.setName("name1");
 		template.setTemplate("template");
-		template.setHL7Entity("different entity");
+		template.setHl7Entity("different entity");
 		template = getService().saveHL7Template(template);
 		
 		template = new HL7Template();
 		template.setName("name2");
 		template.setTemplate("template");
-		template.setHL7Entity("entity");
+		template.setHl7Entity("entity");
 		template = getService().saveHL7Template(template);
 		
 		//when
@@ -302,7 +302,7 @@ public class HL7QueryServiceTest extends BaseModuleContextSensitiveTest {
 		HL7Template template = new HL7Template();
 		template.setName("name");
 		template.setTemplate("template");
-		template.setHL7Entity("different entity");
+		template.setHl7Entity("different entity");
 		template = getService().saveHL7Template(template);
 		
 		//when
