@@ -16,6 +16,7 @@ package org.openmrs.module.hl7query;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 import org.apache.commons.lang.StringUtils;
 import org.junit.Assert;
@@ -90,5 +91,7 @@ public class HL7PatientORUR01TemplateTest extends MockBaseTest {
 		        + "<XCN.1>null</XCN.1><XCN.2><FN.1>null</FN.1></XCN.2><XCN.3>null</XCN.3><XCN.13>NID</XCN.13></PV1.7>"
 		        + "<PV1.44><TS.1>" + new HL7TemplateFunctions().formatDate(encounterDatetime, null) + "</TS.1></PV1.44></PV1></ORU_R01.VISIT></ORU_R01.PATIENT>",
 		    evaluatedTemplate);
+		
+		System.out.print(UUID.randomUUID().toString());
 	}
 }
