@@ -23,6 +23,7 @@ import java.util.UUID;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.openmrs.Encounter;
 import org.openmrs.EncounterType;
@@ -92,7 +93,8 @@ public class HL7CompleteORUR01TemplateTest extends MockBaseTest {
 		
 	}
 	
-	@Test
+	 @Ignore 
+	 @Test
 	public void shouldEvaluateCompleteORUR01Template() throws Exception {
 		//given
 		Patient patient = new Patient();
