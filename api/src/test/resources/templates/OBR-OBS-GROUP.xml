@@ -1,15 +1,27 @@
-<ORU_R01.ORDER_OBSERVATION>
-    <% 
-    	def obsIndex = 0
-    	
-    	for (obs in encounter.getObs()) {
-    		obsIndex++
-    		
-    		if (obs.getObsGroup() != null) {
-    		   	print func.evaluateTemplate("Generic Obs Group Header", [obs:obs.getObsGroup(), obsGroupIndex:obsIndex, encounter:encounter, implementationId:implementationId])
-    		}
-    		
+<% 
+   	import org.openmrs.Concept
+   	
+   	println '<ORU_R01.ORDER_OBSERVATION>'	
+   	def obsIndex = 0
+   	Concept concept = func.getMedicalRecordObservationsConcept()
+   	print func.evaluateTemplate("Generic Obs Group Header", [concept:concept, obsGroupIndex:obsIndex, encounter:encounter, implementationId:implementationId])
+   	for (obs in encounter.getObs()) {
+   		//Starting with un-grouped obs
+   		if (obs.getObsGroup() == null) {
+   			obsIndex++
+   			print func.evaluateTemplate("Generic OBX", [obs:obs, obsIndex:obsIndex, implementationId:implementationId])
+   		}
+    }
+    println '</ORU_R01.ORDER_OBSERVATION>'
+    
+    println '<ORU_R01.ORDER_OBSERVATION>'	
+   	def obsGroups = func.getObsGroups(encounter)
+   	for (obsGroup in obsGroups) {
+   		for (obs in obsGroup.getGroupMembers()) {
+   			obsIndex++
+    		print func.evaluateTemplate("Generic Obs Group Header", [concept:obsGroup.getConcept(), obsGroupIndex:obsIndex, encounter:encounter, implementationId:implementationId])
     		print func.evaluateTemplate("Generic OBX", [obs:obs, obsIndex:obsIndex, implementationId:implementationId])
-     	}
-  	%>	
-</ORU_R01.ORDER_OBSERVATION>
+    	}
+   	}
+   	println '</ORU_R01.ORDER_OBSERVATION>'
+ %>	
