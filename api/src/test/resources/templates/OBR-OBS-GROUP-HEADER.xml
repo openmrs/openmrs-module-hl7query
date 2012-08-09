@@ -2,14 +2,14 @@
 def obx3ce1 = ""
 def obx3ce3 = ""
 
-if (obs.getConcept()?.getConceptMappings()?.size() > 0) {
-	def map = obs.getConcept().getConceptMappings().iterator().next()
+if (concept?.getConceptMappings()?.size() > 0) {
+	def map = concept.getConceptMappings().iterator().next()
 	
 	obx3ce1 = map.getSourceCode()
 	obx3ce3 = map.getSource()?.getName()
 } else {
 	//If concept mappings are not available, use conceptId and implementationId.
-	obx3ce1 = obs.getConcept()?.getId()
+	obx3ce1 = concept?.getId()
 	obx3ce3 = implementationId
 }
 %>
@@ -18,7 +18,7 @@ if (obs.getConcept()?.getConceptMappings()?.size() > 0) {
      <OBR.1>${ obsGroupIndex }</OBR.1>
      <OBR.4>
          <CE.1>${ obx3ce1 }</CE.1>
-         <CE.2>${ obs.getConcept().getName().toString() }</CE.2>
+         <CE.2>${ concept.getName().toString() }</CE.2>
          <CE.3>${ obx3ce3 }</CE.3>
      </OBR.4>
      <OBR.18>0</OBR.18>

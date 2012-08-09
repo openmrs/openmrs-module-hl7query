@@ -15,14 +15,21 @@ package org.openmrs.module.hl7query;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.LinkedHashSet;
 import java.util.Map;
+import java.util.Set;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.openmrs.Concept;
+import org.openmrs.Encounter;
 import org.openmrs.GlobalProperty;
+import org.openmrs.Obs;
 import org.openmrs.api.AdministrationService;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.hl7query.api.HL7QueryService;
+import org.openmrs.util.OpenmrsConstants;
 
 /**
  * This class is available to every template that is rendered. <br/>
@@ -167,4 +174,37 @@ public class HL7TemplateFunctions {
 		return dateString;
 	}
 	
+	/**
+	 * Gets the list of obs groups in a given encounter.
+	 * 
+	 * @param encounter the encounter.
+	 * @return the list of obs groups.
+	 */
+	public Set<Obs> getObsGroups(Encounter encounter) {
+		Set<Obs> obsGroups = new LinkedHashSet<Obs>();
+		
+		for (Obs obs : encounter.getObs()) {
+			if (obs.getObsGroup() != null) {
+				obsGroups.add(obs.getObsGroup());
+			}
+		}
+		
+		return obsGroups;
+	}
+	
+	/**
+	 * Gets the concept for medical record observations. The one pointed to the
+	 * <code>OpenmrsConstants.GLOBAL_PROPERTY_MEDICAL_RECORD_OBSERVATIONS</code> global property.
+	 * 
+	 * @return the concept object for medical record observations.
+	 */
+	public Concept getMedicalRecordObservationsConcept() {
+		Concept concept = null;
+		String conceptId = Context.getAdministrationService().getGlobalProperty(OpenmrsConstants.GLOBAL_PROPERTY_MEDICAL_RECORD_OBSERVATIONS);
+		if (conceptId != null && StringUtils.isNumeric(conceptId)) {
+			concept = Context.getConceptService().getConcept(Integer.parseInt(conceptId));
+		}
+		
+		return concept;
+	}
 }

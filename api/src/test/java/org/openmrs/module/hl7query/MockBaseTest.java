@@ -23,12 +23,18 @@ import java.util.Map.Entry;
 import org.apache.commons.io.IOUtils;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
-import org.openmrs.GlobalProperty;
+import org.openmrs.Concept;
+import org.openmrs.ConceptDatatype;
+import org.openmrs.ConceptMap;
+import org.openmrs.ConceptName;
+import org.openmrs.ConceptSource;
 import org.openmrs.api.AdministrationService;
+import org.openmrs.api.ConceptService;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.hl7query.api.HL7QueryService;
 import org.openmrs.module.hl7query.api.db.HL7QueryDAO;
 import org.openmrs.module.hl7query.api.impl.HL7QueryServiceImpl;
+import org.openmrs.util.OpenmrsConstants;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PowerMockIgnore;
 import org.powermock.core.classloader.annotations.PrepareForTest;
@@ -70,6 +76,7 @@ public abstract class MockBaseTest {
 		Mockito.when(administrationService.getGlobalProperty("hl7query.messageVersion")).thenReturn("2.5");
 		Mockito.when(administrationService.getGlobalProperty("hl7query.messageInternationalizationCode")).thenReturn("RWA");
 		Mockito.when(administrationService.getGlobalProperty("hl7query.messageProfile")).thenReturn("CLSM_V0.83");
+		Mockito.when(administrationService.getGlobalProperty(OpenmrsConstants.GLOBAL_PROPERTY_MEDICAL_RECORD_OBSERVATIONS)).thenReturn("1");
 
 		hl7QueryDAOMock = Mockito.mock(HL7QueryDAO.class);
 		HL7QueryServiceImpl hl7QueryServiceImpl = Mockito.spy(new HL7QueryServiceImpl());
@@ -80,6 +87,29 @@ public abstract class MockBaseTest {
 		Mockito.when(Context.getLocale()).thenReturn(Locale.ENGLISH);
 		Mockito.when(Context.getAdministrationService()).thenReturn(administrationService);
 		Mockito.when(Context.getService(HL7QueryService.class)).thenReturn(hl7QueryService);
+		
+		
+		//Set up the MEDICAL RECORD OBSERVATIONS concept
+		ConceptDatatype datatype = new ConceptDatatype();
+		datatype.setUuid(ConceptDatatype.CODED_UUID);
+		datatype.setHl7Abbreviation(ConceptDatatype.CODED);
+		
+		Concept concept = new Concept(1);
+		concept.setDatatype(datatype);
+		concept.addName(new ConceptName("MEDICAL RECORD OBSERVATIONS", Locale.ENGLISH));
+		
+		ConceptSource source = new ConceptSource();
+		source.setName("LOCAL");
+		
+		ConceptMap map = new ConceptMap();
+		map.setSourceCode("100");
+		map.setSource(source);
+
+		concept.addConceptMapping(map);
+		
+		ConceptService conceptService = Mockito.mock(ConceptService.class);
+		Mockito.when(Context.getConceptService()).thenReturn(conceptService);
+		Mockito.when(conceptService.getConcept(1)).thenReturn(concept);
 		
 		try {
 			setupStandardTemplates();
