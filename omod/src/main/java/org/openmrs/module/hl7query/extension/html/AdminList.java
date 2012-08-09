@@ -46,6 +46,7 @@ public class AdminList extends AdministrationSectionExt {
 		LinkedHashMap<String, String> map = new LinkedHashMap<String, String>();
 		map.put("/module/hl7query/manage.form", "hl7query.manage");
 		map.put("/module/hl7query/manageTemplates.list", "hl7query.manageTemplates");
+		map.put("/module/hl7query/hl7QuerySettings.list", "hl7query.hl7QuerySettings");
 		return map;
 	}
 	

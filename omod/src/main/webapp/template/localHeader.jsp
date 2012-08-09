@@ -19,10 +19,10 @@
 	</li>
 	
 	<li
-		<c:if test='<%= request.getRequestURI().contains("/hl7QueryAdmin") %>'>class="active"</c:if>>
+		<c:if test='<%= request.getRequestURI().contains("/hl7QuerySettings") %>'>class="active"</c:if>>
 		<a
-		href="${pageContext.request.contextPath}/module/hl7query/hl7QueryAdmin.list"><spring:message
-				code="hl7query.hl7QueryAdmin" /></a>
+		href="${pageContext.request.contextPath}/module/hl7query/hl7QuerySettings.list"><spring:message
+				code="hl7query.hl7QuerySettings" /></a>
 	</li>
 	
 	<!-- Add further links here -->
