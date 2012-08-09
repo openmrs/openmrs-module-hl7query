@@ -84,14 +84,22 @@ public class HL7OBRORUR01TemplateTest extends MockBaseTest {
 		
 		Date dateCreated = new Date(213231421890234L);
 		
-		Obs obs = new Obs();
+		Obs obs = new Obs(2);
 		obs.setConcept(concept);
 		obs.setDateCreated(dateCreated);
 		obs.setValueNumeric(10d);
 		
 		obs.setObsGroup(getObsGroup());
+		obs.getObsGroup().addGroupMember(obs);
 		
 		encounter.addObs(obs);
+		
+		obs = new Obs(3);
+		obs.setConcept(concept);
+		obs.setDateCreated(dateCreated);
+		obs.setValueNumeric(23d);
+		encounter.addObs(obs);
+		
 		
 		Map<String, Object> bindings = new HashMap<String, Object>();
 		bindings.put("encounter", encounter);
@@ -102,14 +110,20 @@ public class HL7OBRORUR01TemplateTest extends MockBaseTest {
 		String evaluatedTemplate = hl7QueryService.evaluateTemplate(hl7Template, bindings);
 		
 		//then
-		evaluatedTemplate = StringUtils.deleteWhitespace(evaluatedTemplate);
-		Assert.assertEquals("<ORU_R01.ORDER_OBSERVATION><OBR><OBR.1>1</OBR.1><OBR.4><CE.1>100</CE.1>" +
-				"<CE.2>MedSet</CE.2><CE.3>PIH</CE.3></OBR.4><OBR.18>0</OBR.18><OBR.29><EIP.2>" +
-				"<EI.3>ENCOUNTERUUID</EI.3></EIP.2></OBR.29></OBR><ORU_R01.OBSERVATION>" +
+		evaluatedTemplate = StringUtils.deleteWhitespace(evaluatedTemplate);		
+		Assert.assertEquals("<ORU_R01.ORDER_OBSERVATION><OBR><OBR.1>0</OBR.1><OBR.4><CE.1>100</CE.1>" +
+				"<CE.2>MEDICALRECORDOBSERVATIONS</CE.2><CE.3>LOCAL</CE.3></OBR.4><OBR.18>0</OBR.18>" +
+				"<OBR.29><EIP.2><EI.3>ENCOUNTERUUID</EI.3></EIP.2></OBR.29></OBR><ORU_R01.OBSERVATION>" +
 				"<OBX><OBX.1>1</OBX.1><OBX.2>NM</OBX.2><OBX.3><CE.1>200</CE.1><CE.2>NumericConcept</CE.2>" +
-				"<CE.3>AMPATH</CE.3></OBX.3><OBX.5>10.0</OBX.5><OBX.6><CE.1>mg</CE.1><CE.3>UCUM</CE.3>" +
-				"</OBX.6><OBX.14><TS.1>" + new HL7TemplateFunctions().formatDate(dateCreated, null) + "</TS.1></OBX.14></OBX></ORU_R01.OBSERVATION>" +
-				"</ORU_R01.ORDER_OBSERVATION>", evaluatedTemplate);
+				"<CE.3>AMPATH</CE.3></OBX.3><OBX.5>23.0</OBX.5><OBX.6><CE.1>mg</CE.1><CE.3>UCUM</CE.3></OBX.6>" +
+				"<OBX.14><TS.1>" + new HL7TemplateFunctions().formatDate(dateCreated, null) + "</TS.1>" +
+				"</OBX.14></OBX></ORU_R01.OBSERVATION></ORU_R01.ORDER_OBSERVATION>" +
+				"<ORU_R01.ORDER_OBSERVATION><OBR><OBR.1>2</OBR.1><OBR.4><CE.1>100</CE.1><CE.2>MedSet</CE.2>" +
+				"<CE.3>LOCAL</CE.3></OBR.4><OBR.18>0</OBR.18><OBR.29><EIP.2><EI.3>ENCOUNTERUUID</EI.3></EIP.2></OBR.29" +
+				"></OBR><ORU_R01.OBSERVATION><OBX><OBX.1>2</OBX.1><OBX.2>NM</OBX.2><OBX.3><CE.1>200</CE.1>" +
+				"<CE.2>NumericConcept</CE.2><CE.3>AMPATH</CE.3></OBX.3><OBX.5>10.0</OBX.5><OBX.6><CE.1>mg</CE.1>" +
+				"<CE.3>UCUM</CE.3></OBX.6><OBX.14><TS.1>" + new HL7TemplateFunctions().formatDate(dateCreated, null) +
+				"</TS.1></OBX.14></OBX></ORU_R01.OBSERVATION></ORU_R01.ORDER_OBSERVATION>", evaluatedTemplate);
 	}
 	
 	private Obs getObsGroup() {
@@ -122,7 +136,7 @@ public class HL7OBRORUR01TemplateTest extends MockBaseTest {
 		concept.addName(new ConceptName("MedSet", Locale.ENGLISH));
 		
 		ConceptSource source = new ConceptSource();
-		source.setName("PIH");
+		source.setName("LOCAL");
 		
 		ConceptMap map = new ConceptMap();
 		map.setSourceCode("100");
@@ -132,7 +146,7 @@ public class HL7OBRORUR01TemplateTest extends MockBaseTest {
 		
 		Date dateCreated = new Date(213231421890234L);
 		
-		Obs obs = new Obs();
+		Obs obs = new Obs(1);
 		obs.setConcept(concept);
 		obs.setDateCreated(dateCreated);
 		
