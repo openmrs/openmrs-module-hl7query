@@ -19,11 +19,11 @@
 		<th valign="top"><spring:message code="general.description"/></th>
 	</tr>
 	</c:if>
-	<c:forEach var="hL7Template" items="${hL7Templates}" varStatus="varStatus">
+	<c:forEach var="hl7Template" items="${hl7Templates}" varStatus="varStatus">
 	<tr <c:if test="${varStatus.index % 2 == 0}">class='evenRow'</c:if>>
-		<td valign="top">${hL7Template.hl7Entity}</td>
-		<td valign="top"><a href="<openmrs:contextPath />/module/hl7query/hl7Template.form?id=${hL7Template.HL7TemplateId}">${hL7Template.name}</a></td>
-		<td valign="top">${hL7Template.description}</td>
+		<td valign="top">${hl7Template.hl7Entity}</td>
+		<td valign="top"><a href="<openmrs:contextPath />/module/hl7query/hl7Template.form?id=${hl7Template.HL7TemplateId}">${hl7Template.name}</a></td>
+		<td valign="top">${hl7Template.description}</td>
 	</tr>
 	</c:forEach>
 </table>
