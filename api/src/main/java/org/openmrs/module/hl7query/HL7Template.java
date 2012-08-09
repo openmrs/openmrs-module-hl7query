@@ -37,7 +37,7 @@ public class HL7Template extends BaseOpenmrsMetadata implements OpenmrsMetadata 
 	 */
 	@Override
 	public Integer getId() {
-		return getHL7TemplateId();
+		return getHl7TemplateId();
 	}
 	
 	/**
@@ -45,34 +45,34 @@ public class HL7Template extends BaseOpenmrsMetadata implements OpenmrsMetadata 
 	 */
 	@Override
 	public void setId(Integer id) {
-		setHL7TemplateId(id);
+		setHl7TemplateId(id);
 	}
 	
 	/**
 	 * @return the hl7TemplateId
 	 */
-	public Integer getHL7TemplateId() {
+	public Integer getHl7TemplateId() {
 		return hl7TemplateId;
 	}
 	
 	/**
 	 * @param hl7TemplateId the hl7TemplateId to set
 	 */
-	public void setHL7TemplateId(Integer hl7TemplateId) {
+	public void setHl7TemplateId(Integer hl7TemplateId) {
 		this.hl7TemplateId = hl7TemplateId;
 	}
 		
 	/**
 	 * @return the hl7Entity
 	 */
-	public String getHL7Entity() {
+	public String getHl7Entity() {
 		return hl7Entity;
 	}
 	
 	/**
 	 * @param hl7Entity the hl7Entity to set
 	 */
-	public void setHL7Entity(String hl7Entity) {
+	public void setHl7Entity(String hl7Entity) {
 		this.hl7Entity = hl7Entity;
 	}
 	

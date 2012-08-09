@@ -6,7 +6,7 @@
 <hibernate-mapping package="org.openmrs.module.hl7query">
 
 	<class name="HL7Template" table="hl7query_template">
-		<id name="HL7TemplateId" type="int" column="hl7query_template_id"
+		<id name="Hl7TemplateId" type="int" column="hl7query_template_id"
 			unsaved-value="0">
 			<generator class="native" />
 		</id>
@@ -50,7 +50,7 @@
 		<property name="language" type="java.lang.String" column="language"
 			not-null="true" length="50" />
 
-		<property name="HL7Entity" type="java.lang.String" column="hl7_entity"
+		<property name="Hl7Entity" type="java.lang.String" column="hl7_entity"
 			length="50" />
 
 		<property name="template" type="java.lang.String" column="template"
