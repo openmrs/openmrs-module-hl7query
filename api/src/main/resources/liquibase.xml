@@ -425,7 +425,7 @@ if (conceptDatatype.isNumeric()) {
 			<column name="creator" valueNumeric="1" />
 			<column name="date_created" valueDate="2012-08-07" />
 			<column name="retired" valueBoolean="false" />
-			<column name="uuid" value="339aa8b6-e0b9-11e1-be42-00248140a5eb" />
+			<column name="uuid" value="339aa8b6-e0b9-11e1-be42-00248140a1ee" />
 			<column name="template">
 			<![CDATA[
 				<ORU_R01 xmlns="urn:hl7-org:v2xml">
@@ -437,7 +437,6 @@ if (conceptDatatype.isNumeric()) {
 					println '<ORU_R01.PATIENT_RESULT>'	
 						
 					print func.evaluateTemplate("Generic Patient", [encounter:encounter])
-					print func.evaluateTemplate("Generic OBR-ENC", [encounter:encounter])
 					print func.evaluateTemplate("Generic OBS Group", [encounter:encounter])	
 						
 					println '</ORU_R01.PATIENT_RESULT>'
