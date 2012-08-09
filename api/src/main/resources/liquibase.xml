@@ -304,6 +304,8 @@ if (conceptDatatype.isNumeric()) {
 			<% } %>
 		</OBX.6>
 		<% } %>
+		
+		<OBX.11>F</OBX.11>
 
 		<OBX.14>
 			<TS.1>${obs.getDateCreated()}</TS.1>
