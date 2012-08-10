@@ -93,7 +93,7 @@ if (conceptDatatype.isNumeric()) {
 		<% } %>
 
 		<OBX.14>
-			<TS.1>${obs.getDateCreated()}</TS.1>
+			<TS.1>${func.formatDate(obs.getDateCreated(), null)}</TS.1>
 		</OBX.14>
 	</OBX>
 </ORU_R01.OBSERVATION>

@@ -247,7 +247,7 @@ def conceptType = conceptDatatype.getHl7Abbreviation()
 if (conceptDatatype.isNumeric()) {
 	obx5 = obs.getValueNumeric()
 	hideObx6 = false
-	obx6ce1 = obs.getConcept()?.getUnits()
+	obx6ce1 = func.getUnits(obs.getConcept())
 	obx6ce3 = "UCUM"
 } else if (conceptDatatype.isCoded()) {
 	obx5ce2 = obs.getValueCoded()?.getName()?.toString()
@@ -306,7 +306,7 @@ if (conceptDatatype.isNumeric()) {
 		<% } %>
 
 		<OBX.14>
-			<TS.1>${obs.getDateCreated()}</TS.1>
+			<TS.1>${func.formatDate(obs.getDateCreated(), null)}</TS.1>
 		</OBX.14>
 	</OBX>
 </ORU_R01.OBSERVATION>
@@ -328,12 +328,12 @@ if (conceptDatatype.isNumeric()) {
 			<column name="uuid" value="AADDCCFf4-15f6-104d-91f4-000c22c2DABC"></column>
 			<column name="template">
 				<![CDATA[
-					<PID.5> 
-						
-			             	<XPN.1><FN.1>${encounter.getPatient().getFamilyName()}</FN.1></XPN.1>
-			         		<XPN.2>${encounter.getPatient().getGivenName()}</XPN.2>
-			         		<XPN.3>${encounter.getPatient().getMiddleName()}</XPN.3>
-			         	         			
+					<PID.5>
+						<XPN.1>
+ 							<FN.1>${patientName.getFamilyName()}</FN.1>
+						</XPN.1>
+						<XPN.2>${patientName.getGivenName()}</XPN.2>
+						<XPN.3>${patientName.getMiddleName()}</XPN.3>
 					</PID.5>
     				]]>
 			</column>
@@ -354,10 +354,9 @@ if (conceptDatatype.isNumeric()) {
 			<column name="template">
 				<![CDATA[
 					<PID.3>
-      					<CX.1>${ patientIdentifier.getIdentifier() }</CX.1>
-      					<CX.5>${ patientIdentifier.getIdentifierType()}</CX.5>
+						<CX.1>${patientIdentifier.getIdentifier()}</CX.1>
+						<CX.5>${patientIdentifier.getIdentifierType()}</CX.5>
 					</PID.3>
-
     				]]>
 			</column>
 		</insert>		
@@ -376,44 +375,68 @@ if (conceptDatatype.isNumeric()) {
 			<column name="template">
 			<![CDATA[
 				<PID>
-				    <PID.1>${ index }</PID.1>
-				    <% 
-				    	for (identifier in patient.getActiveIdentifiers()) {
-				    		print func.evaluateTemplate("Default Patient Identifier", [patient:patient])
-				     	}
-				
-				    	for (name in patient.getNames()) {
-				     		print func.evaluateTemplate("Default Patient Name", [patient:patient])
-				   		}
-				  	%>
+    				<PID.1>1</PID.1>
+   				<% 
+      				for (patientIdentifier in patient.getActiveIdentifiers()) {
+       					 if (patientIdentifier.isPreferred()) {
+          				print func.evaluateTemplate("Default Patient Identifier", [patientIdentifier:patientIdentifier])
+        				}
+      				}
+
+    				for (patientName in patient.getNames()) {
+      					if (patientName.isPreferred() && !patientName.isVoided()) {
+          				print func.evaluateTemplate("Default Patient Name", [patientName:patientName])
+        				}
+      				}
+    			%>
 				</PID>
 			]]>
 			</column>
 		</insert>
 	</changeSet>
+  
+    <changeSet author="raff" id="20120807-1530">
+    	<insert tableName="hl7query_template">
+     	<column name="name" value="Generic Patient" />
+      	<column name="description" value="Template for the patient segment" />
+      	<column name="hl7_entity" value="ORU_R01.PATIENT" />
+      	<column name="language" value="groovy" />
+      	<column name="creator" valueNumeric="1" />
+      	<column name="date_created" valueDate="2012-08-07" />
+      	<column name="retired" valueBoolean="false" />
+      	<column name="uuid" value="36ff0f3a-2993-470b-a79a-d27b42403fbd" />
+      	<column name="template">
+        	<![CDATA[
+		<ORU_R01.PATIENT>
+			${func.evaluateTemplate("Generic PID", [patient: encounter.patient])}
+			${func.evaluateTemplate("Generic PV1", [encounter: encounter])}
+		</ORU_R01.PATIENT>
+        ]]>
+       </column>
+   </insert>
+ </changeSet>
 	
-	<changeSet id="20120807-1512" author="wyclif">
+	<changeSet id="20120807-1514" author="wyclif">
 		<insert tableName="hl7query_template">
-			<column name="name" value="ORUR01 template" />
+			<column name="name" value="Generic ORUR01" />
 			<column name="description" value="Template for the ORUR01 message" />
 			<column name="hl7_entity" value="ORUR01" />
 			<column name="language" value="groovy" />
 			<column name="creator" valueNumeric="1" />
 			<column name="date_created" valueDate="2012-08-07" />
 			<column name="retired" valueBoolean="false" />
-			<column name="uuid" value="339aa8b6-e0b9-11e1-be42-00248140a5eb" />
+			<column name="uuid" value="339aa8b6-e0b9-11e1-be42-00248140a1ee" />
 			<column name="template">
 			<![CDATA[
 				<ORU_R01 xmlns="urn:hl7-org:v2xml">
 				<%
-				print func.evaluateTemplate("Generic MSH", null) 
+				print func.evaluateTemplate("MSH", null) 
 
 				for (encounter in encounters) {
 
 					println '<ORU_R01.PATIENT_RESULT>'	
 						
 					print func.evaluateTemplate("Generic Patient", [encounter:encounter])
-					print func.evaluateTemplate("Generic OBR-ENC", [encounter:encounter])
 					print func.evaluateTemplate("Generic OBS Group", [encounter:encounter])	
 						
 					println '</ORU_R01.PATIENT_RESULT>'
@@ -423,6 +446,101 @@ if (conceptDatatype.isNumeric()) {
 				</ORU_R01>
 			]]>
 			</column>
+		</insert>
+	</changeSet>
+	
+	<changeSet author="dkayiwa" id="1231200030538-332456">
+		<insert tableName="hl7query_template">
+			<column name="name" value="Generic Obs Group" />
+			<column name="description" value="Template for the Obs Group segment" />
+			<column name="hl7_entity" value="OBR" />
+			<column name="language" value="groovy" />
+			<column name="creator" valueNumeric="1" />
+			<column name="date_created" valueDate="2012-08-08" />
+			<column name="retired" valueBoolean="false" />
+			<column name="uuid" value="11BB22f4-15f5-102d-96e4-000c29c2ABC7" />
+			<column name="template">
+				<![CDATA[
+					<% 
+				   	import org.openmrs.Concept
+				   	
+				   	implementationId = func.getImplementationId()
+				   	
+				   	if (encounter.getObs().size() > 0) {
+					   	println '<ORU_R01.ORDER_OBSERVATION>'	
+					   	def obsIndex = 0
+					   	Concept concept = func.getMedicalRecordObservationsConcept()
+					   	print func.evaluateTemplate("Generic Obs Group Header", [concept:concept, obsGroupIndex:obsIndex, encounter:encounter, implementationId:implementationId])
+					   	for (obs in encounter.getObs()) {
+					   		//Starting with un-grouped obs
+					   		if (obs.getObsGroup() == null) {
+					   			obsIndex++
+					   			print func.evaluateTemplate("Generic OBX", [obs:obs, obsIndex:obsIndex, implementationId:implementationId])
+					   		}
+					    }
+					    println '</ORU_R01.ORDER_OBSERVATION>'
+					    
+					    println '<ORU_R01.ORDER_OBSERVATION>'	
+					   	def obsGroups = func.getObsGroups(encounter)
+					   	for (obsGroup in obsGroups) {
+					   		for (obs in obsGroup.getGroupMembers()) {
+					   			obsIndex++
+					    		print func.evaluateTemplate("Generic Obs Group Header", [concept:obsGroup.getConcept(), obsGroupIndex:obsIndex, encounter:encounter, implementationId:implementationId])
+					    		print func.evaluateTemplate("Generic OBX", [obs:obs, obsIndex:obsIndex, implementationId:implementationId])
+					    	}
+					   	}
+					   	println '</ORU_R01.ORDER_OBSERVATION>'
+				   	}
+				 %>	
+				]]>
+		   </column>
+		</insert>
+	</changeSet>
+	
+	<changeSet author="dkayiwa" id="1001200030538-000456">
+		<insert tableName="hl7query_template">
+			<column name="name" value="Generic Obs Group Header" />
+			<column name="description" value="Template for the Obs Group Header segment" />
+			<column name="hl7_entity" value="OBR-HEADER" />
+			<column name="language" value="groovy" />
+			<column name="creator" valueNumeric="1" />
+			<column name="date_created" valueDate="2012-08-08" />
+			<column name="retired" valueBoolean="false" />
+			<column name="uuid" value="00EF22h4-15f5-102d-96e4-000c29c20BA1" />
+			<column name="template">
+				<![CDATA[
+					<% 
+					def obx3ce1 = ""
+					def obx3ce3 = ""
+					
+					if (concept?.getConceptMappings()?.size() > 0) {
+						def map = concept.getConceptMappings().iterator().next()
+						
+						obx3ce1 = map.getSourceCode()
+						obx3ce3 = map.getSource()?.getName()
+					} else {
+						//If concept mappings are not available, use conceptId and implementationId.
+						obx3ce1 = concept?.getId()
+						obx3ce3 = implementationId
+					}
+					%>
+					
+					<OBR>
+					     <OBR.1>${ obsGroupIndex }</OBR.1>
+					     <OBR.4>
+					         <CE.1>${ obx3ce1 }</CE.1>
+					         <CE.2>${ concept.getName().toString() }</CE.2>
+					         <CE.3>${ obx3ce3 }</CE.3>
+					     </OBR.4>
+					     <OBR.18>0</OBR.18>
+					     <OBR.29>
+					         <EIP.2>
+					             <EI.3>${ encounter.getUuid() }</EI.3>
+					         </EIP.2>
+					     </OBR.29>
+					</OBR>
+				]]>
+		   </column>
 		</insert>
 	</changeSet>
 
