@@ -48,6 +48,24 @@ public class HL7QueryController {
 	
 	protected final Log log = LogFactory.getLog(getClass());
 	
+	/**
+	 * Processes requests to get encounters in hl7 format. Note that if the encounterUuid, then the
+	 * patient identifier and the identifier type are not required otherwise they ares required
+	 * 
+	 * @param patientId the patient identifier
+	 * @param idTypeUuid the patient identifier type
+	 * @param encounterUuid the uuid of the encounter
+	 * @param startDate Only encounters with an encounter datetime equal to or after this date will
+	 *            be returned
+	 * @param endDate Only encounters with an encounter datetime equal to or before this date will
+	 *            be returned
+	 * @param request the {@link HttpServletRequest} object
+	 * @return the hl7 text
+	 * @should return the expected hl7 output as xml if the xml header exists
+	 * @should return the expected hl7 in the format that matches the accept header value
+	 * @should return the patient encounters given the patient identifier and id type
+	 * @should return the patient encounters matching specified start and end encounter dates
+	 */
 	@RequestMapping(value = "module/hl7query/ORUR01", method = RequestMethod.GET)
 	@ResponseBody
 	public Object getEncounters(@RequestParam(value = "patientId", required = false) String patientId,
@@ -64,7 +82,8 @@ public class HL7QueryController {
 		if (StringUtils.isBlank(patientId) && StringUtils.isBlank(encounterUuid))
 			throw new APIException("Patient identifier cannot be blank when the encounter uuid is also blank");
 		
-		String templateNameGP = Context.getAdministrationService().getGlobalProperty(HL7QueryConstants.HL7QUERY_GP_ORUR01_TEMPLATE);
+		String templateNameGP = Context.getAdministrationService().getGlobalProperty(
+		    HL7QueryConstants.HL7QUERY_GP_ORUR01_TEMPLATE);
 		template = hL7QueryService.getHL7TemplateByName(templateNameGP);
 		if (template == null)
 			throw new APIException("Cannot find template with name '" + templateNameGP + "'");
@@ -103,7 +122,8 @@ public class HL7QueryController {
 		if (acceptHeader == null || !acceptHeader.contains("text/xml")) {
 			try {
 				hl7Output = hL7QueryService.renderPipeDelimitedHl7(hl7Output);
-			} catch (Exception e) {
+			}
+			catch (Exception e) {
 				log.error("Internal error while processing the hl7 message");
 			}
 		}
