@@ -28,6 +28,7 @@ import org.openmrs.ConceptDatatype;
 import org.openmrs.ConceptMap;
 import org.openmrs.ConceptName;
 import org.openmrs.ConceptSource;
+import org.openmrs.ImplementationId;
 import org.openmrs.api.AdministrationService;
 import org.openmrs.api.ConceptService;
 import org.openmrs.api.context.Context;
@@ -77,7 +78,11 @@ public abstract class MockBaseTest {
 		Mockito.when(administrationService.getGlobalProperty("hl7query.messageInternationalizationCode")).thenReturn("RWA");
 		Mockito.when(administrationService.getGlobalProperty("hl7query.messageProfile")).thenReturn("CLSM_V0.83");
 		Mockito.when(administrationService.getGlobalProperty(OpenmrsConstants.GLOBAL_PROPERTY_MEDICAL_RECORD_OBSERVATIONS)).thenReturn("1");
-
+		
+		ImplementationId implementationId = new ImplementationId();
+		implementationId.setImplementationId("AMPATH");
+		Mockito.when(administrationService.getImplementationId()).thenReturn(implementationId);
+		
 		hl7QueryDAOMock = Mockito.mock(HL7QueryDAO.class);
 		HL7QueryServiceImpl hl7QueryServiceImpl = Mockito.spy(new HL7QueryServiceImpl());
 		hl7QueryServiceImpl.setDao(hl7QueryDAOMock);
@@ -128,7 +133,7 @@ public abstract class MockBaseTest {
 		templateNamesToPaths.put("Generic Patient", "templates/patient_orur01.xml");
 		templateNamesToPaths.put("Default Patient Identifier", "templates/DefaultPatientIdentifier.xml");
 		templateNamesToPaths.put("Default Patient Name", "templates/DefaultPatientNameTemplate.xml");
-		templateNamesToPaths.put("Generic MSH", "templates/MSH.xml");
+		templateNamesToPaths.put("MSH", "templates/MSH.xml");
 		templateNamesToPaths.put("Generic Obs Group", "templates/OBR-OBS-GROUP.xml");
 		templateNamesToPaths.put("Generic Obs Group Header", "templates/OBR-OBS-GROUP-HEADER.xml");
 
