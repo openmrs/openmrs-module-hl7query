@@ -1,6 +1,6 @@
 <ORU_R01 xmlns="urn:hl7-org:v2xml">
 <%
-print func.evaluateTemplate("Generic MSH", null) 
+print func.evaluateTemplate("MSH", null) 
 
 for (encounter in encounters) {
 
