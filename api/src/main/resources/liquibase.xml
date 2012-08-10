@@ -247,7 +247,7 @@ def conceptType = conceptDatatype.getHl7Abbreviation()
 if (conceptDatatype.isNumeric()) {
 	obx5 = obs.getValueNumeric()
 	hideObx6 = false
-	obx6ce1 = obs.getConcept()?.getUnits()
+	obx6ce1 = func.getUnits(obs.getConcept())
 	obx6ce3 = "UCUM"
 } else if (conceptDatatype.isCoded()) {
 	obx5ce2 = obs.getValueCoded()?.getName()?.toString()
@@ -304,11 +304,9 @@ if (conceptDatatype.isNumeric()) {
 			<% } %>
 		</OBX.6>
 		<% } %>
-		
-		<OBX.11>F</OBX.11>
 
 		<OBX.14>
-			<TS.1>${obs.getDateCreated()}</TS.1>
+			<TS.1>${func.formatDate(obs.getDateCreated(), null)}</TS.1>
 		</OBX.14>
 	</OBX>
 </ORU_R01.OBSERVATION>
@@ -465,6 +463,8 @@ if (conceptDatatype.isNumeric()) {
 				<![CDATA[
 					<% 
 				   	import org.openmrs.Concept
+				   	
+				   	implementationId = func.getImplementationId()
 				   	
 				   	println '<ORU_R01.ORDER_OBSERVATION>'	
 				   	def obsIndex = 0

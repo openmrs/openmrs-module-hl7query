@@ -103,7 +103,6 @@ public class HL7OBRORUR01TemplateTest extends MockBaseTest {
 		
 		Map<String, Object> bindings = new HashMap<String, Object>();
 		bindings.put("encounter", encounter);
-		bindings.put("implementationId", "MVP");
 		
 		//when
 		HL7Template hl7Template = hl7QueryService.getHL7TemplateByName("Generic Obs Group");

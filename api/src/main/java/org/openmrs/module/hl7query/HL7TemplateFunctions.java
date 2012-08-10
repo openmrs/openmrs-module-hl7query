@@ -207,4 +207,18 @@ public class HL7TemplateFunctions {
 		
 		return concept;
 	}
+	
+	/**
+	 * Gets the units of a numeric concept.
+	 * 
+	 * @param concept the concept whose data type should be numeric.
+	 * @return the units.
+	 */
+	public String getUnits(Concept concept) {
+		if (concept == null || !concept.isNumeric()) {
+			throw new IllegalArgumentException("Should be a non null numeric concept");
+		}
+		
+		return Context.getConceptService().getConceptNumeric(concept.getConceptId()).getUnits();
+	}
 }
