@@ -1,6 +1,8 @@
 <% 
    	import org.openmrs.Concept
    	
+   	implementationId = func.getImplementationId()
+   	
    	println '<ORU_R01.ORDER_OBSERVATION>'	
    	def obsIndex = 0
    	Concept concept = func.getMedicalRecordObservationsConcept()
