@@ -1,5 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <dataset>
-	<hl7query_template hl7query_template_id="1" name="tester1" hl7_entity="PV1" template="random text1" language="groovy" creator="1" date_created="2012-08-29 10:35:30.0" retired="0" uuid="c147a176-da6c-11e1-be42-00248140a5eb" />
-	<hl7query_template hl7query_template_id="2" name="tester2" hl7_entity="OBR" template="random text2" language="groovy" creator="1" date_created="2012-08-29 10:35:30.0" retired="1" retired_by="1" date_retired="2012-08-29 11:35:30.0" uuid="ca5d0684-da6c-11e1-be42-00248140a5eb" />
+	<hl7query_template hl7query_template_id="1" name="MSH" hl7_entity="MSH" template="" language="groovy" creator="1" date_created="2012-08-29 10:35:30.0" retired="0" uuid="c147a176-da6c-11e1-be42-00248140a5eb" />
+	<hl7query_template hl7query_template_id="2" name="Generic PV1" hl7_entity="PV1" template="" language="groovy" creator="1" date_created="2012-08-29 10:35:30.0" retired="1" retired_by="1" date_retired="2012-08-29 11:35:30.0" uuid="ca5d0684-da6c-11e1-be42-00248140a5eb" />
+	<hl7query_template hl7query_template_id="4" name="Generic OBR-ENC" hl7_entity="OBR-ENC" template="" language="groovy" creator="1" date_created="2012-08-29 10:35:30.0" retired="0" uuid="z147a176-da6c-11e1-be42-00248140a5eb" />
+	<hl7query_template hl7query_template_id="5" name="Generic OBX" hl7_entity="OBX" template="" language="groovy" creator="1" date_created="2012-08-29 10:35:30.0" retired="0" uuid="y147a176-da6c-11e1-be42-00248140a5eb" />
+	<hl7query_template hl7query_template_id="6" name="Default Patient Name" hl7_entity="PID.5" template="" language="groovy" creator="1" date_created="2012-08-29 10:35:30.0" retired="0" uuid="x147a176-da6c-11e1-be42-00248140a5eb" />
+	<hl7query_template hl7query_template_id="7" name="Default Patient Identifier" hl7_entity="PID.3" template="" language="groovy" creator="1" date_created="2012-08-29 10:35:30.0" retired="0" uuid="w147a176-da6c-11e1-be42-00248140a5eb" />
+	<hl7query_template hl7query_template_id="8" name="Generic PID" hl7_entity="PID" template="" language="groovy" creator="1" date_created="2012-08-29 10:35:30.0" retired="0" uuid="v147a176-da6c-11e1-be42-00248140a5eb" />
+	<hl7query_template hl7query_template_id="9" name="Generic ORUR01" hl7_entity="ORUR01" template="ORUR01" language="groovy" creator="1" date_created="2012-08-29 10:35:30.0" retired="0" uuid="u147a176-da6c-11e1-be42-00248140a5eb" />
+	<hl7query_template hl7query_template_id="10" name="Generic Obs Group" hl7_entity="OBR" template="" language="groovy" creator="1" date_created="2012-08-29 10:35:30.0" retired="0" uuid="t147a176-da6c-11e1-be42-00248140a5eb" />
+	<hl7query_template hl7query_template_id="11" name="Generic Obs Group Header" hl7_entity="OBR-HEADER" template="" language="groovy" creator="1" date_created="2012-08-29 10:35:30.0" retired="0" uuid="s147a176-da6c-11e1-be42-00248140a5eb" />
+	<hl7query_template hl7query_template_id="12" name="Generic Patient" hl7_entity="" template="" language="groovy" creator="1" date_created="2012-08-29 10:35:30.0" retired="0" uuid="r147a176-da6c-11e1-be42-00248140a5eb" />
+
+	<global_property property="hl7query.ORUR01Template" property_value="Generic ORUR01" uuid="q147a176-da6c-11e1-be42-00248140a5ec" />
+	<global_property property="hl7query.messageSource" property_value="OPENMRS" uuid="0147a176-da6c-11e1-be42-00248140a5ec" />
+	<global_property property="hl7query.messageType" property_value="ORU_R01" uuid="2147a176-da6c-11e1-be42-00248140a5ec" />
+	<global_property property="hl7query.messageProcessingId" property_value="D" uuid="3147a176-da6c-11e1-be42-00248140a5ec" />
+	<global_property property="hl7query.messageProcessingMode" property_value="C" uuid="4147a176-da6c-11e1-be42-00248140a5ec" />
+	<global_property property="hl7query.messageVersion" property_value="2.5" uuid="5147a176-da6c-11e1-be42-00248140a5ec" />
+	<global_property property="hl7query.messageInternationalizationCode" property_value="RWA" uuid="7147a176-da6c-11e1-be42-00248140a5ec" />
+	<global_property property="hl7query.messageProfile" property_value="CLSM_V0.83" uuid="8147a176-da6c-11e1-be42-00248140a5ec" />
 </dataset>

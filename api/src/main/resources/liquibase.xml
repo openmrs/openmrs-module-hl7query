@@ -418,9 +418,9 @@ if (conceptDatatype.isNumeric()) {
    </insert>
  </changeSet>
 	
-	<changeSet id="20120807-1512" author="wyclif">
+	<changeSet id="20120807-1514" author="wyclif">
 		<insert tableName="hl7query_template">
-			<column name="name" value="ORUR01 template" />
+			<column name="name" value="Generic ORUR01" />
 			<column name="description" value="Template for the ORUR01 message" />
 			<column name="hl7_entity" value="ORUR01" />
 			<column name="language" value="groovy" />
@@ -432,7 +432,7 @@ if (conceptDatatype.isNumeric()) {
 			<![CDATA[
 				<ORU_R01 xmlns="urn:hl7-org:v2xml">
 				<%
-				print func.evaluateTemplate("Generic MSH", null) 
+				print func.evaluateTemplate("MSH", null) 
 
 				for (encounter in encounters) {
 

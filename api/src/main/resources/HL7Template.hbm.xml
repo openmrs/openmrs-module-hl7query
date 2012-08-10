@@ -54,7 +54,7 @@
 			length="50" />
 
 		<property name="template" type="java.lang.String" column="template"
-			not-null="true" />
+			not-null="true" length="65535" />
 	</class>
 
 </hibernate-mapping>
