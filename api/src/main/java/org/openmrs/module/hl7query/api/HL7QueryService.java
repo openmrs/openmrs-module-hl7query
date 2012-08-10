@@ -16,8 +16,11 @@ package org.openmrs.module.hl7query.api;
 import java.util.List;
 import java.util.Map;
 
+import org.openmrs.annotation.Authorized;
 import org.openmrs.api.OpenmrsService;
 import org.openmrs.module.hl7query.HL7Template;
+import org.openmrs.module.hl7query.util.HL7QueryPrivilegeConstants;
+import org.openmrs.util.PrivilegeConstants;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -30,6 +33,7 @@ import org.springframework.transaction.annotation.Transactional;
  * 
  * @see org.openmrs.api.context.Context
  */
+
 @Transactional
 public interface HL7QueryService extends OpenmrsService {
 	
@@ -53,6 +57,7 @@ public interface HL7QueryService extends OpenmrsService {
 	 * @should return null if does not exist
 	 */
 	@Transactional(readOnly = true)
+	@Authorized({HL7QueryPrivilegeConstants.VIEW_HL7_TEMPLATE})
 	HL7Template getHL7Template(Integer id);
 	
 	/**
@@ -64,6 +69,7 @@ public interface HL7QueryService extends OpenmrsService {
 	 * @should return null if does not exist
 	 */
 	@Transactional(readOnly = true)
+	@Authorized({HL7QueryPrivilegeConstants.VIEW_HL7_TEMPLATE})
 	HL7Template getHL7TemplateByUuid(String uuid);
 	
 	/**
@@ -75,6 +81,7 @@ public interface HL7QueryService extends OpenmrsService {
 	 * @should return null if does not exist
 	 */
 	@Transactional(readOnly = true)
+	@Authorized({HL7QueryPrivilegeConstants.VIEW_HL7_TEMPLATE})
 	HL7Template getHL7TemplateByName(String name);
 	
 	/**
@@ -86,6 +93,7 @@ public interface HL7QueryService extends OpenmrsService {
 	 * @should return empty list if no matches
 	 */
 	@Transactional(readOnly = true)
+	@Authorized({HL7QueryPrivilegeConstants.VIEW_HL7_TEMPLATE})
 	List<HL7Template> getHL7TemplatesByName(String name);
 	
 	/**
@@ -97,6 +105,7 @@ public interface HL7QueryService extends OpenmrsService {
 	 * @should return empty list if no matches
 	 */
 	@Transactional(readOnly = true)
+	@Authorized({HL7QueryPrivilegeConstants.VIEW_HL7_TEMPLATE})
 	List<HL7Template> getHL7TemplatesByEntity(String entity);
 	
 	/**
@@ -106,6 +115,7 @@ public interface HL7QueryService extends OpenmrsService {
 	 * @return HL7Template
 	 * @should save template
 	 */
+	@Authorized({HL7QueryPrivilegeConstants.ADD_HL7_TEMPLATE,HL7QueryPrivilegeConstants.EDIT_HL7_TEMPLATE})
 	HL7Template saveHL7Template(HL7Template hl7Template);
 	
 	/**
@@ -116,6 +126,7 @@ public interface HL7QueryService extends OpenmrsService {
 	 * @return HL7Template
 	 * @should retire template
 	 */
+	@Authorized({HL7QueryPrivilegeConstants.EDIT_HL7_TEMPLATE})
 	HL7Template retireHL7Template(HL7Template hl7Template, String reason);
 
 	/**
@@ -125,6 +136,7 @@ public interface HL7QueryService extends OpenmrsService {
 	 * @return HL7Template
 	 * @should unretire template
 	 */
+	@Authorized({HL7QueryPrivilegeConstants.EDIT_HL7_TEMPLATE})
 	HL7Template unretireHL7Template(HL7Template hl7Template);
 	
 	/**
@@ -133,6 +145,7 @@ public interface HL7QueryService extends OpenmrsService {
 	 * @param hl7Template
 	 * @should purge template
 	 */
+	@Authorized({HL7QueryPrivilegeConstants.EDIT_HL7_TEMPLATE})
 	void purgeHL7Template(HL7Template hl7Template);
 	
 	/**
@@ -146,6 +159,7 @@ public interface HL7QueryService extends OpenmrsService {
 	 * @should exclude retired templates if include retired is set to false
 	 */
 	@Transactional(readOnly = true)
+	@Authorized({HL7QueryPrivilegeConstants.VIEW_HL7_TEMPLATE})
 	List<HL7Template> getHL7Templates(boolean includeRetired);
 	
 	/**
