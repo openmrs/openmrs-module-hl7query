@@ -124,7 +124,6 @@ public class HL7QueryController {
 				hl7Output = hL7QueryService.renderPipeDelimitedHl7(hl7Output);
 			}
 			catch (Exception e) {
-				e.printStackTrace();
 				log.error("Internal error while processing the hl7 message", e);
 			}
 		}
