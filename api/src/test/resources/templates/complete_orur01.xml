@@ -7,7 +7,6 @@ for (encounter in encounters) {
 	println '<ORU_R01.PATIENT_RESULT>'
 		
 	print func.evaluateTemplate("Generic Patient", [encounter:encounter])
-	print func.evaluateTemplate("Generic OBR-ENC", [encounter:encounter])
 	
 	//loop over all the obs for the encounter
 	print func.evaluateTemplate("Generic OBS Group", [encounter:encounter])
