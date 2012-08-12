@@ -8,7 +8,7 @@ public class HL7MessageHeaderTest extends MockBaseTest {
 
 	@Test
 	public void shouldEvaluateMessageHeaderTemplate() throws Exception {
-		HL7Template hl7Template = hl7QueryService.getHL7TemplateByName("Generic MSH");
+		HL7Template hl7Template = hl7QueryService.getHL7TemplateByName("MSH");
 		String evaluatedTemplate = hl7QueryService.evaluateTemplate(hl7Template, null);
 		evaluatedTemplate = StringUtils.deleteWhitespace(evaluatedTemplate);
 		
