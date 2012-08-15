@@ -22,7 +22,15 @@
 	<c:forEach var="hl7Template" items="${hl7Templates}" varStatus="varStatus">
 	<tr <c:if test="${varStatus.index % 2 == 0}">class='evenRow'</c:if>>
 		<td valign="top">${hl7Template.hl7Entity}</td>
-		<td valign="top"><a href="<openmrs:contextPath />/module/hl7query/hl7Template.form?id=${hl7Template.hl7TemplateId}">${hl7Template.name}</a></td>
+		<td valign="top"><a href="<openmrs:contextPath />/module/hl7query/hl7Template.form?hl7TemplateId=${hl7Template.hl7TemplateId}">
+		<c:choose>
+			<c:when test="${hl7Template.retired == true}">
+				<del>${hl7Template.name}</del>
+			</c:when>
+			<c:otherwise>
+				${hl7Template.name}
+			</c:otherwise>
+		</c:choose></a></td>
 		<td valign="top">${hl7Template.description}</td>
 	</tr>
 	</c:forEach>
