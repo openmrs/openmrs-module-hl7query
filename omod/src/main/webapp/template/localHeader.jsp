@@ -5,9 +5,9 @@
 				code="admin.title.short" /></a></li>
 
 	<li
-		<c:if test='<%= request.getRequestURI().contains("/manage.form") %>'>class="active"</c:if>>
+		<c:if test='<%= request.getRequestURI().contains("/settings") %>'>class="active"</c:if>>
 		<a
-		href="${pageContext.request.contextPath}/module/hl7query/manage.form"><spring:message
+		href="${pageContext.request.contextPath}/module/hl7query/settings.form"><spring:message
 				code="hl7query.manage" /></a>
 	</li>
 	
