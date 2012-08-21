@@ -31,6 +31,6 @@ public class HL7TemplatesListController {
 	
 	@RequestMapping(value = "/module/hl7query/manageTemplates")
 	public void showHL7Templates(ModelMap model) {
-		model.addAttribute("hl7Templates", Context.getService(HL7QueryService.class).getHL7Templates(false));
+		model.addAttribute("hl7Templates", Context.getService(HL7QueryService.class).getHL7Templates(true));
 	}
 }

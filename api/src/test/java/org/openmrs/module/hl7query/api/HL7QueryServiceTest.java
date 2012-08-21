@@ -216,7 +216,7 @@ public class HL7QueryServiceTest extends BaseModuleContextSensitiveTest {
 	@Verifies(value = "should exclude retired templates if include retired is set to false", method = "getHL7Templates(null)")
 	public void getHL7Templates_shouldExcludeRetiredTemplatesIfIncludeRetiredIsSetToFalse() throws Exception {
 		executeDataSet("moduleTestData.xml");
-		Assert.assertEquals(1, getService().getHL7Templates(false).size());
+		Assert.assertEquals(10, getService().getHL7Templates(false).size());
 	}
 	
 	/**
@@ -226,7 +226,7 @@ public class HL7QueryServiceTest extends BaseModuleContextSensitiveTest {
 	@Verifies(value = "should get all templates", method = "getHL7Templates(null)")
 	public void getHL7Templates_shouldGetAllTemplates() throws Exception {
 		executeDataSet("moduleTestData.xml");
-		Assert.assertEquals(2, getService().getHL7Templates(true).size());
+		Assert.assertEquals(11, getService().getHL7Templates(true).size());
 	}
 	
 	/**

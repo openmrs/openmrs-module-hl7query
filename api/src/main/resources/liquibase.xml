@@ -147,53 +147,13 @@ if (messageTypeArray.length > 1) {
 						            <FN.1>${ encounter.getProvider().getFamilyName() }</FN.1>
 						        </XCN.2>
 						        <XCN.3>${ encounter.getProvider().getGivenName() }</XCN.3>
-						        <XCN.13>NID</XCN.13>
+						        <XCN.13>UUID</XCN.13>
 						    </PV1.7>
 						    <PV1.44>
 						        <TS.1>${ func.formatDate(encounter.getEncounterDatetime(), null) }</TS.1>
 						    </PV1.44>
 						</PV1>
 					 </ORU_R01.VISIT>
-				]]>
-		   </column>
-		</insert>
-	</changeSet>
-	
-	<changeSet author="dkayiwa" id="2641256230538-332232">
-		<insert tableName="hl7query_template">
-			<column name="name" value="Generic OBR-ENC" />
-			<column name="description" value="Template for the OBR Encounter segment" />
-			<column name="hl7_entity" value="OBR-ENC" />
-			<column name="language" value="groovy" />
-			<column name="creator" valueNumeric="1" />
-			<column name="date_created" valueDate="2012-08-01" />
-			<column name="retired" valueBoolean="false" />
-			<column name="uuid" value="BBCCCCf4-15f5-102d-96e4-000c29c2EFGH" />
-			<column name="template">
-				<![CDATA[
-					<ORU_R01.ORDER_OBSERVATION>
-						<OBR>
-						    <OBR.1>${ encounterIndex }</OBR.1>
-						    <OBR.3>
-						        <EI.1>${ encounter.getUuid() }</EI.1>
-						    </OBR.3>
-						    <OBR.4>
-						        <CE.2>${ encounter.getEncounterType().getName() }</CE.2>
-						    </OBR.4>
-						    <OBR.7>
-						        <TS.1>201207120000</TS.1>
-						    </OBR.7>
-						    <OBR.16>
-						        <XCN.1>${ encounter.getProvider().getUuid() }</XCN.1>
-						        <XCN.2>
-						            <FN.1>${ encounter.getProvider().getFamilyName() }</FN.1>
-						        </XCN.2>
-						        <XCN.3>${ encounter.getProvider().getGivenName() }</XCN.3>
-						    </OBR.16>
-						    <OBR.20>${ encounter.getLocation().getUuid() }</OBR.20>
-						    <OBR.21>${ encounter.getLocation().getName() }</OBR.21>
-						</OBR>
-					</ORU_R01.ORDER_OBSERVATION>
 				]]>
 		   </column>
 		</insert>
