@@ -96,19 +96,14 @@
 	<!-- /Internationalization -->
 	
 	<privilege>
-  		<name>Add HL7 Template</name>
+  		<name>Manage HL7 Template</name>
   		<description>Ability to Add HL7 templates</description>
 	</privilege>
 
 	<privilege>
-  		<name>Edit HL7 Template</name>
+  		<name>Get HL7 Template</name>
   		<description>Ability to edit HL7 templates</description>
 	</privilege>
 	
-	<privilege>
-  		<name>View HL7 Templates</name>
-  		<description>Ability to view HL7 Templates</description>
-	</privilege>
-
 </module>
 

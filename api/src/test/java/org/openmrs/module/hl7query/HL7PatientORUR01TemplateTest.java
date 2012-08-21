@@ -20,6 +20,7 @@ import java.util.UUID;
 
 import org.apache.commons.lang.StringUtils;
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.openmrs.Encounter;
 import org.openmrs.EncounterType;
@@ -29,7 +30,9 @@ import org.openmrs.PatientIdentifier;
 import org.openmrs.PatientIdentifierType;
 import org.openmrs.PersonName;
 
+@Ignore
 public class HL7PatientORUR01TemplateTest extends MockBaseTest {
+	
 	
 	@Test
 	public void shouldEvaluatePatientORUR01Template() throws Exception {
