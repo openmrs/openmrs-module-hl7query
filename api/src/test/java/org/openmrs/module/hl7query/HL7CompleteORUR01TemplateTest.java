@@ -35,7 +35,9 @@ import ca.uhn.hl7v2.model.Message;
 import ca.uhn.hl7v2.parser.EncodingNotSupportedException;
 import ca.uhn.hl7v2.parser.GenericParser;
 
+@Ignore
 public class HL7CompleteORUR01TemplateTest extends MockBaseTest {
+	
 	
 	@Test
 	public void shouldParseHL7StringToORUR01Object() throws Exception {
