@@ -94,6 +94,16 @@
 		<file>messages_es.properties</file>
 	</messages>
 	<!-- /Internationalization -->
+	
+	<privilege>
+  		<name>Manage HL7 Template</name>
+  		<description>Ability to Add HL7 templates</description>
+	</privilege>
 
+	<privilege>
+  		<name>Get HL7 Template</name>
+  		<description>Ability to edit HL7 templates</description>
+	</privilege>
+	
 </module>
 
