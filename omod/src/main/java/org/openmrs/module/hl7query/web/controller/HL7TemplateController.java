@@ -41,8 +41,6 @@ import org.springframework.web.servlet.view.RedirectView;
 /**
  * The controller for the manage templates jsp
  */
-@Controller
-
 public class HL7TemplateController extends SimpleFormController {
 	
 	protected final Log log = LogFactory.getLog(getClass());
@@ -62,7 +60,6 @@ public class HL7TemplateController extends SimpleFormController {
 		ModelAndView toReturn = new ModelAndView(new RedirectView(view));
 		
 		if (Context.isAuthenticated()) {
-			if (Context.isAuthenticated()) {
 				
 				HL7Template hl7Template = (HL7Template) obj;
 				HL7QueryService qs = Context.getService(HL7QueryService.class);
@@ -94,8 +91,6 @@ public class HL7TemplateController extends SimpleFormController {
 						toReturn = new ModelAndView(new RedirectView("hl7Template.form?hl7TemplateId=" + hl7Template.getHl7TemplateId()));
 					}
 				}
-
-			}
 		}
 		
 		return toReturn;
