@@ -21,9 +21,9 @@ Contains classes for privileges used in this module
 
 public class HL7QueryPrivilegeConstants {
 	@AddOnStartup(description = "Ability to Add, Edit or Delete HL7 templates")
-	public static final String MANAGE_HL7_TEMPLATE = "Manage HL7 Template";
+	public static final String MANAGE_HL7_TEMPLATES = "Manage HL7 Templates";
 
 	@AddOnStartup(description = "Ability to get, find or View HL7 templates")
-	public static final String GET_HL7_TEMPLATE = "Get HL7 Template";
+	public static final String GET_HL7_TEMPLATES = "Get HL7 Templates";
 	
 }

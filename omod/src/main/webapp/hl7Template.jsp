@@ -1,9 +1,9 @@
 <%@ include file="/WEB-INF/template/include.jsp"%>
-<%@ include file="/WEB-INF/template/header.jsp"%>
  
-<openmrs:require privilege="View HL7 Templates" otherwise="/login.htm" 
+<openmrs:require privilege="Manage HL7 Templates" otherwise="/login.htm" 
                  redirect="/module/hl7query/hl7Template.form"/>
 
+<%@ include file="/WEB-INF/template/header.jsp"%>
 <%@ include file="template/localHeader.jsp"%>
 
 <form method="post">

@@ -28,7 +28,7 @@
 	<!-- Module Global properties -->
 	<globalProperty>
 		<property>@MODULE_ID@.ORUR01Template</property>
-		<defaultValue></defaultValue>
+		<defaultValue>Generic ORUR01</defaultValue>
 		<description>The default ORUR01 template to use to create the hl7 messages</description>
 	</globalProperty>
     <globalProperty>
@@ -96,12 +96,12 @@
 	<!-- /Internationalization -->
 	
 	<privilege>
-  		<name>Manage HL7 Template</name>
+  		<name>Manage HL7 Templates</name>
   		<description>Ability to Add HL7 templates</description>
 	</privilege>
 
 	<privilege>
-  		<name>Get HL7 Template</name>
+  		<name>Get HL7 Templates</name>
   		<description>Ability to edit HL7 templates</description>
 	</privilege>
 	
