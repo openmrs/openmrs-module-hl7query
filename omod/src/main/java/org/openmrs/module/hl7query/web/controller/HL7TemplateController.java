@@ -41,7 +41,7 @@ import org.springframework.web.servlet.view.RedirectView;
 /**
  * The controller for the manage templates jsp
  */
-@Controller
+
 public class HL7TemplateController extends SimpleFormController {
 	
 	protected final Log log = LogFactory.getLog(getClass());

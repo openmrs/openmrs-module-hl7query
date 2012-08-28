@@ -97,7 +97,6 @@
 				<artifactId>groovy</artifactId>
 				<version>1.8.3</version>
 				<type>jar</type>
-				<scope>provided</scope>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
