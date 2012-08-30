@@ -1,0 +1,7 @@
+<PID.5>
+	<XPN.1>
+		<FN.1>${patientName.getFamilyName()}</FN.1>
+	</XPN.1>
+	<XPN.2>${patientName.getGivenName()}</XPN.2>
+	<XPN.3>${patientName.getMiddleName()}</XPN.3>
+</PID.5>

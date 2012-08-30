@@ -126,7 +126,7 @@ public abstract class MockBaseTest {
 	
 	public void setupStandardTemplates() throws Exception {
 		Map<String, String> templateNamesToPaths = new HashMap<String, String>();
-		templateNamesToPaths.put("Generic PV1", "org/openmrs/module/hl7query/api/templates/PV1.xml");
+		templateNamesToPaths.put("Generic PV1", "templates/PV1.xml");
 		templateNamesToPaths.put("Generic OBX", "templates/obx_orur01.xml");
 		templateNamesToPaths.put("Generic ORUR01", "templates/complete_orur01.xml");
 		templateNamesToPaths.put("Generic PID", "templates/PID.xml");

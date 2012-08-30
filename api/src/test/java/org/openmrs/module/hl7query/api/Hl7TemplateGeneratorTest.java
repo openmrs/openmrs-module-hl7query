@@ -70,7 +70,7 @@ public class Hl7TemplateGeneratorTest extends BaseModuleContextSensitiveTest {
 		encounter.setProvider(provider);
 		
 		
-		InputStream inputStream = getClass().getClassLoader().getResourceAsStream("org/openmrs/module/hl7query/api/templates/PV1.xml");
+		InputStream inputStream = getClass().getClassLoader().getResourceAsStream("templates/PV1.xml");
     	String xml = IOUtils.toString(inputStream);
     	
     	HL7Template template = new HL7Template();

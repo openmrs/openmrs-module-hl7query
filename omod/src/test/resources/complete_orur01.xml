@@ -1,0 +1,17 @@
+<ORU_R01 xmlns="urn:hl7-org:v2xml">
+<%
+print func.evaluateTemplate("MSH", null) 
+
+for (encounter in encounters) {
+
+	println '<ORU_R01.PATIENT_RESULT>'
+		
+	print func.evaluateTemplate("Generic Patient", [encounter:encounter])
+	
+	//loop over all the obs for the encounter
+	print func.evaluateTemplate("Generic OBS Group", [encounter:encounter])
+		
+	println '</ORU_R01.PATIENT_RESULT>'
+}
+%>
+</ORU_R01>

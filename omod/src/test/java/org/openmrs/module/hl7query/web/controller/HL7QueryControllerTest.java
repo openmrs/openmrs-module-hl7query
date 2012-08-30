@@ -50,7 +50,7 @@ public class HL7QueryControllerTest extends BaseModuleContextSensitiveTest {
 		//Set the templates text for all the templates by loading them form the test template files
 		HL7Template oruro1Template = service.getHL7TemplateByName("Generic ORUR01");
 		oruro1Template.setTemplate(IOUtils.toString(HL7QueryControllerTest.class.getClassLoader().getResourceAsStream(
-		    "templates/complete_orur01.xml")));
+			"complete_orur01.xml")));
 		
 		HL7Template MSHTemplate = service.getHL7TemplateByName("MSH");
 		MSHTemplate.setTemplate(IOUtils.toString(HL7QueryControllerTest.class.getClassLoader().getResourceAsStream(
@@ -75,7 +75,7 @@ public class HL7QueryControllerTest extends BaseModuleContextSensitiveTest {
 		//Why is this template located in a different places from the others
 		HL7Template PV1Template = service.getHL7TemplateByName("Generic PV1");
 		PV1Template.setTemplate(IOUtils.toString(HL7QueryControllerTest.class.getClassLoader().getResourceAsStream(
-		    "org/openmrs/module/hl7query/api/templates/PV1.xml")));
+		    "templates/PV1.xml")));
 		
 		//TODO Set the template text for the template in https://tickets.openmrs.org/browse/HLQRY-38
 		service.saveHL7Template(oruro1Template);
