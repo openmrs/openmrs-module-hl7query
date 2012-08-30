@@ -23,9 +23,9 @@
 	</organization>
 
 	<scm>
-		<connection>scm:svn:https://svn.openmrs.org/openmrs-modules/hl7query/trunk/</connection>
-		<developerConnection>scm:svn:https://svn.openmrs.org/openmrs-modules/hl7query/trunk/</developerConnection>
-		<url>https://svn.openmrs.org/openmrs-modules/hl7query/trunk/</url>
+		<connection>scm:git:git@github.com:openmrs/openmrs-module-hl7query.git</connection>
+		<developerConnection>scm:git:git@github.com:openmrs/openmrs-module-hl7query.git</developerConnection>
+		<url>scm:git:git@github.com:openmrs/openmrs-module-hl7query.git</url>
 	</scm>
 
 	<modules>
