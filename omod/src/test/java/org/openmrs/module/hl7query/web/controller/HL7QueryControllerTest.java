@@ -30,6 +30,7 @@ import org.openmrs.module.hl7query.api.HL7QueryService;
 import org.openmrs.test.BaseModuleContextSensitiveTest;
 import org.openmrs.test.Verifies;
 import org.springframework.mock.web.MockHttpServletRequest;
+import org.springframework.mock.web.MockHttpServletResponse;
 
 /**
  * Contains tests for the {@link HL7QueryController}
@@ -100,8 +101,9 @@ public class HL7QueryControllerTest extends BaseModuleContextSensitiveTest {
 		expectedOutput = StringUtils.deleteWhitespace(expectedOutput);
 		
 		MockHttpServletRequest request = new MockHttpServletRequest();
+		MockHttpServletResponse response = new MockHttpServletResponse();
 		request.addHeader("Accept", "text/xml");
-		String hl7Output = new HL7QueryController().getEncounters(null, null, ENCOUNTER_1_UUID, null, null, request)
+		String hl7Output = new HL7QueryController().getEncounters(null, null, ENCOUNTER_1_UUID, null, null, request, response)
 		        .toString();
 		hl7Output = StringUtils.deleteWhitespace(hl7Output);
 		//Ignore timestamp by removing it
@@ -119,7 +121,8 @@ public class HL7QueryControllerTest extends BaseModuleContextSensitiveTest {
 	@Verifies(value = "should return the expected hl7 in the format that matches the accept header value", method = "getEncounters(String,String,String,Date,Date,HttpServletRequest)")
 	public void getEncounters_shouldReturnTheExpectedHl7InTheFormatThatMatchesTheAcceptHeaderValue() throws Exception {
 		MockHttpServletRequest request = new MockHttpServletRequest();
-		String hl7Output = new HL7QueryController().getEncounters(null, null, ENCOUNTER_1_UUID, null, null, request)
+		MockHttpServletResponse response = new MockHttpServletResponse();
+		String hl7Output = new HL7QueryController().getEncounters(null, null, ENCOUNTER_1_UUID, null, null, request, response)
 		        .toString();
 		hl7Output = StringUtils.deleteWhitespace(hl7Output);
 		
@@ -152,8 +155,9 @@ public class HL7QueryControllerTest extends BaseModuleContextSensitiveTest {
 		Assert.assertEquals(expectedEncounterCount, Context.getEncounterService().getEncountersByPatient(patient).size());
 		
 		MockHttpServletRequest request = new MockHttpServletRequest();
+		MockHttpServletResponse response = new MockHttpServletResponse();
 		request.addHeader("Accept", "text/xml");
-		String hl7Output = new HL7QueryController().getEncounters(identifier, identifierTypeUuid, null, null, null, request)
+		String hl7Output = new HL7QueryController().getEncounters(identifier, identifierTypeUuid, null, null, null, request, response)
 		        .toString();
 		
 		hl7Output = StringUtils.deleteWhitespace(hl7Output);
@@ -185,10 +189,11 @@ public class HL7QueryControllerTest extends BaseModuleContextSensitiveTest {
 		Assert.assertEquals(identifierTypeUuid, patient.getPatientIdentifier().getIdentifierType().getUuid());
 		
 		MockHttpServletRequest request = new MockHttpServletRequest();
+		MockHttpServletResponse response = new MockHttpServletResponse();
 		request.addHeader("Accept", "text/xml");
 		Encounter expectedEncounter = Context.getEncounterService().getEncounter(4);
 		String hl7Output = new HL7QueryController().getEncounters(identifier, identifierTypeUuid, null,
-		    expectedEncounter.getEncounterDatetime(), expectedEncounter.getEncounterDatetime(), request).toString();
+		    expectedEncounter.getEncounterDatetime(), expectedEncounter.getEncounterDatetime(), request, response).toString();
 		
 		hl7Output = StringUtils.deleteWhitespace(hl7Output);
 		//Ignore timestamp by removing it
