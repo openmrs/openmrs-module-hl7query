@@ -52,15 +52,15 @@ public class ExceptionUtil {
 		if(isPipeDelimited){
 			//If pipe delimited, create message in json format
 			response.setContentType("application/json");
-			return WriteJsonMessage(error, segment);		
+			return writeJsonMessage(error, segment);		
 			}else{
 			//if not, create message in xml format
 				response.setContentType("text/xml");
-			return WriteXmlMessage(error, segment);	
+			return writeXmlMessage(error, segment);	
 			}
 	}
 
-	private static Object WriteJsonMessage(ErrorDetailsEnum error, String segment) {
+	private static Object writeJsonMessage(ErrorDetailsEnum error, String segment) {
 		String errorMsg = null; 
 		ObjectMapper mapper = new ObjectMapper();
 		ErrorMessageTemplate errorMessageTemplate = new ErrorMessageTemplate();
@@ -90,7 +90,7 @@ public class ExceptionUtil {
 		return userDataJSON;
 	}
 	
-	private static Object WriteXmlMessage(ErrorDetailsEnum error, String segment) {
+	private static Object writeXmlMessage(ErrorDetailsEnum error, String segment) {
 		String xmlString = null;
 		String errorDescription = null;
 		 try {
