@@ -28,6 +28,8 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
@@ -42,9 +44,28 @@ import org.w3c.dom.Text;
 
 public class ExceptionUtil {
 	
+	protected final Log log = LogFactory.getLog(getClass());
+	
+	/**
+	 * 
+	 * @param request 
+	 * 		The http request object made by the user
+	 * @param response
+	 * 		The http response object returned to the user
+	 * @param error
+	 * 		The error message object which contains the appopriate error message description and the error code
+	 * @param segment
+	 * 		An additional (optional) string used to contain additional details (etc. which parameter is causing the error)
+	 * @return
+	 * 		An appopriately formed error message object containing details of  the error
+	 * 
+	 * Based on the users request, the generateMessage() method will call either of two methods - writeJsonMessage() or writeXmlMessage().
+	 * These methods are responsible for creating a well formed error message 
+	 */
 	public static Object generateMessage(HttpServletRequest request, HttpServletResponse response, ErrorDetailsEnum error, String segment){
 		boolean isPipeDelimited = false;
 		
+		//check the users request header, and decide which method to call
 		String acceptHeader = request.getHeader("Accept");
 		if (acceptHeader == null || !acceptHeader.contains("text/xml"))
 				isPipeDelimited = true;
@@ -60,12 +81,24 @@ public class ExceptionUtil {
 			}
 	}
 
+	/**
+	 * 
+	 * @param error
+	 * 		The error message object which contains the appopriate error message description and the error code
+	 * @param segment
+	 * 		An additional (optional) string used to contain additional details (etc. which parameter is causing the error)
+	 * @return
+	 * 		An appopriately formed error message object containing details of  the error
+	 * 
+	 * This message is triggered is the user had wanted the response hl7 message to be in pipe delimited format
+	 */
 	private static Object writeJsonMessage(ErrorDetailsEnum error, String segment) {
 		String errorMsg = null; 
 		ObjectMapper mapper = new ObjectMapper();
 		ErrorMessageTemplate errorMessageTemplate = new ErrorMessageTemplate();
 		errorMessageTemplate.setError(error);
 		
+		//The segment is optional, it contains additional error message details
 		if(segment != null)
 			errorMsg = error.getMessage().toString() + " " + segment;
 		else
@@ -85,11 +118,20 @@ public class ExceptionUtil {
 			e.printStackTrace();
 		}
 		String userDataJSON = strWriter.toString();
-		System.out.println(userDataJSON);
 
 		return userDataJSON;
 	}
 	
+	/**
+	 * 
+	 * @param error
+	 * 		The error message object which contains the appopriate error message description and the error code
+	 * @param segment
+	 * 		An additional (optional) string used to contain additional details (etc. which parameter is causing the error)
+	 * @return
+	 * 		An appopriately formed error message object containing details of  the error
+	 * This message is triggered is the user had wanted the response hl7 message to be in pipe delimited format
+	 */
 	private static Object writeXmlMessage(ErrorDetailsEnum error, String segment) {
 		String xmlString = null;
 		String errorDescription = null;
