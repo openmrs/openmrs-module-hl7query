@@ -16,11 +16,12 @@ package org.openmrs.module.hl7query.util;
 
 public class ErrorMessageTemplate {
 
-	private ErrorDetailsEnum error;
-    private String errorCode;
-    private String errorMessage;
-    private String errorDetails;
-    
+	private ErrorDetailsEnum error = null;
+    private String errorCode = null;
+    private String errorMessage = null;;
+    private String errorDetails = null;
+    private String errorTrace = null;
+
 	public ErrorDetailsEnum getError() {
 		return error;
 	}
@@ -52,12 +53,25 @@ public class ErrorMessageTemplate {
 	public void setErrorDetails(String errorDetails) {
 		this.errorDetails = errorDetails;
 	}
+	
+	public String getErrorTrace() {
+		return errorTrace;
+	}
+
+	public void setErrorTrace(String errorTrace) {
+		this.errorTrace = errorTrace;
+	}
     
     
     @Override
     public String toString()
     {
-        return "ErrorMessageTemplate [errorMessage=" + error.toString() + ", errorCode=" + errorCode + ", errorDetails=" + errorDetails + "]";
+    	if(errorTrace != null){
+    		return "ErrorMessageTemplate [errorMessage=" + error.toString() + ", errorCode=" + errorCode + ", errorDetails=" + errorDetails + ", errorTrace=" + errorTrace + "]";
+    	}else{
+    		return "ErrorMessageTemplate [errorMessage=" + error.toString() + ", errorCode=" + errorCode + ", errorDetails=" + errorDetails + "]";
+    	}
+	
     }
     
 }

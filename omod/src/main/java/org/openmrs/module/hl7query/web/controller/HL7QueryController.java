@@ -123,7 +123,7 @@ public class HL7QueryController {
 		try{
 			hl7Output = hL7QueryService.evaluateTemplate(template, bindings);
 		}catch(Exception e){
-			return ExceptionUtil.generateMessage(request, response, ErrorDetailsEnum.INTERNAL_SERVER_ERROR, null);
+			return ExceptionUtil.generateMessage(request, response, ErrorDetailsEnum.INTERNAL_SERVER_ERROR, e);
 		}
 		
 		String acceptHeader = request.getHeader("Accept");

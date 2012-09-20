@@ -28,6 +28,7 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
+import org.apache.commons.lang.exception.ExceptionUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.codehaus.jackson.JsonGenerationException;
@@ -62,7 +63,7 @@ public class ExceptionUtil {
 	 * Based on the users request, the generateMessage() method will call either of two methods - writeJsonMessage() or writeXmlMessage().
 	 * These methods are responsible for creating a well formed error message 
 	 */
-	public static Object generateMessage(HttpServletRequest request, HttpServletResponse response, ErrorDetailsEnum error, String segment){
+	public static Object generateMessage(HttpServletRequest request, HttpServletResponse response, ErrorDetailsEnum error, Object segment){
 		boolean isPipeDelimited = false;
 		
 		//check the users request header, and decide which method to call
@@ -92,17 +93,23 @@ public class ExceptionUtil {
 	 * 
 	 * This message is triggered is the user had wanted the response hl7 message to be in pipe delimited format
 	 */
-	private static Object writeJsonMessage(ErrorDetailsEnum error, String segment) {
+	private static Object writeJsonMessage(ErrorDetailsEnum error, Object segment) {
 		String errorMsg = null; 
 		ObjectMapper mapper = new ObjectMapper();
 		ErrorMessageTemplate errorMessageTemplate = new ErrorMessageTemplate();
 		errorMessageTemplate.setError(error);
 		
-		//The segment is optional, it contains additional error message details
-		if(segment != null)
+		//The segment is optional, it contains additional error message details	
+		if(segment != null) {
+			if(segment instanceof String){
 			errorMsg = error.getMessage().toString() + " " + segment;
-		else
+			}else if(segment instanceof Exception){
+			errorMsg = error.getMessage().toString() + " " + (ExceptionUtils.getRootCauseMessage((Exception) segment)).toString();
+			errorMessageTemplate.setErrorTrace(ExceptionUtils.getFullStackTrace((Exception) segment));
+			}
+		}else{
 			errorMsg = error.getMessage().toString();
+		}
 			
 		errorMessageTemplate.setErrorMessage(errorMsg);
 		errorMessageTemplate.setErrorCode(Integer.toString(error.getCode()));
@@ -132,9 +139,10 @@ public class ExceptionUtil {
 	 * 		An appopriately formed error message object containing details of  the error
 	 * This message is triggered is the user had wanted the response hl7 message to be in pipe delimited format
 	 */
-	private static Object writeXmlMessage(ErrorDetailsEnum error, String segment) {
+	private static Object writeXmlMessage(ErrorDetailsEnum error, Object segment) {
 		String xmlString = null;
 		String errorDescription = null;
+		String stackTrace = null;
 		 try {
 	            DocumentBuilderFactory dbfac = DocumentBuilderFactory.newInstance();
 	            DocumentBuilder docBuilder = dbfac.newDocumentBuilder();
@@ -148,14 +156,28 @@ public class ExceptionUtil {
 	            Element errorMsg = doc.createElement("errorMessage");
 	            root.appendChild(errorMsg);
 
-	            if(segment != null)
-	            	errorDescription = error.getMessage().toString() + " " + segment;
-	            else
+	            if(segment != null){
+	            	if(segment instanceof String){
+	            		errorDescription = error.getMessage().toString() + " " + segment;
+	            	}else if (segment instanceof Exception){
+	            		errorDescription = error.getMessage().toString() + " " + (ExceptionUtils.getRootCauseMessage((Exception) segment)).toString();
+	        			stackTrace = ExceptionUtils.getFullStackTrace((Exception) segment);
+	            	}
+	            }  else{
 	            	errorDescription = error.getMessage().toString();
+	            }
 	            
-	            //add a text element to the child
+	            //add a text element to the child	            
 	            Text errorText = doc.createTextNode(errorDescription);
 	            errorMsg.appendChild(errorText);
+	            
+	            if(stackTrace != null){
+	            	Element errorTrace = doc.createElement("staceTrace");
+	 	            root.appendChild(errorTrace);
+	 	            
+	 	          Text stackTraceText = doc.createTextNode(stackTrace);
+	 	          errorTrace.appendChild(stackTraceText);
+	            }
 	            
 	            //create child element, add an attribute, and add to root
 	            Element errorCode = doc.createElement("errorCode");
