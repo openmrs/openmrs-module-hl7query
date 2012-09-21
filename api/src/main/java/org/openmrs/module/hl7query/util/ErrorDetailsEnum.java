@@ -14,19 +14,25 @@
 
 package org.openmrs.module.hl7query.util;
 
+import org.openmrs.api.context.Context;
+
 /**
  * The ErrorDetailsEnum class contains appopriate error message and error code pairs for each error condition which may occur while processing requests 
  *
  */
 
 public enum ErrorDetailsEnum {
-	 MISSING_IDENTIFIERS(HL7ErrorConstants.MISSING_IDENTIFIERS, 400), 
-	 MISSING_TEMPLATE(HL7ErrorConstants.MISSING_TEMPLATE, 400), 
-	 MISSING_UUID(HL7ErrorConstants.MISSING_UUID, 400),
-	 MISSING_IDENTIFIER_TYPE(HL7ErrorConstants.MISSING_IDENTIFIER_TYPE, 400),
-	 MISSING_PATIENT(HL7ErrorConstants.MISSING_PATIENT, 400),
-	 MULTIPLE_PATIENTS(HL7ErrorConstants.MULTIPLE_PATIENTS, 400),
-	 INTERNAL_SERVER_ERROR(HL7ErrorConstants.INTERNAL_SERVER_ERROR, 500);
+	/**
+	 * The enum contains detailed error messages which are populated from the messages.properties file
+	 */
+	
+	 MISSING_IDENTIFIERS(Context.getMessageSourceService().getMessage("hl7query.missingIdentifiers"), 400), 
+	 MISSING_TEMPLATE(Context.getMessageSourceService().getMessage("hl7query.missingTemplate"), 400), 
+	 MISSING_UUID(Context.getMessageSourceService().getMessage("hl7query.missingUuid"), 400),
+	 MISSING_IDENTIFIER_TYPE(Context.getMessageSourceService().getMessage("hl7query.missingIdentifierType"), 400),
+	 MISSING_PATIENT(Context.getMessageSourceService().getMessage("hl7query.missingPatient"), 400),
+	 MULTIPLE_PATIENTS(Context.getMessageSourceService().getMessage("hl7query.multiplePatients"), 400),
+	 INTERNAL_SERVER_ERROR(Context.getMessageSourceService().getMessage("hl7query.internalServerError"), 500);
 	 
 	 private int code;
 	 private String message;
