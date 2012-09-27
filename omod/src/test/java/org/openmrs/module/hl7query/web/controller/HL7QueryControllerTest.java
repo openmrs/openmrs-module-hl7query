@@ -126,9 +126,10 @@ public class HL7QueryControllerTest extends BaseModuleContextSensitiveTest {
 		        .toString();
 		hl7Output = StringUtils.deleteWhitespace(hl7Output);
 		
-		//TODO Find a better way to test this
-		//Check it contains series of pipes
-		Assert.assertTrue(hl7Output.contains("||||||"));
+		//Test if constant values exist in pipe delimited format
+		Assert.assertTrue(hl7Output.contains("||ORU^R01^ORU_R01|"));
+		Assert.assertTrue(hl7Output.contains("|D^C|2.5^RWA|||||||||CLSM_V0.83PID|1PV1||0|"));
+		
 		Assert.assertFalse(hl7Output.contains("<ORU_R01 xmlns=\"urn:hl7-org:v2xml\">"));
 		Assert.assertFalse(hl7Output.contains("</ORU_R01>"));
 	}
@@ -202,5 +203,65 @@ public class HL7QueryControllerTest extends BaseModuleContextSensitiveTest {
 		hl7Output = StringUtils.replace(hl7Output, StringUtils.substringBetween(hl7Output, "<MSH.10>", "</MSH.10>"), "");
 		
 		Assert.assertEquals(expectedOutput, hl7Output);
+	}
+	
+	@Test
+	@Verifies(value = "should return appopriately formed error message if patient id and encounter uuid are null", method = "getEncounters(String,String,String,Date,Date,HttpServletRequest)")
+	public void getEncounters_shouldReturnAppopriatelyFormedErrorMessageIfPatientIdAndEncounterUuidAreNull() throws Exception {
+		
+		//Test the xml formatted error message
+		String expectedOutput = IOUtils.toString(getClass().getClassLoader().getResourceAsStream(
+			    "missingIdentifiersXmlError.xml"));
+			expectedOutput = StringUtils.deleteWhitespace(expectedOutput);
+			
+			MockHttpServletRequest request = new MockHttpServletRequest();
+			MockHttpServletResponse response = new MockHttpServletResponse();
+			request.addHeader("Accept", "text/xml");
+			String hl7Output = new HL7QueryController().getEncounters(null, null, null, null, null, request, response)
+			        .toString();
+			hl7Output = StringUtils.deleteWhitespace(hl7Output);
+			Assert.assertEquals(hl7Output, expectedOutput);
+			
+		//Test the json error message
+		String expectedPipeOutput = IOUtils.toString(getClass().getClassLoader().getResourceAsStream(
+				  "missingIdentifiersJsonError.json"));
+			expectedPipeOutput = StringUtils.deleteWhitespace(expectedPipeOutput);
+				
+			MockHttpServletRequest pipeRequest = new MockHttpServletRequest();
+			MockHttpServletResponse pipeResponse = new MockHttpServletResponse();
+				
+			String hl7PipeOutput = new HL7QueryController().getEncounters(null, null, null, null, null, pipeRequest, pipeResponse)
+				   .toString();
+			hl7Output = StringUtils.deleteWhitespace(hl7PipeOutput);
+			Assert.assertEquals(hl7PipeOutput, expectedPipeOutput);		
+	}
+	
+	@Test
+	@Verifies(value = "should return appopriately formed error message if encounter uuid is not found", method = "getEncounters(String,String,String,Date,Date,HttpServletRequest)")
+	public void getEncounters_shouldReturnAppopriatelyFormedErrorMessageIfEncounterUuidIsNotFound() throws Exception {
+		
+		//Test the xml formatted error message
+		String expectedOutput = IOUtils.toString(getClass().getClassLoader().getResourceAsStream(
+			    "missingEncounterUuidXmlError.xml"));
+			expectedOutput = StringUtils.deleteWhitespace(expectedOutput);
+			
+			MockHttpServletRequest request = new MockHttpServletRequest();
+			MockHttpServletResponse response = new MockHttpServletResponse();
+			request.addHeader("Accept", "text/xml");
+			String hl7Output = new HL7QueryController().getEncounters(null, null, "0", null, null, request, response)
+			        .toString();
+			hl7Output = StringUtils.deleteWhitespace(hl7Output);
+			Assert.assertEquals(hl7Output, expectedOutput);
+			
+		//Test the json error message
+		String expectedPipeOutput = IOUtils.toString(getClass().getClassLoader().getResourceAsStream(
+				"missingEncounterUuidJsonError.json"));
+					
+			MockHttpServletRequest pipeRequest = new MockHttpServletRequest();
+			MockHttpServletResponse pipeResponse = new MockHttpServletResponse();
+					
+			String hl7PipeOutput = new HL7QueryController().getEncounters(null, null, "0", null, null, pipeRequest, pipeResponse)
+				.toString();
+			Assert.assertEquals(hl7PipeOutput, expectedPipeOutput);	
 	}
 }

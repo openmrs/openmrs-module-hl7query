@@ -1,0 +1,4 @@
+<error>
+   <errorMessage>hl7query.missingIdentifiers</errorMessage>
+   <errorCode>400</errorCode>
+</error>
