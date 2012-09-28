@@ -13,6 +13,8 @@
  */
 package org.openmrs.module.hl7query;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Map;
 
 import org.junit.Assert;
@@ -141,4 +143,47 @@ public class HL7TemplateFunctionsTest extends BaseModuleContextSensitiveTest {
 		
 		Assert.assertEquals("Value is: acustomvalue", functions.evaluateTemplate("customgp", null));
 	}
+	
+	/**
+	 * Test if the formatDate method creates a new date object if no date is passed in as an input parameter
+	 * @throws Exception
+	 */
+	@Test
+	public void formatDate_shouldCreateNewDateIfInputDateIsNull() throws Exception {
+		
+		HL7TemplateFunctions functions = new HL7TemplateFunctions();
+		Assert.assertNotNull(functions.formatDate(null, null));
+	}
+	
+	/**
+	 * Test if the formatDate method uses the default Dateformat to format the date object if none is specified
+	 * in the method call
+	 * @throws Exception
+	 */
+	@Test
+	public void formatDate_shouldUseDefaultDateFormatIfInputDateFormatIsNull() throws Exception {
+	
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
+		Date testDate = new Date();
+		String dateString = dateFormat.format(testDate);
+		
+		HL7TemplateFunctions functions = new HL7TemplateFunctions();
+		Assert.assertEquals(dateString, functions.formatDate(testDate, null));
+	}
+	
+	/**
+	 * Test if the formatDate method uses the provided DateFormat to format the specified date
+	 * @throws Exception
+	 */
+	@Test
+	public void formatDate_shouldUseInputDateFormatToFormatDate() throws Exception {
+		
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
+		Date testDate = new Date();
+		String dateString = dateFormat.format(testDate);
+		
+		HL7TemplateFunctions functions = new HL7TemplateFunctions();
+		Assert.assertEquals(dateString, functions.formatDate(testDate, "yyyyMMdd"));
+	}
+	
 }
