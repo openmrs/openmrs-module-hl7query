@@ -503,5 +503,42 @@ if (conceptDatatype.isNumeric()) {
 		   </column>
 		</insert>
 	</changeSet>
+	
+	<changeSet author="surangak" id="1641256230538-331141">
+		<update tableName="hl7query_template">
+			<column name="template">
+				<![CDATA[
+					<ORU_R01.VISIT>
+						<PV1>
+						    <PV1.2>0</PV1.2>
+						    <% if (encounter.getLocation() != null) { %>
+						    <PV1.3>
+						        <PL.1>${ encounter.getLocation().getUuid() }</PL.1>
+						        <PL.4>
+						            <HD.1>${ encounter.getLocation().getName() }</HD.1>
+						        </PL.4>
+						    </PV1.3>
+						    <% } %>
+						    <% if (encounter.getEncounterType() != null) { %>
+						    <PV1.4>${ encounter.getEncounterType().getName() }</PV1.4>
+						    <% } %>
+						    <PV1.7>
+						        <XCN.1>${ encounter.getProvider().getUuid() }</XCN.1>
+						        <XCN.2>
+						            <FN.1>${ encounter.getProvider().getFamilyName() }</FN.1>
+						        </XCN.2>
+						        <XCN.3>${ encounter.getProvider().getGivenName() }</XCN.3>
+						        <XCN.13>UUID</XCN.13>
+						    </PV1.7>
+						    <PV1.44>
+						        <TS.1>${ func.formatDate(encounter.getEncounterDatetime(), null) }</TS.1>
+						    </PV1.44>
+						</PV1>
+					 </ORU_R01.VISIT>
+				]]>
+		   </column>
+		   <where>name='Generic PV1'</where>
+		</update>
+	</changeSet>
 
 </databaseChangeLog>
