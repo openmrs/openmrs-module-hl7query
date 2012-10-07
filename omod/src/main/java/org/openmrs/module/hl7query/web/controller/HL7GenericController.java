@@ -83,7 +83,7 @@ public class HL7GenericController {
 		HL7Template template = null;
 		Patient patient = null;
 		
-		if (StringUtils.isBlank(templateName) && (hL7QueryService.getHL7TemplateByName(templateName) == null))
+		if (StringUtils.isBlank(templateName) || (hL7QueryService.getHL7TemplateByName(templateName) == null))
 			return ExceptionUtil.generateMessage(request, response, ErrorDetailsEnum.MISSING_TEMPLATE, templateName);
 			
 		if (StringUtils.isBlank(patientId) && StringUtils.isBlank(encounterUuid))
