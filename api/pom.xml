@@ -62,7 +62,8 @@
 		<dependency>
 			<groupId>org.codehaus.groovy</groupId>
 			<artifactId>groovy</artifactId>
-		</dependency>
+			<scope>provided</scope>
+		</dependency> 
 		
 	</dependencies>
 	

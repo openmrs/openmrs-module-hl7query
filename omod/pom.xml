@@ -40,24 +40,6 @@
 			<groupId>org.openmrs.api</groupId>
 			<artifactId>openmrs-api</artifactId>
 			<type>jar</type>
-			<exclusions>
-				<exclusion>
-					<artifactId>asm-tree</artifactId>
-					<groupId>asm</groupId>
-				</exclusion>
-				<exclusion>
-					<artifactId>antlr</artifactId>
-					<groupId>antlr</groupId>
-				</exclusion>
-				<exclusion>
-					<artifactId>asm-commons</artifactId>
-					<groupId>asm</groupId>
-				</exclusion>
-				<exclusion>
-					<artifactId>asm-util</artifactId>
-					<groupId>asm</groupId>
-				</exclusion>
-			</exclusions>
 		</dependency>
 
 		<dependency>
@@ -88,13 +70,6 @@
 		</dependency>
 		
 		<!-- End OpenMRS core -->
-		
-						
-	    <dependency>
-  			<groupId>com.fasterxml.jackson.core</groupId>
-  			<artifactId>jackson-core</artifactId>
-  			<version>2.0.6</version>
-	    </dependency>
 
 	</dependencies>
 
