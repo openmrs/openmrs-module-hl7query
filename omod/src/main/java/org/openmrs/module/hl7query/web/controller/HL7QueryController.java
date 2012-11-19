@@ -46,7 +46,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
  * The main controller.
  */
 @Controller
-public class HL7QueryController {
+public class HL7QueryController extends BaseHL7QueryController {
 	
 	protected final Log log = LogFactory.getLog(getClass());
 	
@@ -75,7 +75,7 @@ public class HL7QueryController {
 	                            @RequestParam(value = "encounterUuid", required = false) String encounterUuid,
 	                            @RequestParam(value = "startDate", required = false) Date startDate,
 	                            @RequestParam(value = "endDate", required = false) Date endDate, 
-	                            HttpServletRequest request, HttpServletResponse response) {
+	                            HttpServletRequest request, HttpServletResponse response) throws ResponseException {
 		
 		List<Encounter> encounters = new ArrayList<Encounter>();
 		EncounterService encounterService = Context.getEncounterService();
