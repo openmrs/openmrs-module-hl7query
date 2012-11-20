@@ -39,7 +39,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
  * html content, as the core web application does.)
  */
 @Controller
-//@RequestMapping(value = "module/hl7query")
+@RequestMapping(value = "/module/hl7query/**")
 public class BaseHL7QueryController {
 	
 	private int errorCode = HttpServletResponse.SC_INTERNAL_SERVER_ERROR;

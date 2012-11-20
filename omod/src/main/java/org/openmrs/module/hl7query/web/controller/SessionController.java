@@ -29,7 +29,7 @@ import org.springframework.web.context.request.WebRequest;
  * any other resource.
  */
 @Controller
-@RequestMapping(value = "/hl7query/session")
+@RequestMapping(value = "/module/hl7query/session")
 public class SessionController extends BaseHL7QueryController {
 	
 	/**

@@ -28,6 +28,7 @@ import org.apache.commons.logging.LogFactory;
 import org.openmrs.Encounter;
 import org.openmrs.Patient;
 import org.openmrs.PatientIdentifierType;
+import org.openmrs.api.APIAuthenticationException;
 import org.openmrs.api.EncounterService;
 import org.openmrs.api.PatientService;
 import org.openmrs.api.context.Context;
@@ -46,6 +47,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
  * The main controller.
  */
 @Controller
+@ RequestMapping(value = "/module/hl7query/ORUR01")
 public class HL7QueryController extends BaseHL7QueryController {
 	
 	protected final Log log = LogFactory.getLog(getClass());
@@ -68,8 +70,9 @@ public class HL7QueryController extends BaseHL7QueryController {
 	 * @should return the patient encounters given the patient identifier and id type
 	 * @should return the patient encounters matching specified start and end encounter dates
 	 */
-	@RequestMapping(value = "module/hl7query/ORUR01", method = RequestMethod.GET)
+	
 	@ResponseBody
+	@RequestMapping(method = RequestMethod.GET)
 	public Object getEncounters(@RequestParam(value = "patientId", required = false) String patientId,
 	                            @RequestParam(value = "idTypeUuid", required = false) String idTypeUuid,
 	                            @RequestParam(value = "encounterUuid", required = false) String encounterUuid,
