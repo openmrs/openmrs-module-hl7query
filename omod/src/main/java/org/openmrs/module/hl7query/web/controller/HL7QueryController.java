@@ -78,7 +78,7 @@ public class HL7QueryController extends BaseHL7QueryController {
 	                            @RequestParam(value = "encounterUuid", required = false) String encounterUuid,
 	                            @RequestParam(value = "startDate", required = false) Date startDate,
 	                            @RequestParam(value = "endDate", required = false) Date endDate, 
-	                            HttpServletRequest request, HttpServletResponse response) throws ResponseException {
+	                            HttpServletRequest request, HttpServletResponse response) {
 		
 		List<Encounter> encounters = new ArrayList<Encounter>();
 		EncounterService encounterService = Context.getEncounterService();

@@ -34,8 +34,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 /**
- * Resource controllers should extend this base class to have standard exception handling done
- * automatically. (This is necessary to send error messages as HTTP statuses rather than just as
+ * Any controller that wants to use BASIC authentication needs to extend the BaseHL7QueryController.
+ * The BaseHL7QueryController used Spring Exception handling to manage exceptions automatically.
+ * (This is necessary to send error messages as HTTP statuses rather than just as
  * html content, as the core web application does.)
  */
 @Controller
@@ -48,7 +49,7 @@ public class BaseHL7QueryController {
 	
 	@ExceptionHandler(APIAuthenticationException.class)
 	@ResponseBody
-	private AuthenticationErrorObject apiAuthenticationExceptionHandler(Exception ex, HttpServletResponse response) throws Exception {
+	public AuthenticationErrorObject apiAuthenticationExceptionHandler(Exception ex, HttpServletResponse response) throws Exception {
 		if (Context.isAuthenticated()) {
 			// user is logged in but doesn't have the relevant privilege -> 403 FORBIDDEN
 			errorCode = HttpServletResponse.SC_FORBIDDEN;
@@ -81,24 +82,5 @@ public class BaseHL7QueryController {
 		response.setStatus(errorCode);
 		return ExceptionUtil.wrapErrorResponse(ex, errorDetail);
 	}
-	
-	/**
-	 * Gets a catalog of all available resources.
-	 * 
-	 * @return
-	 * @throws Exception
-	 */
-/*	@RequestMapping(method = RequestMethod.GET, value = "/rest/catalog")
-	@ResponseBody
-	public Object getResourceCatalog(HttpServletRequest request) throws Exception {
-		SimpleObject resourceCatalog = new SimpleObject();
-		String prefix = RestConstants.URI_PREFIX;
-		//strip the ending string '/rest/' because it will be added by ResourceDocCreator.create
-		if (StringUtils.isNotBlank(prefix) && prefix.endsWith("/rest/"))
-			prefix = prefix.substring(0, prefix.lastIndexOf("/rest/"));
-		
-		resourceCatalog.put("catalog", ResourceDocCreator.create(prefix));
-		
-		return new LinkedHashMap<String, Object>(resourceCatalog);
-	}*/
+
 }
