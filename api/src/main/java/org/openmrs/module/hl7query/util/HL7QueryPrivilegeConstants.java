@@ -20,6 +20,7 @@ Contains classes for privileges used in this module
  */
 
 public class HL7QueryPrivilegeConstants {
+	
 	@AddOnStartup(description = "Ability to Add, Edit or Delete HL7 templates")
 	public static final String MANAGE_HL7_TEMPLATES = "Manage HL7 Templates";
 
