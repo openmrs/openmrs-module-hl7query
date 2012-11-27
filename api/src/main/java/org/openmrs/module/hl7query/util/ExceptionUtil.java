@@ -17,6 +17,7 @@ package org.openmrs.module.hl7query.util;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.io.Writer;
+import java.util.LinkedHashMap;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -34,6 +35,7 @@ import org.apache.commons.logging.LogFactory;
 import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
+import org.openmrs.module.hl7query.AuthenticationErrorObject;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Text;
@@ -204,6 +206,38 @@ public class ExceptionUtil {
 	            e.printStackTrace();
 	        }
 		 return xmlString;
+	}
+
+	/**
+	 * Wraps the exception message as a SimpleObject to be sent to client
+	 * 
+	 * @param ex
+	 * @param reason
+	 * @return
+	 */
+	public static AuthenticationErrorObject wrapErrorResponse(Exception ex, String reason) {
+		LinkedHashMap map = new LinkedHashMap();
+		if (reason != null && !reason.isEmpty()) {
+			map.put("message", reason);
+		} else
+			map.put("message", ex.getMessage());
+		StackTraceElement ste = ex.getStackTrace()[0];
+		map.put("code", ste.getClassName() + ":" + ste.getLineNumber());
+		map.put("detail", ExceptionUtils.getStackTrace(ex));
+		return new AuthenticationErrorObject().add("error", map);
+	}
+
+	/**
+	 * Inspects the cause chain for the given throwable, looking for an exception of the given class
+	 * (e.g. to find an APIAuthenticationException wrapped in an InvocationTargetException)
+	 * 
+	 * @param throwable
+	 * @param causeClassToLookFor
+	 * @return whether any exception in the cause chain of throwable is an instance of
+	 *         causeClassToLookFor
+	 */
+	public static boolean hasCause(Throwable throwable, Class<? extends Throwable> causeClassToLookFor) {
+		return ExceptionUtils.indexOfType(throwable, causeClassToLookFor) >= 0;
 	}
 
 }

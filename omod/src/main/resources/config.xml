@@ -105,5 +105,16 @@
   		<description>Ability to edit HL7 templates</description>
 	</privilege>
 	
+		<!-- Filters -->
+    <filter>
+		<filter-name>Hl7Query Authorization</filter-name>
+		<filter-class>org.openmrs.module.hl7query.web.filter.AuthorizationFilter</filter-class>
+	</filter>
+    
+    <filter-mapping>
+		<filter-name>Hl7Query Authorization</filter-name>
+		<url-pattern>/module/hl7query/*</url-pattern>
+	</filter-mapping>
+	
 </module>
 

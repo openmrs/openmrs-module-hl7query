@@ -46,7 +46,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
  * The main controller.
  */
 @Controller
-public class HL7QueryController {
+@RequestMapping(value = "/module/hl7query/ORUR01")
+public class HL7QueryController extends BaseHL7QueryController {
 	
 	protected final Log log = LogFactory.getLog(getClass());
 	
@@ -68,7 +69,7 @@ public class HL7QueryController {
 	 * @should return the patient encounters given the patient identifier and id type
 	 * @should return the patient encounters matching specified start and end encounter dates
 	 */
-	@RequestMapping(value = "module/hl7query/ORUR01", method = RequestMethod.GET)
+	@RequestMapping(method = RequestMethod.GET)
 	@ResponseBody
 	public Object getEncounters(@RequestParam(value = "patientId", required = false) String patientId,
 	                            @RequestParam(value = "idTypeUuid", required = false) String idTypeUuid,
