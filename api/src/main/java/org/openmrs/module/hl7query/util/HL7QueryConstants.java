@@ -24,4 +24,6 @@ public final class HL7QueryConstants {
 	 * Global property name for the default ORUR01 template to use to create the hl7 messages
 	 */
 	public static final String HL7QUERY_GP_ORUR01_TEMPLATE = MODULE_ID + ".ORUR01Template";
+	
+	public static final String URI_PREFIX = "/hl7query";
 }
