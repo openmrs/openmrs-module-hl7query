@@ -96,6 +96,12 @@
 				<artifactId>groovy</artifactId>
 				<version>1.8.3</version>
 				<type>jar</type>
+				<exclusions>
+                	<exclusion>
+                    	<artifactId>antlr</artifactId>
+                    	<groupId>antlr</groupId>
+                	</exclusion>
+            	</exclusions>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
