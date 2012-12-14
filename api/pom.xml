@@ -62,6 +62,12 @@
 		<dependency>
 			<groupId>org.codehaus.groovy</groupId>
 			<artifactId>groovy</artifactId>
+			<exclusions>
+            	<exclusion>
+                	<artifactId>antlr</artifactId>
+                	<groupId>antlr</groupId>
+              	</exclusion>
+           	</exclusions>
 		</dependency> 
 		
 	</dependencies>
