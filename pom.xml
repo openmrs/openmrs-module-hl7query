@@ -22,10 +22,24 @@
 	</organization>
 
 	<scm>
-		<connection>scm:git:git@github.com:openmrs/openmrs-module-hl7query.git</connection>
-		<developerConnection>scm:git:git@github.com:openmrs/openmrs-module-hl7query.git</developerConnection>
-		<url>scm:git:git@github.com:openmrs/openmrs-module-hl7query.git</url>
+		<connection>scm:git:https://github.com/openmrs/openmrs-module-hl7query</connection>
+		<developerConnection>scm:git:https://github.com/openmrs/openmrs-module-hl7query</developerConnection>
+		<url>https://github.com/openmrs/openmrs-module-hl7query</url>
+		<tag>HEAD</tag>
 	</scm>
+	
+	<distributionManagement>
+		<repository>
+			<id>openmrs-repo-modules</id>
+			<name>Modules</name>
+			<url>http://mavenrepo.openmrs.org/nexus/content/repositories/modules</url>
+		</repository>
+		<snapshotRepository>
+			<id>openmrs-repo-snapshots</id>
+			<name>Modules</name>
+			<url>http://mavenrepo.openmrs.org/nexus/content/repositories/snapshots</url>
+		</snapshotRepository>
+	</distributionManagement>
 
 	<modules>
 		<module>api</module>
