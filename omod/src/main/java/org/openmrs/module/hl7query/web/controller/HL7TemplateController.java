@@ -25,6 +25,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.hl7query.HL7Template;
+import org.openmrs.module.hl7query.SenderProfile;
 import org.openmrs.module.hl7query.api.HL7QueryService;
 import org.openmrs.web.WebConstants;
 import org.springframework.stereotype.Controller;
@@ -67,7 +68,15 @@ public class HL7TemplateController extends SimpleFormController {
 				HL7QueryService qs = Context.getService(HL7QueryService.class);
 				
 				//to save the patient identifier type
-				if (request.getParameter("save") != null) {		
+				if (request.getParameter("save") != null) {
+					
+					SenderProfile sp = new SenderProfile();
+					sp.setAction("dummy action");
+					sp.setMessage_format("dummy messseage format");
+					sp.setName("dummy name");
+					sp.setProfile_status(true);
+					sp.setUrl("dummy_url");
+					
 					qs.saveHL7Template(hl7Template);
 					httpSession.setAttribute(WebConstants.OPENMRS_MSG_ATTR, "hl7query.saved");
 					toReturn = new ModelAndView(new RedirectView("hl7Template.form?hl7TemplateId=" + hl7Template.getHl7TemplateId()));
