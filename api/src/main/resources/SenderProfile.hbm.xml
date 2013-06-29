@@ -5,23 +5,23 @@
 <hibernate-mapping>
     <class name="org.openmrs.module.hl7query.SenderProfile" table="SENDERPROFILE">
         <id name="sender_profile_id" type="long">
-            <column name="SENDER_PROFILE_ID" />
+            <column name="sender_profile_id" />
             <generator class="assigned" />
         </id>
         <property name="name" type="java.lang.String">
-            <column name="NAME" />
+            <column name="name" />
         </property>
         <property name="profile_status" type="boolean">
-            <column name="PROFILE_STATUS" />
+            <column name="profile_status" />
         </property>
         <property name="action" type="java.lang.String">
-            <column name="ACTION" />
+            <column name="action" />
         </property>
         <property name="url" type="java.lang.String">
-            <column name="URL" />
+            <column name="url" />
         </property>
         <property name="message_format" type="java.lang.String">
-            <column name="MESSAGE_FORMAT" />
+            <column name="message_format" />
         </property>
     </class>
 </hibernate-mapping>
