@@ -20,19 +20,19 @@ public class SenderProfile {
 
 	public static Log log = LogFactory.getLog(SenderProfile.class);
 	
-	private long sender_profile_id;
+	private long senderProfileId;
 	private String name;
-	private boolean profile_status;
+	private boolean profileStatus;
 	private String action;
 	private String url;
-	private String message_format;
+	private String messageFormat;
 	
-	public long getSender_profile_id() {
-		return sender_profile_id;
+	public long getSenderProfileId() {
+		return senderProfileId;
 	}
 	
-	public void setSenderProfileId(long sender_profile_id) {
-		this.sender_profile_id = sender_profile_id;
+	public void setSenderProfileId(long senderProfileId) {
+		this.senderProfileId = senderProfileId;
 	}
 	
 	public String getName() {
@@ -43,12 +43,12 @@ public class SenderProfile {
 		this.name = name;
 	}
 	
-	public boolean isProfile_status() {
-		return profile_status;
+	public boolean getProfileStatus() {
+		return profileStatus;
 	}
 	
-	public void setProfile_status(boolean profile_status) {
-		this.profile_status = profile_status;
+	public void setProfileStatus(boolean profileStatus) {
+		this.profileStatus = profileStatus;
 	}
 	
 	public String getAction() {
@@ -67,11 +67,11 @@ public class SenderProfile {
 		this.url = url;
 	}
 	
-	public String getMessage_format() {
-		return message_format;
+	public String getMessageFormat() {
+		return messageFormat;
 	}
 	
-	public void setMessage_format(String message_format) {
-		this.message_format = message_format;
+	public void setMessageFormat(String messageFormat) {
+		this.messageFormat = messageFormat;
 	}
 }
