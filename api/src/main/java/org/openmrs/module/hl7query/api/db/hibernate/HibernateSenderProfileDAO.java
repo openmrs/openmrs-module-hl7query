@@ -84,16 +84,6 @@ public class HibernateSenderProfileDAO implements SenderProfileDAO {
 		session.save(senderProfile);
 		session.flush();
 		tx.commit();
-
-		/*
-		 * try{ System.out.println(senderProfile.getUrl());
-		 * System.out.println(sessionFactory);
-		 * System.out.println(sessionFactory.getCurrentSession());
-		 * sessionFactory.getCurrentSession().saveOrUpdate(senderProfile);
-		 * //sessionFactory.getCurrentSession().flush(); }catch(Exception e){
-		 * e.printStackTrace(); }
-		 * System.out.println("ddddddddddddddddddddddddddddd");
-		 */
 		return null;
 
 	}
