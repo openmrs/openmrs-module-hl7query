@@ -1,7 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
-<!-- Generated Jun 26, 2013 10:23:50 PM by Hibernate Tools 3.4.0.CR1 -->
 <hibernate-mapping>
     <class name="org.openmrs.module.hl7query.HL7QueryMessage" table="HL7QUERYMESSAGE">
         <id name="id" type="java.lang.Long">
