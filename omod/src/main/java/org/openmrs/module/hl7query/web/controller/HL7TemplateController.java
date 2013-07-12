@@ -27,6 +27,8 @@ import org.openmrs.api.context.Context;
 import org.openmrs.module.hl7query.HL7Template;
 import org.openmrs.module.hl7query.SenderProfile;
 import org.openmrs.module.hl7query.api.HL7QueryService;
+import org.openmrs.module.hl7query.api.SenderProfileService;
+import org.openmrs.module.hl7query.api.impl.SenderProfileServiceImpl;
 import org.openmrs.web.WebConstants;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -45,9 +47,9 @@ import org.springframework.web.servlet.view.RedirectView;
 
 @Controller
 public class HL7TemplateController extends SimpleFormController {
-	
+
 	protected final Log log = LogFactory.getLog(getClass());
-	
+
 	/**
 	 * 
 	 * @see org.springframework.web.servlet.mvc.SimpleFormController#onSubmit(javax.servlet.http.HttpServletRequest,
@@ -55,106 +57,128 @@ public class HL7TemplateController extends SimpleFormController {
 	 *      org.springframework.validation.BindException)
 	 */
 	@RequestMapping(value = "/module/hl7query/hl7Template")
-	protected ModelAndView onSubmit(HttpServletRequest request, HttpServletResponse response, Object obj,
-	                                BindException errors) throws Exception {
-		
+	protected ModelAndView onSubmit(HttpServletRequest request,
+			HttpServletResponse response, Object obj, BindException errors)
+			throws Exception {
+
 		HttpSession httpSession = request.getSession();
 		String view = getFormView();
 		ModelAndView toReturn = new ModelAndView(new RedirectView(view));
-		
+
 		if (Context.isAuthenticated()) {
-				
-				HL7Template hl7Template = (HL7Template) obj;
-				HL7QueryService qs = Context.getService(HL7QueryService.class);
-				
-				//to save the patient identifier type
-				if (request.getParameter("save") != null) {
-					
-					SenderProfile sp = new SenderProfile();
-					sp.setAction("dummy action");
-					sp.setMessage_format("dummy messseage format");
-					sp.setName("dummy name");
-					sp.setProfile_status(true);
-					sp.setUrl("dummy_url");
-					
-					qs.saveHL7Template(hl7Template);
-					httpSession.setAttribute(WebConstants.OPENMRS_MSG_ATTR, "hl7query.saved");
-					toReturn = new ModelAndView(new RedirectView("hl7Template.form?hl7TemplateId=" + hl7Template.getHl7TemplateId()));
+
+			// HL7Template hl7Template = (HL7Template) obj;
+			HL7QueryService qs = Context.getService(HL7QueryService.class);
+
+			// to save the patient identifier type
+			if (request.getParameter("save") != null) {
+
+				// //
+
+				SenderProfile sp = new SenderProfile();
+
+				// sp.setSenderProfileId(1);
+				sp.setAction("dummy");
+				sp.setMessageFormat("0000");
+				sp.setName("dummy name");
+//				sp.setProfileStatus(true);
+				sp.setUrl("dummy_url");
+
+				SenderProfileService senderProfileService = Context
+						.getService(SenderProfileService.class);
+				System.out.println(senderProfileService);
+				try {
+					senderProfileService.saveSenderProfile(sp);
+				} catch (Exception e) {
+					e.printStackTrace();
 				}
-				
-				//to retire the patient identifier type
-				if (request.getParameter("retire") != null) {	
-					String retireReason = request.getParameter("retireReason");
-					if (hl7Template.getHl7TemplateId() != null && !(StringUtils.hasText(retireReason))) {
-						errors.reject("retireReason", "general.retiredReason.empty");
-						return showForm(request, response, errors);
-					}
-					qs.retireHL7Template(hl7Template, retireReason);
-					httpSession.setAttribute(WebConstants.OPENMRS_MSG_ATTR, "hl7query.retired");
-					toReturn = new ModelAndView(new RedirectView("hl7Template.form?hl7TemplateId=" + hl7Template.getHl7TemplateId()));
-				}
-				
-				//to restore the patient identifier type
-				if (request.getParameter("restore") != null) {	
-					if (hl7Template.getHl7TemplateId() != null) {
-						qs.unretireHL7Template(hl7Template);
-						httpSession.setAttribute(WebConstants.OPENMRS_MSG_ATTR, "hl7query.restored");
-						toReturn = new ModelAndView(new RedirectView("hl7Template.form?hl7TemplateId=" + hl7Template.getHl7TemplateId()));
-					}
-				}
+
+				// ///
+
+			}
+
+			// //to retire the patient identifier type
+			// if (request.getParameter("retire") != null) {
+			// String retireReason = request.getParameter("retireReason");
+			// if (hl7Template.getHl7TemplateId() != null &&
+			// !(StringUtils.hasText(retireReason))) {
+			// errors.reject("retireReason", "general.retiredReason.empty");
+			// return showForm(request, response, errors);
+			// }
+			// qs.retireHL7Template(hl7Template, retireReason);
+			// httpSession.setAttribute(WebConstants.OPENMRS_MSG_ATTR,
+			// "hl7query.retired");
+			// toReturn = new ModelAndView(new
+			// RedirectView("hl7Template.form?hl7TemplateId=" +
+			// hl7Template.getHl7TemplateId()));
+			// }
+			//
+			// //to restore the patient identifier type
+			// if (request.getParameter("restore") != null) {
+			// if (hl7Template.getHl7TemplateId() != null) {
+			// qs.unretireHL7Template(hl7Template);
+			// httpSession.setAttribute(WebConstants.OPENMRS_MSG_ATTR,
+			// "hl7query.restored");
+			// toReturn = new ModelAndView(new
+			// RedirectView("hl7Template.form?hl7TemplateId=" +
+			// hl7Template.getHl7TemplateId()));
+			// }
+			// }
 		}
-		
+
 		return toReturn;
 	}
-	
+
 	@RequestMapping(value = "/module/hl7query/hl7Template")
-	public void showHL7Templates(ModelMap model,  HttpServletRequest request) {
+	public void showHL7Templates(ModelMap model, HttpServletRequest request) {
 		HL7Template hl7Template = null;
-		
+
 		if (Context.isAuthenticated()) {
 			HL7QueryService qs = Context.getService(HL7QueryService.class);
 			String hl7TemplateId = request.getParameter("hl7TemplateId");
 			if (hl7TemplateId != null)
 				hl7Template = qs.getHL7Template(Integer.valueOf(hl7TemplateId));
 		}
-		
+
 		if (hl7Template == null)
 			hl7Template = new HL7Template();
-		
+
 		model.addAttribute("hl7Template", hl7Template);
 	}
-	
+
 	/**
 	 * @see org.springframework.web.servlet.mvc.SimpleFormController#referenceData(javax.servlet.http.HttpServletRequest,
 	 *      java.lang.Object, org.springframework.validation.Errors)
 	 */
-	protected Map<String, Object> referenceData(HttpServletRequest request, Object obj, Errors errs) throws Exception {
-		
+	protected Map<String, Object> referenceData(HttpServletRequest request,
+			Object obj, Errors errs) throws Exception {
+
 		HL7Template hl7Template = (HL7Template) obj;
-		
+
 		Map<String, Object> map = new HashMap<String, Object>();
-		
+
 		if (Context.isAuthenticated()) {
 			if (hl7Template != null)
 				map.put("hl7Template", hl7Template);
 		}
-		
+
 		return map;
 	}
-	
-	protected Object formBackingObject(HttpServletRequest request) throws ServletException {
+
+	protected Object formBackingObject(HttpServletRequest request)
+			throws ServletException {
 		HL7Template hl7Template = null;
-		
+
 		if (Context.isAuthenticated()) {
 			HL7QueryService qs = Context.getService(HL7QueryService.class);
 			String hl7TemplateId = request.getParameter("hl7TemplateId");
 			if (hl7TemplateId != null)
 				hl7Template = qs.getHL7Template(Integer.valueOf(hl7TemplateId));
 		}
-		
+
 		if (hl7Template == null)
 			hl7Template = new HL7Template();
-		
+
 		return hl7Template;
 	}
 }
