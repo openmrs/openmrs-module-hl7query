@@ -118,7 +118,7 @@ if (messageTypeArray.length > 1) {
 			</column>
 		</insert>
 	</changeSet>
-	
+
 	<changeSet author="dkayiwa" id="1641256230538-332231">
 		<insert tableName="hl7query_template">
 			<column name="name" value="Generic PV1" />
@@ -155,7 +155,7 @@ if (messageTypeArray.length > 1) {
 						</PV1>
 					 </ORU_R01.VISIT>
 				]]>
-		   </column>
+			</column>
 		</insert>
 	</changeSet>
 
@@ -271,10 +271,10 @@ if (conceptDatatype.isNumeric()) {
 	</OBX>
 </ORU_R01.OBSERVATION>
 				]]>
-		   </column>
+			</column>
 		</insert>
 	</changeSet>
-	
+
 	<changeSet author="JUDY" id="201307331-1740">
 		<comment>Add values for Default patient name  template to the hl7queryTemplate table</comment>
 		<insert tableName="hl7query_template">
@@ -297,10 +297,10 @@ if (conceptDatatype.isNumeric()) {
 					</PID.5>
     				]]>
 			</column>
-		</insert>		
+		</insert>
 	</changeSet>
-		
-<changeSet author="JUDY" id="20120802-0522">
+
+	<changeSet author="JUDY" id="20120802-0522">
 		<comment>Add values for Default patient Identifier template</comment>
 		<insert tableName="hl7query_template">
 			<column name="name" value="Default Patient Identifier"></column>
@@ -319,9 +319,9 @@ if (conceptDatatype.isNumeric()) {
 					</PID.3>
     				]]>
 			</column>
-		</insert>		
+		</insert>
 	</changeSet>
-	
+
 	<changeSet author="dkayiwa" id="1111256230538-332111">
 		<insert tableName="hl7query_template">
 			<column name="name" value="Generic PID" />
@@ -354,28 +354,28 @@ if (conceptDatatype.isNumeric()) {
 			</column>
 		</insert>
 	</changeSet>
-  
-    <changeSet author="raff" id="20120807-1530">
-    	<insert tableName="hl7query_template">
-     	<column name="name" value="Generic Patient" />
-      	<column name="description" value="Template for the patient segment" />
-      	<column name="hl7_entity" value="ORU_R01.PATIENT" />
-      	<column name="language" value="groovy" />
-      	<column name="creator" valueNumeric="1" />
-      	<column name="date_created" valueDate="2012-08-07" />
-      	<column name="retired" valueBoolean="false" />
-      	<column name="uuid" value="36ff0f3a-2993-470b-a79a-d27b42403fbd" />
-      	<column name="template">
+
+	<changeSet author="raff" id="20120807-1530">
+		<insert tableName="hl7query_template">
+			<column name="name" value="Generic Patient" />
+			<column name="description" value="Template for the patient segment" />
+			<column name="hl7_entity" value="ORU_R01.PATIENT" />
+			<column name="language" value="groovy" />
+			<column name="creator" valueNumeric="1" />
+			<column name="date_created" valueDate="2012-08-07" />
+			<column name="retired" valueBoolean="false" />
+			<column name="uuid" value="36ff0f3a-2993-470b-a79a-d27b42403fbd" />
+			<column name="template">
         	<![CDATA[
 		<ORU_R01.PATIENT>
 			${func.evaluateTemplate("Generic PID", [patient: encounter.patient])}
 			${func.evaluateTemplate("Generic PV1", [encounter: encounter])}
 		</ORU_R01.PATIENT>
         ]]>
-       </column>
-   </insert>
- </changeSet>
-	
+			</column>
+		</insert>
+	</changeSet>
+
 	<changeSet id="20120807-1514" author="wyclif">
 		<insert tableName="hl7query_template">
 			<column name="name" value="Generic ORUR01" />
@@ -408,7 +408,7 @@ if (conceptDatatype.isNumeric()) {
 			</column>
 		</insert>
 	</changeSet>
-	
+
 	<changeSet author="dkayiwa" id="1231200030538-332456">
 		<insert tableName="hl7query_template">
 			<column name="name" value="Generic Obs Group" />
@@ -453,10 +453,10 @@ if (conceptDatatype.isNumeric()) {
 				   	}
 				 %>	
 				]]>
-		   </column>
+			</column>
 		</insert>
 	</changeSet>
-	
+
 	<changeSet author="dkayiwa" id="1001200030538-000456">
 		<insert tableName="hl7query_template">
 			<column name="name" value="Generic Obs Group Header" />
@@ -500,10 +500,10 @@ if (conceptDatatype.isNumeric()) {
 					     </OBR.29>
 					</OBR>
 				]]>
-		   </column>
+			</column>
 		</insert>
 	</changeSet>
-	
+
 	<changeSet author="surangak" id="1641256230538-331141">
 		<update tableName="hl7query_template">
 			<column name="template">
@@ -536,9 +536,43 @@ if (conceptDatatype.isNumeric()) {
 						</PV1>
 					 </ORU_R01.VISIT>
 				]]>
-		   </column>
-		   <where>name='Generic PV1'</where>
+			</column>
+			<where>name='Generic PV1'</where>
 		</update>
 	</changeSet>
+
+	<changeSet author="ruwanego" id="20130618-2340">
+
+		<createTable  tableName="hl7query_event">
+			<column name="event_id" type="int" autoIncrement="true">
+				<constraints primaryKey="true" nullable="false" />
+			</column>
+			<column name="event_name" type="varchar(50)" />
+			<column name="event_firing_class" type="varchar(255)" />
+			<column name="tracked" type="boolean" />
+		</createTable >
+
+		<createTable  tableName="hl7query_sender_profile">
+			<column name="sender_profile_id" type="int" autoIncrement="true" >
+				<constraints primaryKey="true" nullable="false" />
+			</column>
+			<column name="name" type="varchar(50)" />
+			<column name="url" type="varchar(255)" />
+			<column name="action" type="varchar(10)" />
+			<column name="message_format" type="varchar(10)" />
+		</createTable >
+
+		<createTable  tableName="hl7query_message">
+			<column name="message_id" type="int" autoIncrement="true">
+				<constraints primaryKey="true" nullable="false" />
+			</column>
+			<column name="status" type="varchar(5)" />
+			<column name="sender_profile_id" type="int" />
+			<column name="object_id" type="int" />
+		</createTable >
+	</changeSet>
+	
+	
+	
 
 </databaseChangeLog>
