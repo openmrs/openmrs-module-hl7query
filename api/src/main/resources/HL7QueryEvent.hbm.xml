@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="org.openmrs.module.hl7query.HL7QueryEvent" table="HL7QUERYEVENT">
+        <id name="event_id" type="java.lang.String">
+            <column name="EVENT_ID" />
+            <generator class="assigned" />
+        </id>
+        <property name="event_name" type="java.lang.String">
+            <column name="EVENT_NAME" />
+        </property>
+        <property name="event_firing_class" type="java.lang.String">
+            <column name="EVENT_FIRING_CLASS" />
+        </property>
+        <property name="tracked" type="boolean">
+            <column name="TRACKED" />
+        </property>
+        <list name="senderProfiles" inverse="false" table="SENDERPROFILE" lazy="true">
+            <key>
+                <column name="EVENT_ID" />
+            </key>
+            <list-index></list-index>
+            <one-to-many class="org.openmrs.module.hl7query.SenderProfile" />
+        </list>
+    </class>
+</hibernate-mapping>

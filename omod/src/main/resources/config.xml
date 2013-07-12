@@ -76,7 +76,8 @@
 	<mappingFiles>
 				
 		HL7Template.hbm.xml
-				
+		SenderProfile.hbm.xml			
+	
 	</mappingFiles>
 
 	<!-- Internationalization -->
