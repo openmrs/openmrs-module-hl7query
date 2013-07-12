@@ -18,5 +18,5 @@ package org.openmrs.module.hl7query;
  */
 public class HL7TemplateConstants {
 	
-	public final static String XML_HEADER = "<?xml version=\"1.0\"?>";
+	public final static String XMaaL_HEADER = "<?xml version=\"1.0\"?>";
 }
