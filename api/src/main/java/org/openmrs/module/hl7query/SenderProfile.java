@@ -22,7 +22,6 @@ public class SenderProfile {
 	
 	private long senderProfileId;
 	private String name;
-	private boolean profileStatus;
 	private String action;
 	private String url;
 	private String messageFormat;
@@ -41,14 +40,6 @@ public class SenderProfile {
 	
 	public void setName(String name) {
 		this.name = name;
-	}
-	
-	public boolean getProfileStatus() {
-		return profileStatus;
-	}
-	
-	public void setProfileStatus(boolean profileStatus) {
-		this.profileStatus = profileStatus;
 	}
 	
 	public String getAction() {
@@ -74,4 +65,5 @@ public class SenderProfile {
 	public void setMessageFormat(String messageFormat) {
 		this.messageFormat = messageFormat;
 	}
+
 }
