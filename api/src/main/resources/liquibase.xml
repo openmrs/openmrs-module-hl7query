@@ -558,7 +558,6 @@ if (conceptDatatype.isNumeric()) {
 			</column>
 			<column name="name" type="varchar(50)" />
 			<column name="url" type="varchar(255)" />
-			<column name="status" type="boolean" />
 			<column name="action" type="varchar(10)" />
 			<column name="message_format" type="varchar(10)" />
 		</createTable >
@@ -572,5 +571,8 @@ if (conceptDatatype.isNumeric()) {
 			<column name="object_id" type="int" />
 		</createTable >
 	</changeSet>
+	
+	
+	
 
 </databaseChangeLog>
