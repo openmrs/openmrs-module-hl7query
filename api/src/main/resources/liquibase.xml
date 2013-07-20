@@ -542,37 +542,46 @@ if (conceptDatatype.isNumeric()) {
 	</changeSet>
 
 	<changeSet author="ruwanego" id="20130618-2340">
-
-		<createTable  tableName="hl7query_event">
+		<createTable tableName="hl7query_event">
 			<column name="event_id" type="int" autoIncrement="true">
 				<constraints primaryKey="true" nullable="false" />
 			</column>
 			<column name="event_name" type="varchar(50)" />
 			<column name="event_firing_class" type="varchar(255)" />
 			<column name="tracked" type="boolean" />
-		</createTable >
+		</createTable>
 
-		<createTable  tableName="hl7query_sender_profile">
-			<column name="sender_profile_id" type="int" autoIncrement="true" >
+		<createTable tableName="hl7query_sender_profile">
+			<column name="sender_profile_id" type="int" autoIncrement="true">
 				<constraints primaryKey="true" nullable="false" />
 			</column>
 			<column name="name" type="varchar(50)" />
 			<column name="url" type="varchar(255)" />
 			<column name="action" type="varchar(10)" />
 			<column name="message_format" type="varchar(10)" />
-		</createTable >
+		</createTable>
 
-		<createTable  tableName="hl7query_message">
+		<createTable tableName="hl7query_message">
 			<column name="message_id" type="int" autoIncrement="true">
 				<constraints primaryKey="true" nullable="false" />
 			</column>
 			<column name="status" type="varchar(5)" />
 			<column name="sender_profile_id" type="int" />
 			<column name="object_id" type="int" />
-		</createTable >
+		</createTable>
 	</changeSet>
-	
-	
-	
+
+	<changeSet author="surangak" id="20130708-1530">
+		<comment>Add is_parent column to hl7query_template</comment>
+		<addColumn tableName="hl7query_template">
+			<column name="is_parent" type="boolean" defaultValueBoolean="false">
+				<constraints nullable="false" />
+			</column>
+		</addColumn>
+		<sql>
+			update hl7query_template set is_parent = true 
+			where hl7query_template_id = '8'
+		</sql>
+	</changeSet>
 
 </databaseChangeLog>
