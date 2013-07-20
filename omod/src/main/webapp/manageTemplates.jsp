@@ -17,6 +17,7 @@
 		<th valign="top"><spring:message code="hl7query.hl7Entity"/></th>
 		<th valign="top"><spring:message code="general.name"/></th>
 		<th valign="top"><spring:message code="general.description"/></th>
+		<th valign="top"><spring:message code="hl7query.isParent"/></th>
 	</tr>
 	</c:if>
 	<c:forEach var="hl7Template" items="${hl7Templates}" varStatus="varStatus">
@@ -32,6 +33,8 @@
 			</c:otherwise>
 		</c:choose></a></td>
 		<td valign="top">${hl7Template.description}</td>
+		<td valign="top">${hl7Template.isParent}</td>
+		
 	</tr>
 	</c:forEach>
 </table>
