@@ -161,4 +161,9 @@ public class HL7QueryServiceImpl extends BaseOpenmrsService implements HL7QueryS
 		Message message = new DefaultXMLParser().parse(xml);
 	    return new PipeParser().encode(message);
 	}
+
+	@Override
+    public List<HL7Template> getParentHL7Templates() {
+	    return dao.getParentHL7Templates();
+    }
 }
