@@ -15,53 +15,67 @@ package org.openmrs.module.hl7query;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.openmrs.BaseOpenmrsMetadata;
+import org.openmrs.OpenmrsMetadata;
 
-public class SenderProfile {
+public class SenderProfile extends BaseOpenmrsMetadata implements
+		OpenmrsMetadata {
 
 	public static Log log = LogFactory.getLog(SenderProfile.class);
-	
-	private long senderProfileId;
+
+	private int senderProfileId;
 	private String name;
 	private String action;
 	private String url;
 	private String messageFormat;
+
 	
-	public long getSenderProfileId() {
-		return senderProfileId;
+	@Override
+	public Integer getId() {
+		return getSenderProfileId();
+	}
+
+	@Override
+	public void setId(Integer id) {
+		setSenderProfileId(id);		
 	}
 	
-	public void setSenderProfileId(long senderProfileId) {
+	public int getSenderProfileId() {
+		return senderProfileId;
+	}
+
+	public void setSenderProfileId(int senderProfileId) {
 		this.senderProfileId = senderProfileId;
 	}
 	
 	public String getName() {
 		return name;
 	}
-	
+
 	public void setName(String name) {
 		this.name = name;
 	}
-	
+
 	public String getAction() {
 		return action;
 	}
-	
+
 	public void setAction(String action) {
 		this.action = action;
 	}
-	
+
 	public String getUrl() {
 		return url;
 	}
-	
+
 	public void setUrl(String url) {
 		this.url = url;
 	}
-	
+
 	public String getMessageFormat() {
 		return messageFormat;
 	}
-	
+
 	public void setMessageFormat(String messageFormat) {
 		this.messageFormat = messageFormat;
 	}
