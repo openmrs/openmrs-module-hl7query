@@ -112,4 +112,11 @@ public class HibernateHL7QueryDAO implements HL7QueryDAO {
 			c.add(Restrictions.eq("retired", includeRetired));
 		return c.list();
     }
+	
+	@Override
+	public List<HL7Template> getParentHL7Templates() {
+		Criteria c = sessionFactory.getCurrentSession().createCriteria(HL7Template.class);
+			c.add(Restrictions.eq("isParent", true));
+		return c.list();
+	}
 }

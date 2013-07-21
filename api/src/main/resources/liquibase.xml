@@ -542,7 +542,6 @@ if (conceptDatatype.isNumeric()) {
 	</changeSet>
 
 	<changeSet author="ruwanego" id="20130618-2340">
-
 		<createTable tableName="hl7query_event">
 			<column name="event_id" type="int" autoIncrement="true">
 				<constraints primaryKey="true" nullable="false" />
@@ -592,5 +591,18 @@ if (conceptDatatype.isNumeric()) {
 			<column name="changed_by" type="int" />
 			<column name="date_changed" type="datetime" />
 		</addColumn>
+	</changeSet>
+
+	<changeSet author="surangak" id="20130708-1530">
+		<comment>Add is_parent column to hl7query_template</comment>
+		<addColumn tableName="hl7query_template">
+			<column name="is_parent" type="boolean" defaultValueBoolean="false">
+				<constraints nullable="false" />
+			</column>
+		</addColumn>
+		<sql>
+			update hl7query_template set is_parent = true 
+			where hl7query_template_id = '8'
+		</sql>
 	</changeSet>
 </databaseChangeLog>
