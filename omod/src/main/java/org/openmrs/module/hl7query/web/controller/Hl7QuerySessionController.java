@@ -30,7 +30,7 @@ import org.springframework.web.context.request.WebRequest;
  */
 @Controller
 @RequestMapping(value = "/module/hl7query/session")
-public class SessionController extends BaseHL7QueryController {
+public class Hl7QuerySessionController extends BaseHL7QueryController {
 
 	/**
 	 * Tells the user their sessionId, and whether or not they are authenticated.
