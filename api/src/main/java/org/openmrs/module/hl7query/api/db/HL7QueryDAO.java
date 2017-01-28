@@ -72,4 +72,9 @@ public interface HL7QueryDAO {
 	 * @see HL7QueryService#getHL7Templates(boolean)
 	 */
 	List<HL7Template> getHL7Templates(boolean includeRetired);
+	
+	/**
+	 * @see HL7QueryService#getParentHL7Templates()
+	 */
+	List<HL7Template> getParentHL7Templates();
 }

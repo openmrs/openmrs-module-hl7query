@@ -37,6 +37,14 @@
 			</spring:bind>
 		</td>
 	</tr>
+	
+	<tr>
+		<td><spring:message code="hl7query.isParent"/></td>
+		<td>	
+			<spring:bind path="hl7Template.isParent">				
+				<input type="radio" name="isParent" id="${status.value}" value="true" <c:if test="${status.value == 'true'}"> checked</c:if>><spring:message code="general.yes" />
+				<input type="radio" name="isParent" id="${status.value}" value="false" <c:if test="${status.value == 'false'}"> checked</c:if>><spring:message code="general.no" />
+			</spring:bind>	
 	<tr>
 		<td valign="top"><spring:message code="hl7query.template"/></td>
 		<td valign="top">

@@ -172,4 +172,16 @@ public interface HL7QueryService extends OpenmrsService {
 	*/
 	@Transactional(readOnly = true)
 	public String renderPipeDelimitedHl7(String xml) throws Exception;
+
+	/**
+	 * Gets all Parent HL7 templates. 
+	 * TODO add/require view privileges and update manageTemplates.jsp to
+	 * require them
+	 * 
+	 * @return a list of {@link HL7Template}s tagged as parent
+	 * @should get all parent templates
+	 */
+	@Transactional(readOnly = true)
+	@Authorized({HL7QueryPrivilegeConstants.GET_HL7_TEMPLATES})
+	List<HL7Template> getParentHL7Templates();
 }

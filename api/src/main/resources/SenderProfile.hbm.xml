@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="org.openmrs.module.hl7query.SenderProfile" table="hl7query_sender_profile">
+		<id name="senderProfileId" type="long" column="sender_profile_id"
+			unsaved-value="0">
+			<generator class="native" />
+		</id>
+		<property name="name" type="java.lang.String">
+			<column name="name" />
+		</property>
+		<property name="action" type="java.lang.String">
+			<column name="action" />
+		</property>
+		<property name="url" type="java.lang.String">
+			<column name="url" />
+		</property>
+		<property name="messageFormat" type="java.lang.String">
+			<column name="message_format" />
+		</property>
+	</class>
+</hibernate-mapping>

@@ -6,5 +6,8 @@
 <hibernate-configuration>
 	<session-factory>
 		<mapping resource="HL7Template.hbm.xml" />
+		<mapping resource="SenderProfile.hbm.xml" />
+		<mapping resource="HL7QueryMessage.hbm.xml" />
+		<mapping resource="HL7QueryEvent.hbm.xml" />
 	</session-factory>
 </hibernate-configuration>

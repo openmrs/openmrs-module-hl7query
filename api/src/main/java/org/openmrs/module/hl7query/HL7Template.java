@@ -31,6 +31,8 @@ public class HL7Template extends BaseOpenmrsMetadata implements OpenmrsMetadata 
 	private String language = HL7QueryService.LANGUAGE_GROOVY;
 	
 	private String template;
+
+	private boolean isParent;
 	
 	/**
 	 * @see org.openmrs.OpenmrsObject#getId()
@@ -104,4 +106,17 @@ public class HL7Template extends BaseOpenmrsMetadata implements OpenmrsMetadata 
 		this.template = template;
 	}
 	
+	/**
+	 * @return the isParent
+	 */
+	public boolean getIsParent() {
+		return isParent;
+	}
+
+	/**
+	 * @param isParent the isParent to set
+	 */
+	public void setIsParent(boolean isParent) {
+		this.isParent = isParent;
+	}
 }
